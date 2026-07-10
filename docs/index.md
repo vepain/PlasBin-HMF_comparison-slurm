@@ -9,4 +9,4 @@ This documentation describes how to reproduce the experiments present in the Pla
 <!-- # DOCU add journal article link -->
 
 1. [Initialize your benchmark on your HPC infrastructure](setup/init.md)
-2. [Reproducing the experiments](experiments/index.md)
+2. [Reproducing the experiments](experiments/intro.md)

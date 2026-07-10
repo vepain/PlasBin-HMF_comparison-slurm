@@ -44,11 +44,14 @@ Copyright &copy; 2026 The authors
     nav = [
         { "Home" = "index.md" },
         { "Setup" = [
-            "setup/index.md",
             "setup/init.md",
             "setup/envs/index.md",
         ] },
-        "experiments/index.md",
+        { "Experiments" = [
+            "experiments/intro.md",
+            "experiments/eval_bin.md",
+            "experiments/binning_method_config.md",
+        ] },
     ]
     # Zensical supports both implicit navigation and explicitly defined navigation.
     # If you decide not to define a navigation here then Zensical will simply
@@ -75,6 +78,17 @@ Copyright &copy; 2026 The authors
     #
     # Read more: https://zensical.org/docs/customization/#additional-javascript
     #extra_javascript = ["javascripts/extra.js"]
+
+    #
+    # KaTex
+    # see https://zensical.org/docs/authoring/math/#katex
+    extra_javascript = [
+        "javascripts/katex.js",
+        "https://unpkg.com/katex@0/dist/katex.min.js",
+        "https://unpkg.com/katex@0/dist/contrib/auto-render.min.js",
+    ]
+
+    extra_css = ["https://unpkg.com/katex@0/dist/katex.min.css"]
 
     # ----------------------------------------------------------------------------
     # Section for configuring theme options
@@ -188,7 +202,7 @@ Copyright &copy; 2026 The authors
             # When section index pages are enabled, documents can be directly attached
             # to sections, which is particularly useful for providing overview pages.
             # https://zensical.org/docs/setup/navigation/#section-index-pages
-            "navigation.indexes",
+            # "navigation.indexes",
 
             # When instant navigation is enabled, clicks on all internal links will be
             # intercepted and dispatched via XHR without fully reloading the page.
@@ -355,6 +369,7 @@ Copyright &copy; 2026 The authors
             { targets.include = [
                 "experiments/*",
                 "setup/*",
+                "setup/envs/*",
                 "index.md",
             ] },
         ]
@@ -368,3 +383,10 @@ Copyright &copy; 2026 The authors
     # [project.markdown_extensions.pymdownx.superfences]
     [project.markdown_extensions.pymdownx.tabbed]
         alternate_style = true
+
+
+    #
+    # KaTeX: https://zensical.org/docs/authoring/math/#katex
+    #
+    [project.markdown_extensions.pymdownx.arithmatex]
+        generic = true

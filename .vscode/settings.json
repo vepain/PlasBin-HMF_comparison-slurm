@@ -75,7 +75,7 @@
     "type": "text-and-comment"
   },
   "better-todo-tree.regex.regex": "((//|#|%|<!--|;|/\\*|^|\"\"\"|'|(\\*|-)\\s\\[(\\s|x)\\])\\s*($TAGS))",
-  "comment-divider.length": 88,
+  "comment-divider.length": 80,
   "files.associations": {
     "CONTRIBUTING.md": "markdown",
     "**/docs/**/*.md": "python-markdown"
