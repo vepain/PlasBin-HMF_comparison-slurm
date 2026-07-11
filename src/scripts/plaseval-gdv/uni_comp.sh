@@ -38,11 +38,11 @@ plaseval_out=$(get_plaseval_comp_out "$output_dir" "$smp_uid" "$method_code")
 plaseval_log=$(get_plaseval_comp_log "$output_dir" "$smp_uid" "$method_code")
 
 # ---------------------------------------------------------------------------- #
-# Running PlasEval for the method
+# Running PlasEval (GDV fork) for the method
 # ---------------------------------------------------------------------------- #
 echo "$SLURM_JOB_ID_$SLURM_ARRAY_TASK_ID $smp_uid $method_code"
 
-apptainer run -C "${APPTAINER_BINDS[@]}" -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
+apptainer run -C -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
     comp \
     --l "$pred_tsv" \
     --r "$gt_tsv" \
