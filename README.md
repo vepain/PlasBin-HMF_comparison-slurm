@@ -27,3 +27,7 @@ In `$benchmark_root_dir`, you will find the following directories:
 | --------- | --------------------------------------------------------------------------------------------- |
 | `envs`    | Environment setup scripts for the tools (originally made for the Canada Alliance Fir Cluster) |
 | `scripts` | sbatch scripts to run the experiments                                                         |
+
+## Building the documentation
+
+See `CONTRIBUTING.md`.
