@@ -6,6 +6,8 @@
 #SBATCH --mem=32G
 #SBATCH --time=12:00:00
 #SBATCH --array=2-1242
+#SBATCH --output=logs/comp_uni/%A/%a.out
+#SBATCH --error=logs/comp_uni/%A/%a.err
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
