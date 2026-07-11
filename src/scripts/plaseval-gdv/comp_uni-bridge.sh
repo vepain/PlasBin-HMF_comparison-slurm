@@ -11,8 +11,8 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-declare -r alpha=0.5                   # change between 0 and +inf
-declare -r method_code="pbf_rfpl_filt" # choose among the list of method codes
+declare -r alpha=0.5         # change between 0 and +inf
+declare -r method_code="mob" # choose among the list of method codes
 
 # ---------------------------------------------------------------------------- #
 # Load base scripts
