@@ -40,9 +40,16 @@ plaseval_out=$(get_plaseval_comp_out "$output_dir" "$smp_uid" "$method_code")
 plaseval_log=$(get_plaseval_comp_log "$output_dir" "$smp_uid" "$method_code")
 
 # ---------------------------------------------------------------------------- #
+# Register the job id
+# ---------------------------------------------------------------------------- #
+job_id_dir="$output_dir/jobs"
+mkdir -p "$job_id_dir"
+touch "$job_id_dir/$SLURM_JOB_ID"
+
+# ---------------------------------------------------------------------------- #
 # Running PlasEval (GDV fork) for the method
 # ---------------------------------------------------------------------------- #
-echo "$SLURM_JOB_ID_$SLURM_ARRAY_TASK_ID $smp_uid $method_code"
+echo "${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID} $smp_uid $method_code"
 
 apptainer run -C -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
     comp \
