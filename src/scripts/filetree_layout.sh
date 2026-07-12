@@ -14,8 +14,8 @@ SAMPLES_CSV="$BENCH_ROOT_DIR/completed_samples.csv"
 # ============================================================================ #
 #                            PLASEVAL FORMATTED BINS                           #
 # ============================================================================ #
-UNI_PLASEVAL_PRED_BINS_DIR="$BENCH_DATA_DIR/data/results/formatted_bins/unicycler/predictions"
-UNI_PLASEVAL_GT_BINS_DIR="$BENCH_DATA_DIR/data/results/formatted_bins/unicycler/ground_truths"
+UNI_PLASEVAL_PRED_BINS_DIR="$BENCH_DATA_DIR/results/formatted_bins/unicycler/predictions"
+UNI_PLASEVAL_GT_BINS_DIR="$BENCH_DATA_DIR/results/formatted_bins/unicycler/ground_truths"
 
 # Usage:
 #   pred_tsv=$(get_pred_plaseval_fmt "$smp_uid" "$method_code")
@@ -35,7 +35,7 @@ function get_gt_plaseval_fmt() {
 # ============================================================================ #
 #                                 PLASEVAL-GDV                                 #
 # ============================================================================ #
-UNI_PLASEVAL_GDV_COMP_DIR="$BENCH_DATA_DIR/data/results/plaseval_gdv/unicycler/comp"
+UNI_PLASEVAL_GDV_COMP_DIR="$BENCH_DATA_DIR/results/plaseval_gdv/unicycler/comp"
 
 # Usage:
 #   base=$UNI_PLASEVAL_GDV_COMP_DIR
