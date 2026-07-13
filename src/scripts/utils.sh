@@ -20,3 +20,14 @@ function get_spe_smp_id {
 
     echo "$spe_smp_id"
 }
+
+# Usage:
+#   > register_job_id "$output_dir"
+#
+# output_dir must be the parent directory of all sample results
+# (either they are files or they are structured by directories)
+function register_job_id() {
+    local output_dir=$1
+    mkdir -p "$output_dir" 2>/dev/null
+    touch "$output_dir/$SLURM_ARRAY_JOB_ID"
+}
