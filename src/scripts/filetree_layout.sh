@@ -33,7 +33,7 @@ function get_gt_plaseval_fmt() {
 }
 
 # ============================================================================ #
-#                                 PLASEVAL-GDV                                 #
+#                                 PLASEVAL-GDV  (COMP)                         #
 # ============================================================================ #
 UNI_PLASEVAL_GDV_COMP_DIR="$BENCH_DATA_DIR/results/plaseval_gdv/unicycler/comp"
 
@@ -64,4 +64,47 @@ function get_plaseval_comp_log() {
     local comp_dir=$1 # PlasEval comp alpha directory
     local smp_uid=$2  # Sample UID
     echo "$comp_dir/${smp_uid}.log"
+}
+
+# ============================================================================ #
+#                                 PLASEVAL-GDV  (EVAL)                         #
+# ============================================================================ #
+PLASEVAL_GDV_EVAL_DIR="$BENCH_DATA_DIR/results/plaseval_gdv/eval"
+
+# Usage:
+#   base=$PLASEVAL_GDV_EVAL_DIR
+#   alpha=0.5
+#   method_code="pbf_rfpl"
+#   dir=$(get_plaseval_eval_alpha_meth_dir "$base" "$alpha" "$method_code")
+function get_plaseval_eval_alpha_meth_dir() {
+    local base_dir=$1    # PlasEval eval directory
+    local alpha_value=$2 # Alpha
+    local method_code=$3
+    local alpha_dirname="alpha_${alpha_value//./}"
+    echo "$base_dir/$alpha_dirname/$method_code"
+}
+
+# Usage:
+#   plaseval_log=$(get_plaseval_eval_minlen "$eval_dir" "$smp_uid")
+function get_plaseval_eval_minlen() {
+    local eval_dir=$1 # PlasEval eval directory
+    local smp_uid=$2  # Sample UID
+    echo "$eval_dir/${smp_uid}.log"
+}
+
+## TODO: get_plaseval_comp_out and get_plaseval_eval_out can be generalized???
+# Usage:
+#   plaseval_out=$(get_plaseval_comp_out "$eval_dir" "$smp_uid")
+function get_plaseval_eval_out() {
+    local eval_dir=$1 # PlasEval comp alpha directory
+    local smp_uid=$2  # Sample UID
+    echo "$eval_dir/${smp_uid}.out"
+}
+
+# Usage:
+#   plaseval_log=$(get_plaseval_comp_log "$eval_dir" "$smp_uid")
+function get_plaseval_eval_log() {
+    local eval_dir=$1 # PlasEval comp alpha directory
+    local smp_uid=$2  # Sample UID
+    echo "$eval_dir/${smp_uid}.log"
 }

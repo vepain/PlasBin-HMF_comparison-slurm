@@ -87,10 +87,14 @@ We use [Zensical] static website generator based on Markdown.
 
 ### Install
 
-We use [uv] to run [Zensical] as a tool.
+We either use [uv] or [pixi] to run [Zensical] as a tool.
 
 ```sh
 uvx --with-requirements requirements-doc.txt zensical --help
+```
+
+```sh
+pixi run zensical --help
 ```
 
 ### Usage
@@ -99,6 +103,11 @@ Preview in live server
 
 ```sh
 uvx --with-requirements requirements-doc.txt zensical serve
+open http://localhost:8000 # May be different, use the adress given by the command in stdout
+```
+
+```sh
+pixi run zensical serve
 open http://localhost:8000 # May be different, use the adress given by the command in stdout
 ```
 
@@ -181,6 +190,7 @@ git push origin --tags
 
 [VSCode]: https://code.visualstudio.com/
 [uv]: https://docs.astral.sh/uv/
+[pixi]: https://github.com/prefix-dev/pixi
 [Zensical]: https://zensical.org
 [Zensical Studio VSCode extension]: https://marketplace.visualstudio.com/items?itemName=zensical.zensical-studio
 [git-flow-next]: https://github.com/gittower/git-flow-next
