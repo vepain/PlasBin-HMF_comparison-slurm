@@ -31,8 +31,9 @@ For [VSCode] user, settings are in `.vscode/settings.json` and required extensio
 
 In `src/scripts`:
 
-* in a subdirectory if it corresponds to the same tool but with different command
+* In a subdirectory if it corresponds to the same tool but with different command
   * e.g. `plaseval-gdv` has two commands `eval` and `comp`
+* Draft can be found in `src/scripts/tasks`
 
 Tasks:
 
@@ -49,6 +50,7 @@ Tasks:
 In `src/envs`:
 
 * Prefer to use the same name as the tool for the script, e.g.`plaseval-gdv.sh`
+* Draft can be found in `src/scripts/tasks`
 
 Tasks:
 
