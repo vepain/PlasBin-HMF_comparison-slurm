@@ -6,14 +6,10 @@
 #SBATCH --mem=32G
 #SBATCH --time=12:00:00
 #SBATCH --array=2-1242
-#SBATCH --output=logs/comp_uni/%A/%a.out
-#SBATCH --error=logs/comp_uni/%A/%a.err
-
+#SBATCH --output=logs/rfplasmid_uni/%A/%a.out
+#SBATCH --error=logs/rfplasmid_uni/%A/%a.err
 # ---------------------------------------------------------------------------- #
-# User Variables
-# ---------------------------------------------------------------------------- #
-declare -r method_code="pbhmf_rfpl" # choose among the list of method codes
-
+# Run RFPlasmid on Unicycler assemblies to get the contig plasmidness.
 # ---------------------------------------------------------------------------- #
 # Load base scripts
 # ---------------------------------------------------------------------------- #
@@ -24,26 +20,21 @@ source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 # ---------------------------------------------------------------------------- #
 #                                  Environment                                 #
 # ---------------------------------------------------------------------------- #
-# shellcheck source=../../envs/plaseval-gdv.sh
-source "$BENCH_ENVS_DIR/plaseval-gdv.sh"
+# shellcheck source=../../envs/rfplasmids.sh
+source "$BENCH_ENVS_DIR/rfplasmids.sh"
 
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
 smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
 
-pred_tsv=$(get_pred_plaseval_fmt "$smp_uid" "$method_code")
-gt_tsv=$(get_gt_plaseval_fmt "$smp_uid")
-min_len=$(get_min_len "$smp_uid")
-if [[ -z "$min_len" ]]; then ## if min_len is empty, exclude the --min_len argument
-    min_len_arg=""
-else
-    min_len_arg="--min_len $min_len"
-fi
+gfa_gz=$(get_assembly_gfa_gz "$smp_uid")
+output_dir=$(get_rfplasmid_out_dir "$smp_uid")
 
-output_dir=$(get_plaseval_eval_meth_dir "$UNI_PLASEVAL_GDV_EVAL_DIR" "$method_code")
-plaseval_out=$(get_plaseval_eval_out "$output_dir" "$smp_uid")
-plaseval_log=$(get_plaseval_eval_log "$output_dir" "$smp_uid")
+# RFPlasmid consumes a directory of FASTA files; build it from the GFA segments.
+input_dir="$SLURM_TMPDIR/$smp_uid"
+mkdir -p "$input_dir"
+gunzip -c "$gfa_gz" | awk '/^S/{print ">"$2"\n"$3}' >"$input_dir/assembly.fasta"
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
@@ -51,16 +42,16 @@ plaseval_log=$(get_plaseval_eval_log "$output_dir" "$smp_uid")
 register_job_id "$output_dir"
 
 # ---------------------------------------------------------------------------- #
-# Running PlasEval (GDV fork) for the method
+# Running RFPlasmid
 # ---------------------------------------------------------------------------- #
-echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $method_code"
+echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid rfplasmid"
 
 mkdir -p "$output_dir"
 
+# TODO: confirm --species (or use "generic") against the installed RFPlasmid.
 apptainer run -C -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
-    eval \
-    --pred "$pred_tsv" \
-    --gt "$gt_tsv" \
-    --out_file "$plaseval_out" \
-    --log_file "$plaseval_log" \
-    $min_len_arg \
+    rfplasmid \
+    --species generic \
+    --input "$input_dir" \
+    --threads "$SLURM_CPUS_PER_TASK" \
+    --out "$output_dir"
