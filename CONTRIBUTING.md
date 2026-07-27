@@ -67,12 +67,6 @@ Like building the apptainer image.
 
 ### 4 - Document
 
-> [!WARNING]
-> For [Zensical Studio VSCode extension] users, there is a known issue (<https://github.com/zensical/studio/issues/44>):
-> even properly configurated, Markdown documents outside of `docs` (like this file) are considered as `Python Markdown` files.
-> The `Python Markdown` file language is great for Markdown documents used by Zensical, but is not the best for "regular" Markdown.
-> The temporarly solution is to able the [Zensical Studio VSCode extension] **only** when you are working on the Zensical documentation - otherwise disable it.
-
 In `docs`:
 
 1. In `docs/setup/envs`, document the Fir environment initialization script (if any)
@@ -194,5 +188,4 @@ git push origin --tags
 [uv]: https://docs.astral.sh/uv/
 [pixi]: https://github.com/prefix-dev/pixi
 [Zensical]: https://zensical.org
-[Zensical Studio VSCode extension]: https://marketplace.visualstudio.com/items?itemName=zensical.zensical-studio
 [git-flow-next]: https://github.com/gittower/git-flow-next
