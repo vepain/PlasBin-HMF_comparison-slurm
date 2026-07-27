@@ -13,6 +13,7 @@ source "$BENCH_ENVS_DIR/env_pbhmf_py311/bin/activate"
 # Cloned pangebin source tree (holds scripts/format.py used to build PBf input).
 PANGEBIN_DIR="$BENCH_ENVS_DIR/pangebin"
 FORMAT_PY="$PANGEBIN_DIR/scripts/format.py"
+# FIXME Where is PANGEBIN_DIR?
 
 # PB-HMF config files (examples in the pangebin repo `configs/`).
 BIN_CONFIG_YAML="$BENCH_ENVS_DIR/pbhmf_configs/hmf_config.yaml"
