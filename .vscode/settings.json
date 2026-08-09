@@ -1,6 +1,19 @@
 {
   "[markdown]": {
-    "editor.formatOnSave": true
+    "diffEditor.ignoreTrimWhitespace": true,
+    "editor.defaultFormatter": "Jota0222.multi-formatter",
+    "editor.formatOnSave": true,
+    "editor.quickSuggestions": {
+      "comments": "on",
+      "other": "on",
+      "strings": "on"
+    },
+    "editor.tabSize": 2,
+    "editor.wordWrap": "off",
+    "multiFormatter.formatterList": [
+      "DavidAnson.vscode-markdownlint",
+      "yzhang.markdown-all-in-one"
+    ]
   },
   "[python-markdown]": {
     "editor.formatOnSave": true
@@ -8,6 +21,7 @@
   "[toml]": {
     "editor.formatOnSave": true
   },
+  "bashIde.shellcheckArguments": "--external-sources",
   "better-todo-tree.general.tags": [
     "TODO",
     "FIXME",
@@ -77,8 +91,8 @@
   "better-todo-tree.regex.regex": "((//|#|%|<!--|;|/\\*|^|\"\"\"|'|(\\*|-)\\s\\[(\\s|x)\\])\\s*($TAGS))",
   "comment-divider.length": 80,
   "files.associations": {
-    "CONTRIBUTING.md": "markdown",
-    "**/docs/**/*.md": "python-markdown"
+    "**/docs/**/*.md": "python-markdown",
+    "CONTRIBUTING.md": "markdown"
   },
   "markdown.extension.toc.levels": "2..6",
   "markdownlint.configFile": ".markdownlint.yaml"

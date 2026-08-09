@@ -3,30 +3,28 @@
 # Installation PlasEval (Gianluca Della Vedova's fork)
 # ---------------------------------------------------------------------------- #
 BENCH_ROOT_DIR=$1
-# shellcheck source=../../src/scripts/config.sh
+# shellcheck source=../../../src/scripts/config.sh
 source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
-
-running_dir=$(pwd)
 
 umask 007
 
+running_dir=$(pwd)
+
+this_parent_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+unicycler_apptainer_def="$this_parent_dir/unicycler.def"
+
 # ---------------------------------------------------------------------------- #
-# Build the apptainer image in scratch
+# Building apptainer image in scratch
 # ---------------------------------------------------------------------------- #
 cd "/scratch/$USER" || exit 1
-git clone https://github.com/gdv/PlasEval.git PlasEval-GDV
-cd PlasEval-GDV || exit 1
 
 module load apptainer
 APPTAINER_BIND=" "
 export APPTAINER_BIND
-apptainer build PlasEval-GDV.sif PlasEval.def
+apptainer build unicycler.sif "$unicycler_apptainer_def"
 
 #
 # Finish
 #
-mv PlasEval-GDV.sif "$BENCH_ENVS_DIR"
-cd ..
-# Remove the git repository
-rm -rf PlasEval-GDV
+mv unicycler.sif "$BENCH_ENVS_DIR"
 cd "$running_dir" || exit 1

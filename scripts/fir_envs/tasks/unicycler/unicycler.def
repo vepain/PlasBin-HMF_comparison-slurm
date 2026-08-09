@@ -1,0 +1,2 @@
+Bootstrap: docker
+From: staphb/unicycler:0.5.1

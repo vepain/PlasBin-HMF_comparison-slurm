@@ -33,7 +33,7 @@ function get_gt_plaseval_fmt() {
 }
 
 # ============================================================================ #
-#                                 PLASEVAL-GDV                                 #
+#                                 PLASEVAL-GDV  (COMP)                         #
 # ============================================================================ #
 UNI_PLASEVAL_GDV_COMP_DIR="$BENCH_DATA_DIR/results/plaseval_gdv/unicycler/comp"
 
@@ -64,4 +64,139 @@ function get_plaseval_comp_log() {
     local comp_dir=$1 # PlasEval comp alpha directory
     local smp_uid=$2  # Sample UID
     echo "$comp_dir/${smp_uid}.log"
+}
+
+# ============================================================================ #
+#                                 PLASEVAL-GDV  (EVAL)                         #
+# ============================================================================ #
+UNI_PLASEVAL_GDV_EVAL_DIR="$BENCH_DATA_DIR/results/plaseval_gdv/unicycler/eval"
+
+# Usage:
+#   base=$UNI_PLASEVAL_GDV_EVAL_DIR
+#   method_code="pbf_rfpl"
+#   dir=$(get_plaseval_eval_meth_dir "$base" "$method_code")
+function get_plaseval_eval_meth_dir() {
+    local base_dir=$1    # PlasEval eval directory
+    local method_code=$2 # Method code
+    echo "$base_dir/$method_code"
+}
+
+# Usage:
+#   plaseval_log=$(get_plaseval_eval_minlen "$eval_dir" "$smp_uid")
+function get_plaseval_eval_minlen() {
+    local eval_dir=$1 # PlasEval eval directory
+    local smp_uid=$2  # Sample UID
+    echo "$eval_dir/${smp_uid}.log"
+}
+
+## TODO: get_plaseval_comp_out and get_plaseval_eval_out can be generalized???
+# Usage:
+#   plaseval_out=$(get_plaseval_comp_out "$eval_dir" "$smp_uid")
+function get_plaseval_eval_out() {
+    local eval_dir=$1 # PlasEval comp alpha directory
+    local smp_uid=$2  # Sample UID
+    echo "$eval_dir/${smp_uid}.out"
+}
+
+# Usage:
+#   plaseval_log=$(get_plaseval_comp_log "$eval_dir" "$smp_uid")
+function get_plaseval_eval_log() {
+    local eval_dir=$1 # PlasEval comp alpha directory
+    local smp_uid=$2  # Sample UID
+    echo "$eval_dir/${smp_uid}.log"
+}
+
+
+
+
+# ============================================================================ #
+#                              UNICYCLER ASSEMBLY INPUT                        #
+# ============================================================================ #
+UNI_ASSEMBLY_DIR="$BENCH_DATA_DIR/assembly_files/unicycler"
+
+# Usage:
+#   gfa_gz=$(get_assembly_gfa_gz "$smp_uid")
+function get_assembly_gfa_gz() {
+    local smp_uid=$1
+    echo "$UNI_ASSEMBLY_DIR/$smp_uid/assembly.gfa.gz"
+}
+
+# ============================================================================ #
+#                              RFPLASMID RAW OUTPUTS                           #
+# ============================================================================ #
+UNI_RFPLASMID_DIR="$BENCH_DATA_DIR/results/rfplasmid/unicycler"
+
+# Usage:
+#   dir=$(get_rfplasmid_out_dir "$smp_uid")
+function get_rfplasmid_out_dir() {
+    local smp_uid=$1
+    echo "$UNI_RFPLASMID_DIR/$smp_uid"
+}
+
+# ============================================================================ #
+#                        FORMATTED PB-HMF / PBf INPUT                          #
+# ============================================================================ #
+UNI_FORMATTED_INPUT_DIR="$BENCH_DATA_DIR/results/formatted_input/unicycler"
+
+# RFPlasmid plasmidness scores in PBf format.
+# Usage:
+#   plm_tsv=$(get_plm_pbhmf_rfpl_tsv "$smp_uid")
+function get_plm_pbhmf_rfpl_tsv() {
+    local smp_uid=$1
+    echo "$UNI_FORMATTED_INPUT_DIR/rfplasmid/input_pbf/${smp_uid}_scores.tsv"
+}
+
+# RFPlasmid seed contigs in PBf format.
+# Usage:
+#   seeds_tsv=$(get_seeds_pbhmf_rfpl_tsv "$smp_uid")
+function get_seeds_pbhmf_rfpl_tsv() {
+    local smp_uid=$1
+    echo "$UNI_FORMATTED_INPUT_DIR/rfplasmid/input_pbf/${smp_uid}_seeds.tsv"
+}
+
+# ============================================================================ #
+#                                   BINNING                                    #
+# ============================================================================ #
+# Per-method binning directory (has bins.tsv, bins_filt.tsv, ...).
+# Usage:
+#   bin_dir=$(get_bin_dir "$BENCH_DATA_DIR" "$smp_uid" "$method_code")
+function get_bin_dir() {
+    local base_data_dir=$1 # e.g. $BENCH_DATA_DIR
+    local smp_uid=$2
+    local method_code=$3
+    echo "$base_data_dir/results/binning/unicycler/$method_code/$smp_uid"
+}
+
+# ============================================================================ #
+#                               MERGED PLASEVAL REPORTS                        #
+# ============================================================================ #
+# Usage:
+#   alpha_dir=$(get_plaseval_comp_alpha_dir "$UNI_PLASEVAL_GDV_COMP_DIR" "$alpha")
+function get_plaseval_comp_alpha_dir() {
+    local base_dir=$1    # PlasEval comp directory
+    local alpha_value=$2 # Alpha
+    echo "$base_dir/alpha_${alpha_value//./}"
+}
+
+# Usage:
+#   merge_dir=$(get_plaseval_eval_merge_dir)
+function get_plaseval_eval_merge_dir() {
+    echo "$UNI_PLASEVAL_GDV_EVAL_DIR/merged"
+}
+
+# Usage:
+#   merge_dir=$(get_plaseval_comp_merge_dir "$alpha")
+function get_plaseval_comp_merge_dir() {
+    local alpha_value=$1
+    echo "$(get_plaseval_comp_alpha_dir "$UNI_PLASEVAL_GDV_COMP_DIR" "$alpha_value")/merged"
+}
+
+# ============================================================================ #
+#                              SAMPLE PROPERTIES                               #
+# ============================================================================ #
+# Usage:
+#   min_len=$(get_min_len "$smp_uid")
+function get_min_len() {
+    local smp_uid=$1
+    echo ""
 }

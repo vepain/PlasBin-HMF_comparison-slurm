@@ -1,0 +1,13 @@
+Bootstrap: docker
+From: mambaorg/micromamba:latest
+
+%files
+    conda_env.yaml /conda_env.yaml
+    requirements.txt /requirements.txt
+
+%post
+    #
+    # Install conda environment
+    #
+    micromamba install -n base --file conda_env.yaml && \
+        micromamba clean --all --yes
