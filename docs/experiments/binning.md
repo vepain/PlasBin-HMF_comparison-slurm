@@ -26,3 +26,9 @@ mkdir -p "$work_dir"
 cp plasbin-hmf/rfpl_uni.sh "$work_dir"
 cd "$work_dir"
 ```
+
+Launch the slurm job:
+
+```sh
+sbatch rfpl_uni.sh
+```
