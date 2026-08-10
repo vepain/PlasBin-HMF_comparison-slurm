@@ -4,7 +4,7 @@
 # ---------------------------------------------------------------------------- #
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=32G
-#SBATCH --time=12:00:00
+#SBATCH --time=10:00:00
 #SBATCH --array=2-1242
 #SBATCH --output=logs/pbhmf_rfpl_uni/%A/%a.out
 #SBATCH --error=logs/pbhmf_rfpl_uni/%A/%a.err
