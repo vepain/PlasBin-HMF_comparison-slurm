@@ -58,4 +58,4 @@ mkdir -p "$output_dir"
 plasbin-hmf run "$gfa_gz" "$plm_tsv" "$seeds_tsv" \
     -o "$output_dir" \
     --config "$PBHMF_CONFIG_YAML" \
-    --gurobi-config"$GUROBI_CONFIG_YAML"
+    --gurobi-config "$GUROBI_CONFIG_YAML"
