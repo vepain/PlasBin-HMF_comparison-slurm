@@ -1,0 +1,22 @@
+bins:
+  circular:
+    max_with_seeds: auto
+    max_optional_seeds: 2
+  partially_circular:
+    max_with_seeds: auto
+    max_optional_seeds: 0
+constraints:
+  min_bin_size: 1000
+  min_coverage: 0.3
+  plasmidness_coefficient: 0.0
+  max_coverage_ratio: 10.0
+  partially_circular_s_t_constraints: false
+input:
+  input_format: PlasBin-Flow
+  gfa_origin: Unicycler
+  default_plasmidness: 0.0
+  contig_length_threshold: 100
+output:
+  keep_optimization_traces: true
+  compression_format_choice: auto
+  plasbin_flow_output: true

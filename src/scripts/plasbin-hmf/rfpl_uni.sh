@@ -24,23 +24,23 @@ source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 # ---------------------------------------------------------------------------- #
 #                                  Environment                                 #
 # ---------------------------------------------------------------------------- #
-# shellcheck source=../../envs/pbhmf.sh
-source "$BENCH_ENVS_DIR/pbhmf.sh"
+# shellcheck source=../../envs/plasbin-hmf/configure.sh
+source "$BENCH_ENVS_DIR/plasbin-hmf/configure.sh"
 
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
 smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
-
+#
+# Inputs
+#
 gfa_gz=$(get_assembly_gfa_gz "$smp_uid")
 plm_tsv=$(get_plm_pbhmf_rfpl_tsv "$smp_uid")
 seeds_tsv=$(get_seeds_pbhmf_rfpl_tsv "$smp_uid")
-
+#
+# Outputs
+#
 output_dir=$(get_bin_dir "$BENCH_DATA_DIR" "$smp_uid" "$method_code")
-
-# pangebin reads a plain GFA; unzip to the node-local scratch.
-gfa="$SLURM_TMPDIR/$smp_uid.gfa"
-gunzip -c "$gfa_gz" >"$gfa"
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
@@ -54,8 +54,7 @@ echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $met
 
 mkdir -p "$output_dir"
 
-# TODO: CHECK USAGE from pangebin
-pangebin asm-pbf hmf "$gfa" "$seeds_tsv" "$plm_tsv" \
-    --outdir "$output_dir" \
-    --bin-cfg "$BIN_CONFIG_YAML" \
-    --gurobi-cfg "$GUROBI_CONFIG_YAML"
+plasbin-hmf run "$gfa_gz" "$plm_tsv" "$seeds_tsv" \
+    -o "$output_dir" \
+    --config "$PBHMF_CONFIG_YAML" \
+    --gurobi-config"$GUROBI_CONFIG_YAML"
