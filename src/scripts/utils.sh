@@ -29,5 +29,5 @@ function get_spe_smp_id {
 function register_job_id() {
     local output_dir=$1
     mkdir -p "$output_dir" 2>/dev/null
-    touch "$output_dir/$SLURM_ARRAY_JOB_ID"
+    touch "$output_dir/job_id_$SLURM_ARRAY_JOB_ID"
 }
