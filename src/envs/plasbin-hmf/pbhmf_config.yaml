@@ -12,7 +12,7 @@ constraints:
   max_coverage_ratio: 10.0
   partially_circular_s_t_constraints: false
 input:
-  input_format: PlasBin-Flow
+  input_format: PlasBin-flow
   gfa_origin: Unicycler
   default_plasmidness: 0.0
   contig_length_threshold: 100
