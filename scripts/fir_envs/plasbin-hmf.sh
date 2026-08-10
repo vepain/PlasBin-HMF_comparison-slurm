@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------------- #
 # Installation of PlasBin-HMF
 # ---------------------------------------------------------------------------- #
-BENCH_ROOT_DIR=$1
+BENCH_ROOT_DIR=$(realpath "$1")
 # shellcheck source=../../src/scripts/config.sh
 source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 

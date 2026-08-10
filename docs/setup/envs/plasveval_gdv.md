@@ -8,7 +8,7 @@ In your Fir `PlasBin-HMF_comparison-slurm` directory:
 
 ```sh
 chmod +x scripts/fir_envs/plaseval-gdv.sh
-./scripts/fir_envs/plaseval-gdv.sh
+./scripts/fir_envs/plaseval-gdv.sh "$benchmark_root_dir"
 ```
 
 The script build a apptainer image.
