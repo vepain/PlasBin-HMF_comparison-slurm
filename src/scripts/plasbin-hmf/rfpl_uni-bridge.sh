@@ -36,8 +36,8 @@ smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
 #
 old_data_dir="/project/def-chauvec/wg-anoph/benchmarking/DATA"
 gfa_gz="$old_data_dir/ASSEMBLY_FILES/FILTERED_100/UNICYCLER/$smp_uid/assembly.gfa.gz"
-plm_tsv="$old_data_dir/FORMATTED_INPUT/RFPLASMID/FILTERED_100/UNICYCLER/INPUT_PBF/${smp_uid}_scores.tsv"
-seeds_tsv="$old_data_dir/FORMATTED_INPUT/PLATON/FILTERED_100/UNICYCLER/INPUT_PBF/${smp_uid}_seeds.tsv"
+plm_tsv="$old_data_dir/RESULTS/FORMATTED_INPUT/RFPLASMID/UNICYCLER/INPUT_PBF/${smp_uid}_scores.tsv"
+seeds_tsv="$old_data_dir/RESULTS/FORMATTED_INPUT/PLATON/UNICYCLER/INPUT_PBF/${smp_uid}_seeds.tsv"
 #
 # Outputs
 #
