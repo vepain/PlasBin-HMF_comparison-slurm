@@ -20,7 +20,7 @@ cp plaseval-gdv/comp_uni.sh "$work_dir"
 cd "$work_dir"
 ```
 
-Set the alpha value (in $[0, \infty)$), and the [binning method code](binning_method_config.md):
+Set the alpha value (in $[0, \infty)$), and the [binning method code](binning.md):
 
 ```sh
 nano comp_uni.sh

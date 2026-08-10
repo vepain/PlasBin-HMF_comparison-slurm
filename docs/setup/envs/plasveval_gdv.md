@@ -11,6 +11,8 @@ chmod +x scripts/fir_envs/plaseval-gdv.sh
 ./scripts/fir_envs/plaseval-gdv.sh
 ```
 
+The script build a apptainer image.
+
 ??? info "Script"
 
     ```sh title="scripts/fir_envs/plaseval-gdv.sh"

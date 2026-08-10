@@ -49,8 +49,8 @@ Copyright &copy; 2026 The authors
         ] },
         { "Experiments" = [
             "experiments/intro.md",
+            "experiments/binning.md",
             "experiments/eval_bin.md",
-            "experiments/binning_method_config.md",
         ] },
     ]
     # Zensical supports both implicit navigation and explicitly defined navigation.
