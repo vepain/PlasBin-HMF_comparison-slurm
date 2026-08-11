@@ -11,8 +11,8 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-declare -r method_code="pbhmf_rfpl" # append _filt to format the filtered bins
-declare -r method_format="pbf"      # In pbf, pbhmf, mob or gpcc
+declare -r method_code="pbhmf_rfpl"
+declare -r method_format="pbhmf" # In pbf, pbhmf, mob or gpcc
 # ---------------------------------------------------------------------------- #
 # Format PB-HMF binning results into a PlasEval prediction TSV.
 # ---------------------------------------------------------------------------- #
