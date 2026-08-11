@@ -12,8 +12,7 @@
 # User Variables
 # ---------------------------------------------------------------------------- #
 declare -r len_thr=100 # minimum contig length (matches FILTERED_100 assemblies)
-# ground truth CSV directory (external); TODO: point at the real location.
-declare -r gt_dir="TODO:GROUND_TRUTH_CSV_DIR"
+
 # ---------------------------------------------------------------------------- #
 # Format the ground truth into a PlasEval TSV (usually a one-off; the *.gt.tsv
 # files may already exist).
@@ -27,22 +26,20 @@ source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 # ---------------------------------------------------------------------------- #
 #                                  Environment                                 #
 # ---------------------------------------------------------------------------- #
-# shellcheck source=../../envs/py-tools.sh
-source "$BENCH_ENVS_DIR/py-tools.sh"
+# shellcheck source=../../envs/format-plaseval/configure.sh
+source "$BENCH_ENVS_DIR/format-plaseval/configure.sh"
 
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
 smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
 
-gt_csv="$gt_dir/$smp_uid/short.gfa.csv"
+gt_csv=$(get_gt_csv "$smp_uid")
 
 gt_tsv=$(get_gt_plaseval_fmt "$smp_uid")
 outdir=$(dirname "$gt_tsv")
 outfile=$(basename "$gt_tsv")
 
-# NOTE: format_ground_truth.py is not yet in this repo (see plan Open items);
-# drop it in this same folder once recovered.
 py_script="$BENCH_SCRIPTS_DIR/format-plaseval/format_ground_truth.py"
 
 # ---------------------------------------------------------------------------- #

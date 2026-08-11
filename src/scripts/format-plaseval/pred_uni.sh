@@ -12,6 +12,7 @@
 # User Variables
 # ---------------------------------------------------------------------------- #
 declare -r method_code="pbhmf_rfpl" # append _filt to format the filtered bins
+declare -r method_format="pbf"
 # ---------------------------------------------------------------------------- #
 # Format PB-HMF binning results into a PlasEval prediction TSV.
 # ---------------------------------------------------------------------------- #
@@ -24,8 +25,8 @@ source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 # ---------------------------------------------------------------------------- #
 #                                  Environment                                 #
 # ---------------------------------------------------------------------------- #
-# shellcheck source=../../envs/py-tools.sh
-source "$BENCH_ENVS_DIR/py-tools.sh"
+# shellcheck source=../../envs/format-plaseval/configure.sh
+source "$BENCH_ENVS_DIR/format-plaseval/configure.sh"
 
 # ---------------------------------------------------------------------------- #
 # Set arguments
@@ -62,7 +63,7 @@ register_job_id "$outdir"
 echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid format pred $method_code"
 
 python3 "$py_script" \
-    --tool pbf \
+    --tool "$method_format" \
     --assembly "$gfa" \
     --results "$results" \
     --outdir "$outdir" \
