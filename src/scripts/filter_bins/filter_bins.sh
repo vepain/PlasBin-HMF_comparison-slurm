@@ -34,7 +34,7 @@ source "$BENCH_ENVS_DIR/pbhmf.sh"
 # ---------------------------------------------------------------------------- #
 smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
 
-bin_dir=$(get_bin_dir "$BENCH_DATA_DIR" "$smp_uid" "$method_code")
+bin_dir=$(get_uni_bin_dir "$smp_uid" "$method_code")
 bins_tsv="$bin_dir/bins.tsv"
 filtered_bins_tsv="$bin_dir/bins_filt.tsv"
 

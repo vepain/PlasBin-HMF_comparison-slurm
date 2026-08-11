@@ -12,7 +12,7 @@
 # User Variables
 # ---------------------------------------------------------------------------- #
 declare -r method_code="pbhmf_rfpl" # append _filt to format the filtered bins
-declare -r method_format="pbf"
+declare -r method_format="pbf"      # In pbf, pbhmf, mob or gpcc
 # ---------------------------------------------------------------------------- #
 # Format PB-HMF binning results into a PlasEval prediction TSV.
 # ---------------------------------------------------------------------------- #
@@ -33,15 +33,26 @@ source "$BENCH_ENVS_DIR/format-plaseval/configure.sh"
 # ---------------------------------------------------------------------------- #
 smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
 
-gfa_gz=$(get_assembly_gfa_gz "$smp_uid")
+gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
 
-# Filtered bins live alongside the raw bins in the same (unfiltered) method dir.
-bin_dir=$(get_bin_dir "$BENCH_DATA_DIR" "$smp_uid" "${method_code%_filt}")
-if [[ "$method_code" == *_filt ]]; then
-    results="$bin_dir/bins_filt.tsv"
-else
-    results="$bin_dir/bins.tsv"
-fi
+case "$method_format" in
+"pbf")
+    results=$(get_pbf_bin_pred "$smp_uid" "$method_code")
+    tool="pbf"
+    ;;
+"pbhmf")
+    results=$(get_pbhmf_pbf_bin_pred "$smp_uid" "$method_code")
+    tool="pbf"
+    ;;
+"gpcc")
+    results=$(get_gpcc_bin_pred "$smp_uid" "$method_code")
+    tool="gp"
+    ;;
+"mob")
+    results=$(get_mob_bin_pred "$smp_uid" "$method_code")
+    tool="mob"
+    ;;
+esac
 
 pred_tsv=$(get_pred_plaseval_fmt "$smp_uid" "$method_code")
 outdir=$(dirname "$pred_tsv")
@@ -63,7 +74,7 @@ register_job_id "$outdir"
 echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid format pred $method_code"
 
 python3 "$py_script" \
-    --tool "$method_format" \
+    --tool "$tool" \
     --assembly "$gfa" \
     --results "$results" \
     --outdir "$outdir" \

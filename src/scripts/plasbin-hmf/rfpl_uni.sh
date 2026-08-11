@@ -34,13 +34,13 @@ smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
 #
 # Inputs
 #
-gfa_gz=$(get_assembly_gfa_gz "$smp_uid")
+gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
 plm_tsv=$(get_plm_pbhmf_rfpl_tsv "$smp_uid")
 seeds_tsv=$(get_seeds_pbhmf_rfpl_tsv "$smp_uid")
 #
 # Outputs
 #
-output_dir=$(get_bin_dir "$BENCH_DATA_DIR" "$smp_uid" "$method_code")
+output_dir=$(get_uni_bin_dir "$smp_uid" "$method_code")
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
