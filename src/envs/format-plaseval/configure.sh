@@ -10,6 +10,6 @@ virtualenv --no-download $SLURM_TMPDIR/env
 source $SLURM_TMPDIR/env/bin/activate
 pip install --no-index --upgrade pip
 
-PLASEVAL_FMT_ENVS_DIR="$BENCH_ENVS_DIR/plaseval-format"
+PLASEVAL_FMT_ENVS_DIR="$BENCH_ENVS_DIR/format-plaseval"
 
 pip install -r "$PLASEVAL_FMT_ENVS_DIR/requirements.txt"
