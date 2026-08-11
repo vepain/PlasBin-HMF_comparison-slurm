@@ -21,10 +21,10 @@ Set the `method_code` (see [the method code table](binning.md#overview)).
 
 Set the `method_format` variable at the beginning of the script:
 
-* `pbf` for PlasBin-flow input (valid for PlasBin-HMF as we used the option to output the result in PlasBin-flow format)
-* `hy` for HyPlas
+* `pbf` for PlasBin-flow
+* `pbhmf` for PlasBin-HMF
 * `mob` for MOB-recon
-* `gp` for gplascc
+* `gpcc` for gplascc
 
 ```sh
 nano pred_uni.sh

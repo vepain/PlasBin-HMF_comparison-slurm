@@ -29,8 +29,8 @@ function get_gt_csv() {
 UNI_ASSEMBLY_DIR="$BENCH_DATA_DIR/assembly_files/unicycler"
 
 # Usage:
-#   gfa_gz=$(get_assembly_gfa_gz "$smp_uid")
-function get_assembly_gfa_gz() {
+#   gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
+function get_unicycler_assembly_gfa_gz() {
     local smp_uid=$1
     echo "$UNI_ASSEMBLY_DIR/$smp_uid/assembly.gfa.gz"
 }
@@ -71,14 +71,51 @@ function get_seeds_pbhmf_rfpl_tsv() {
 # ============================================================================ #
 #                                   BINNING                                    #
 # ============================================================================ #
+UNI_BIN_DIR="$BENCH_DATA_DIR/results/binning/unicycler"
+
 # Per-method binning directory (has bins.tsv, bins_filt.tsv, ...).
 # Usage:
-#   bin_dir=$(get_bin_dir "$BENCH_DATA_DIR" "$smp_uid" "$method_code")
-function get_bin_dir() {
-    local base_data_dir=$1 # e.g. $BENCH_DATA_DIR
-    local smp_uid=$2
-    local method_code=$3
-    echo "$base_data_dir/results/binning/unicycler/$method_code/$smp_uid"
+#   bin_dir=$(get_uni_bin_dir "$smp_uid" "$method_code")
+function get_uni_bin_dir() {
+    local smp_uid=$1
+    local method_code=$2
+    echo "$UNI_BIN_DIR/$method_code/$smp_uid"
+}
+
+# ---------------------------------------------------------------------------- #
+#                                      Pbf                                     #
+# ---------------------------------------------------------------------------- #
+function get_pbf_bin_pred() {
+    local smp_uid=$1
+    local method_code=$2
+    echo "$(get_uni_bin_dir "$smp_uid" "$method_code")/bins.tsv"
+}
+
+# ---------------------------------------------------------------------------- #
+#                                     PBHMF                                    #
+# ---------------------------------------------------------------------------- #
+function get_pbhmf_pbf_bin_pred() {
+    local smp_uid=$1
+    local method_code=$2
+    echo "$(get_uni_bin_dir "$smp_uid" "$method_code")/plasbin_flow_bins.tsv"
+}
+
+# ---------------------------------------------------------------------------- #
+#                                     Gpcc                                     #
+# ---------------------------------------------------------------------------- #
+function get_gpcc_bin_pred() {
+    local smp_uid=$1
+    local method_code=$2
+    echo "$(get_uni_bin_dir "$smp_uid" "$method_code")/bins.tab"
+}
+
+# ---------------------------------------------------------------------------- #
+#                                      Mob                                     #
+# ---------------------------------------------------------------------------- #
+function get_mob_bin_pred() {
+    local smp_uid=$1
+    local method_code=$2
+    echo "$(get_uni_bin_dir "$smp_uid" "$method_code")/contig_report.txt"
 }
 
 # ============================================================================ #

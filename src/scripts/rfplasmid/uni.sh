@@ -28,7 +28,7 @@ source "$BENCH_ENVS_DIR/rfplasmids.sh"
 # ---------------------------------------------------------------------------- #
 smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
 
-gfa_gz=$(get_assembly_gfa_gz "$smp_uid")
+gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
 output_dir=$(get_rfplasmid_out_dir "$smp_uid")
 
 # RFPlasmid consumes a directory of FASTA files; build it from the GFA segments.
