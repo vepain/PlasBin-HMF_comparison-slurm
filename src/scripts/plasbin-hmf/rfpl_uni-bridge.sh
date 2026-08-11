@@ -41,7 +41,7 @@ seeds_tsv="$old_data_dir/RESULTS/FORMATTED_INPUT/PLATON/UNICYCLER/INPUT_PBF/${sm
 #
 # Outputs
 #
-output_dir=$(get_bin_dir "$BENCH_DATA_DIR" "$smp_uid" "$method_code")
+output_dir=$(get_uni_bin_dir "$smp_uid" "$method_code")
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
