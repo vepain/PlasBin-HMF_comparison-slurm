@@ -12,102 +12,16 @@ BENCH_DATA_DIR="$BENCH_ROOT_DIR/data"
 SAMPLES_CSV="$BENCH_ROOT_DIR/completed_samples.csv"
 
 # ============================================================================ #
-#                            PLASEVAL FORMATTED BINS                           #
+#                                 GROUND TRUTH                                 #
 # ============================================================================ #
-UNI_PLASEVAL_PRED_BINS_DIR="$BENCH_DATA_DIR/results/formatted_bins/unicycler/predictions"
-UNI_PLASEVAL_GT_BINS_DIR="$BENCH_DATA_DIR/results/formatted_bins/unicycler/ground_truths"
+GROUND_TRUTH_DIR="$BENCH_DATA_DIR/ground_truths"
 
 # Usage:
-#   pred_tsv=$(get_pred_plaseval_fmt "$smp_uid" "$method_code")
-function get_pred_plaseval_fmt() {
-    local smp_uid=$1     # Sample UID
-    local method_code=$2 # Method code
-    echo "$UNI_PLASEVAL_PRED_BINS_DIR/$smp_uid.$method_code.tsv"
+#   gt_csv=$(get_gt_csv "$smp_uid")
+function get_gt_csv() {
+    local smp_uid=$1
+    echo "$GROUND_TRUTH_DIR/$smp_uid/short.gfa.csv"
 }
-
-# Usage:
-#   gt_tsv=$(get_gt_plaseval_fmt "$smp_uid")
-function get_gt_plaseval_fmt() {
-    local smp_uid=$1 # Sample UID
-    echo "$UNI_PLASEVAL_GT_BINS_DIR/$smp_uid.gt.tsv"
-}
-
-# ============================================================================ #
-#                                 PLASEVAL-GDV  (COMP)                         #
-# ============================================================================ #
-UNI_PLASEVAL_GDV_COMP_DIR="$BENCH_DATA_DIR/results/plaseval_gdv/unicycler/comp"
-
-# Usage:
-#   base=$UNI_PLASEVAL_GDV_COMP_DIR
-#   alpha=0.5
-#   method_code="pbf_rfpl"
-#   dir=$(get_plaseval_comp_alpha_meth_dir "$base" "$alpha" "$method_code")
-function get_plaseval_comp_alpha_meth_dir() {
-    local base_dir=$1    # PlasEval comp directory
-    local alpha_value=$2 # Alpha
-    local method_code=$3
-    local alpha_dirname="alpha_${alpha_value//./}"
-    echo "$base_dir/$alpha_dirname/$method_code"
-}
-
-# Usage:
-#   plaseval_out=$(get_plaseval_comp_out "$comp_dir" "$smp_uid")
-function get_plaseval_comp_out() {
-    local comp_dir=$1 # PlasEval comp alpha directory
-    local smp_uid=$2  # Sample UID
-    echo "$comp_dir/${smp_uid}.out"
-}
-
-# Usage:
-#   plaseval_log=$(get_plaseval_comp_log "$comp_dir" "$smp_uid")
-function get_plaseval_comp_log() {
-    local comp_dir=$1 # PlasEval comp alpha directory
-    local smp_uid=$2  # Sample UID
-    echo "$comp_dir/${smp_uid}.log"
-}
-
-# ============================================================================ #
-#                                 PLASEVAL-GDV  (EVAL)                         #
-# ============================================================================ #
-UNI_PLASEVAL_GDV_EVAL_DIR="$BENCH_DATA_DIR/results/plaseval_gdv/unicycler/eval"
-
-# Usage:
-#   base=$UNI_PLASEVAL_GDV_EVAL_DIR
-#   method_code="pbf_rfpl"
-#   dir=$(get_plaseval_eval_meth_dir "$base" "$method_code")
-function get_plaseval_eval_meth_dir() {
-    local base_dir=$1    # PlasEval eval directory
-    local method_code=$2 # Method code
-    echo "$base_dir/$method_code"
-}
-
-# Usage:
-#   plaseval_log=$(get_plaseval_eval_minlen "$eval_dir" "$smp_uid")
-function get_plaseval_eval_minlen() {
-    local eval_dir=$1 # PlasEval eval directory
-    local smp_uid=$2  # Sample UID
-    echo "$eval_dir/${smp_uid}.log"
-}
-
-## TODO: get_plaseval_comp_out and get_plaseval_eval_out can be generalized???
-# Usage:
-#   plaseval_out=$(get_plaseval_comp_out "$eval_dir" "$smp_uid")
-function get_plaseval_eval_out() {
-    local eval_dir=$1 # PlasEval comp alpha directory
-    local smp_uid=$2  # Sample UID
-    echo "$eval_dir/${smp_uid}.out"
-}
-
-# Usage:
-#   plaseval_log=$(get_plaseval_comp_log "$eval_dir" "$smp_uid")
-function get_plaseval_eval_log() {
-    local eval_dir=$1 # PlasEval comp alpha directory
-    local smp_uid=$2  # Sample UID
-    echo "$eval_dir/${smp_uid}.log"
-}
-
-
-
 
 # ============================================================================ #
 #                              UNICYCLER ASSEMBLY INPUT                        #
@@ -199,4 +113,98 @@ function get_plaseval_comp_merge_dir() {
 function get_min_len() {
     local smp_uid=$1
     echo ""
+}
+
+# ============================================================================ #
+#                            PLASEVAL FORMATTED BINS                           #
+# ============================================================================ #
+UNI_PLASEVAL_PRED_BINS_DIR="$BENCH_DATA_DIR/results/formatted_bins/unicycler/predictions"
+UNI_PLASEVAL_GT_BINS_DIR="$BENCH_DATA_DIR/results/formatted_bins/unicycler/ground_truths"
+
+# Usage:
+#   pred_tsv=$(get_pred_plaseval_fmt "$smp_uid" "$method_code")
+function get_pred_plaseval_fmt() {
+    local smp_uid=$1     # Sample UID
+    local method_code=$2 # Method code
+    echo "$UNI_PLASEVAL_PRED_BINS_DIR/$smp_uid.$method_code.tsv"
+}
+
+# Usage:
+#   gt_tsv=$(get_gt_plaseval_fmt "$smp_uid")
+function get_gt_plaseval_fmt() {
+    local smp_uid=$1 # Sample UID
+    echo "$UNI_PLASEVAL_GT_BINS_DIR/$smp_uid.gt.tsv"
+}
+
+# ============================================================================ #
+#                                 PLASEVAL-GDV  (COMP)                         #
+# ============================================================================ #
+UNI_PLASEVAL_GDV_COMP_DIR="$BENCH_DATA_DIR/results/plaseval_gdv/unicycler/comp"
+
+# Usage:
+#   base=$UNI_PLASEVAL_GDV_COMP_DIR
+#   alpha=0.5
+#   method_code="pbf_rfpl"
+#   dir=$(get_plaseval_comp_alpha_meth_dir "$base" "$alpha" "$method_code")
+function get_plaseval_comp_alpha_meth_dir() {
+    local base_dir=$1    # PlasEval comp directory
+    local alpha_value=$2 # Alpha
+    local method_code=$3
+    local alpha_dirname="alpha_${alpha_value//./}"
+    echo "$base_dir/$alpha_dirname/$method_code"
+}
+
+# Usage:
+#   plaseval_out=$(get_plaseval_comp_out "$comp_dir" "$smp_uid")
+function get_plaseval_comp_out() {
+    local comp_dir=$1 # PlasEval comp alpha directory
+    local smp_uid=$2  # Sample UID
+    echo "$comp_dir/${smp_uid}.out"
+}
+
+# Usage:
+#   plaseval_log=$(get_plaseval_comp_log "$comp_dir" "$smp_uid")
+function get_plaseval_comp_log() {
+    local comp_dir=$1 # PlasEval comp alpha directory
+    local smp_uid=$2  # Sample UID
+    echo "$comp_dir/${smp_uid}.log"
+}
+
+# ============================================================================ #
+#                                 PLASEVAL-GDV  (EVAL)                         #
+# ============================================================================ #
+UNI_PLASEVAL_GDV_EVAL_DIR="$BENCH_DATA_DIR/results/plaseval_gdv/unicycler/eval"
+
+# Usage:
+#   base=$UNI_PLASEVAL_GDV_EVAL_DIR
+#   method_code="pbf_rfpl"
+#   dir=$(get_plaseval_eval_meth_dir "$base" "$method_code")
+function get_plaseval_eval_meth_dir() {
+    local base_dir=$1    # PlasEval eval directory
+    local method_code=$2 # Method code
+    echo "$base_dir/$method_code"
+}
+
+# Usage:
+#   plaseval_log=$(get_plaseval_eval_minlen "$eval_dir" "$smp_uid")
+function get_plaseval_eval_minlen() {
+    local eval_dir=$1 # PlasEval eval directory
+    local smp_uid=$2  # Sample UID
+    echo "$eval_dir/${smp_uid}.log"
+}
+
+# Usage:
+#   plaseval_out=$(get_plaseval_comp_out "$eval_dir" "$smp_uid")
+function get_plaseval_eval_out() {
+    local eval_dir=$1 # PlasEval comp alpha directory
+    local smp_uid=$2  # Sample UID
+    echo "$eval_dir/${smp_uid}.out"
+}
+
+# Usage:
+#   plaseval_log=$(get_plaseval_comp_log "$eval_dir" "$smp_uid")
+function get_plaseval_eval_log() {
+    local eval_dir=$1 # PlasEval comp alpha directory
+    local smp_uid=$2  # Sample UID
+    echo "$eval_dir/${smp_uid}.log"
 }
