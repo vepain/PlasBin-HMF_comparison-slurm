@@ -40,6 +40,28 @@ sbatch pred_uni.sh
 
 ### Evaluate the adapted F1 scores (`eval` command)
 
+Copy the script `plaseval-gdv/eval.sh` to another place to modify it:
+
+```sh
+work_dir="/scratch/$USER/plaseval-gdv"
+mkdir -p "$work_dir"
+
+cp scripts/plaseval-gdv/eval.sh "$work_dir"
+cd "$work_dir"
+```
+
+Set the alpha value (in $[0, \infty)$), and the [binning method code](binning.md):
+
+```sh
+nano eval.sh
+```
+
+Run sbatch:
+
+```sh
+sbatch eval.sh
+```
+
 ### Evaluate the dissimilarity score (`comp` command)
 
 Copy the script `plaseval-gdv/comp_uni.sh` to another place to modify it:
