@@ -6,12 +6,8 @@
 #SBATCH --mem=32G
 #SBATCH --time=10:00:00
 #SBATCH --array=2-1242
-#SBATCH --output=logs/pbhmf_rfpl_uni/%A/%a.out
-#SBATCH --error=logs/pbhmf_rfpl_uni/%A/%a.err
-# ---------------------------------------------------------------------------- #
-# User Variables
-# ---------------------------------------------------------------------------- #
-declare -r method_code="pbhmf_rfpl"
+#SBATCH --output=logs/%x/%A/%a.out
+#SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
 # Run PlasBin-HMF binning (RFPlasmid plasmidness + seeds).
 # ---------------------------------------------------------------------------- #
@@ -30,6 +26,7 @@ source "$BENCH_ENVS_DIR/plasbin-hmf/configure.sh"
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
+method_code="pbhmf_rfpl"
 smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
 #
 # Inputs (bridge)
