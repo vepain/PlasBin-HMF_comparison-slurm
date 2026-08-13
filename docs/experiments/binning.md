@@ -38,7 +38,7 @@ sbatch rfpl_uni.sh
 Copy the script `scripts/filter_bins/filter_bins.sh` to another place to modify it:
 
 ```sh
-work_dir="/scratch/$USER/plasbin-hmf"
+work_dir="/scratch/$USER/filter_bins"
 mkdir -p "$work_dir"
 
 cp scripts/filter_bins/filter_bins.sh "$work_dir"
