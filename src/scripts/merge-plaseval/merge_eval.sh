@@ -24,8 +24,8 @@ source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 # ---------------------------------------------------------------------------- #
 #                                  Environment                                 #
 # ---------------------------------------------------------------------------- #
-# shellcheck source=../../envs/py-tools.sh
-source "$BENCH_ENVS_DIR/py-tools.sh"
+# shellcheck source=../../envs/merge-plaseval.sh
+source "$BENCH_ENVS_DIR/merge-plaseval.sh"
 
 # ---------------------------------------------------------------------------- #
 # Set arguments
