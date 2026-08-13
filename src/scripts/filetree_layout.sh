@@ -36,8 +36,11 @@ function get_unicycler_assembly_gfa_gz() {
 }
 
 # ============================================================================ #
-#                              RFPLASMID RAW OUTPUTS                           #
+#                                CLASSIFICATION                                #
 # ============================================================================ #
+# ---------------------------------------------------------------------------- #
+#                                   RFPlasmid                                  #
+# ---------------------------------------------------------------------------- #
 UNI_RFPLASMID_DIR="$BENCH_DATA_DIR/results/rfplasmid/unicycler"
 
 # Usage:
@@ -47,9 +50,9 @@ function get_rfplasmid_out_dir() {
     echo "$UNI_RFPLASMID_DIR/$smp_uid"
 }
 
-# ============================================================================ #
-#                        FORMATTED PB-HMF / PBf INPUT                          #
-# ============================================================================ #
+# ---------------------------------------------------------------------------- #
+#                         Formatted PlasBin-flow Input                         #
+# ---------------------------------------------------------------------------- #
 UNI_FORMATTED_INPUT_DIR="$BENCH_DATA_DIR/results/formatted_input/unicycler"
 
 # RFPlasmid plasmidness scores in PBf format.
@@ -98,6 +101,12 @@ function get_pbhmf_pbf_bin_pred() {
     local smp_uid=$1
     local method_code=$2
     echo "$(get_uni_bin_dir "$smp_uid" "$method_code")/plasbin_flow_bins.tsv"
+}
+
+function get_pbhmf_pbf_bin_pred_filt() {
+    local smp_uid=$1
+    local method_code=$2
+    echo "$(get_uni_bin_dir "$smp_uid" "$method_code")/plasbin_flow_bins_filt.tsv"
 }
 
 # ---------------------------------------------------------------------------- #
