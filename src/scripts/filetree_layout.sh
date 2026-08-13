@@ -163,14 +163,14 @@ UNI_PLASEVAL_GT_BINS_DIR="$BENCH_DATA_DIR/results/formatted_bins/unicycler/groun
 function get_pred_plaseval_fmt() {
     local smp_uid=$1     # Sample UID
     local method_code=$2 # Method code
-    echo "$UNI_PLASEVAL_PRED_BINS_DIR/$smp_uid.$method_code.tsv"
+    echo "$UNI_PLASEVAL_PRED_BINS_DIR/$method_code/$smp_uid.tsv"
 }
 
 # Usage:
 #   gt_tsv=$(get_gt_plaseval_fmt "$smp_uid")
 function get_gt_plaseval_fmt() {
     local smp_uid=$1 # Sample UID
-    echo "$UNI_PLASEVAL_GT_BINS_DIR/$smp_uid.gt.tsv"
+    echo "$UNI_PLASEVAL_GT_BINS_DIR/$smp_uid.tsv"
 }
 
 # ============================================================================ #
@@ -213,13 +213,11 @@ function get_plaseval_comp_log() {
 UNI_PLASEVAL_GDV_EVAL_DIR="$BENCH_DATA_DIR/results/plaseval_gdv/unicycler/eval"
 
 # Usage:
-#   base=$UNI_PLASEVAL_GDV_EVAL_DIR
 #   method_code="pbf_rfpl"
-#   dir=$(get_plaseval_eval_meth_dir "$base" "$method_code")
+#   dir=$(get_plaseval_eval_meth_dir "$method_code")
 function get_plaseval_eval_meth_dir() {
-    local base_dir=$1    # PlasEval eval directory
-    local method_code=$2 # Method code
-    echo "$base_dir/$method_code"
+    local method_code=$1 # Method code
+    echo "$UNI_PLASEVAL_GDV_EVAL_DIR/$method_code"
 }
 
 # Usage:
