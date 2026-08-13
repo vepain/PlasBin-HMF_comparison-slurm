@@ -41,7 +41,7 @@ else
     min_len_arg="--min_len $min_len"
 fi
 
-output_dir=$(get_plaseval_eval_meth_dir "$UNI_PLASEVAL_GDV_EVAL_DIR" "$method_code")
+output_dir=$(get_plaseval_eval_meth_dir "$method_code")
 plaseval_out=$(get_plaseval_eval_out "$output_dir" "$smp_uid")
 plaseval_log=$(get_plaseval_eval_log "$output_dir" "$smp_uid")
 
@@ -63,4 +63,4 @@ apptainer run -C -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
     --gt "$gt_tsv" \
     --out_file "$plaseval_out" \
     --log_file "$plaseval_log" \
-    $min_len_arg \
+    $min_len_arg
