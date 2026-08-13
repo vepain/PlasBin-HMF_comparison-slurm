@@ -5,8 +5,8 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=8G
 #SBATCH --time=3:00:00
-#SBATCH --output=logs/merge_comp/%j.out
-#SBATCH --error=logs/merge_comp/%j.err
+#SBATCH --output=logs/%x/%j.out
+#SBATCH --error=logs/%x/%j.err
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #

@@ -6,8 +6,8 @@
 #SBATCH --mem=4G
 #SBATCH --time=3:00:00
 #SBATCH --array=2-1242
-#SBATCH --output=logs/format_plaseval_pred_uni/%A/%a.out
-#SBATCH --error=logs/format_plaseval_pred_uni/%A/%a.err
+#SBATCH --output=logs/%x/%A/%a.out
+#SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
