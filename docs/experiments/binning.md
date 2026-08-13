@@ -23,7 +23,7 @@ Copy the script `plasbin-hmf/rfpl_uni.sh` to another place to modify it:
 work_dir="/scratch/$USER/plasbin-hmf"
 mkdir -p "$work_dir"
 
-cp plasbin-hmf/rfpl_uni.sh "$work_dir"
+cp scripts/plasbin-hmf/rfpl_uni.sh "$work_dir"
 cd "$work_dir"
 ```
 

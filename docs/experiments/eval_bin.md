@@ -13,7 +13,7 @@ Copy the script `format-plaseval/pred_uni.sh` to another place to modify it:
 work_dir="/scratch/$USER/format-plaseval"
 mkdir -p "$work_dir"
 
-cp format-plaseval/pred_uni.sh "$work_dir"
+cp scripts/format-plaseval/pred_uni.sh "$work_dir"
 cd "$work_dir"
 ```
 
@@ -48,7 +48,7 @@ Copy the script `plaseval-gdv/comp_uni.sh` to another place to modify it:
 work_dir="/scratch/$USER/plaseval-gdv"
 mkdir -p "$work_dir"
 
-cp plaseval-gdv/comp_uni.sh "$work_dir"
+cp scripts/plaseval-gdv/comp_uni.sh "$work_dir"
 cd "$work_dir"
 ```
 
