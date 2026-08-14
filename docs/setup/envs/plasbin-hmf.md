@@ -1,3 +1,7 @@
+---
+status: deprecated
+---
+
 # Installation PlasBin-HMF
 
 !!! warning
