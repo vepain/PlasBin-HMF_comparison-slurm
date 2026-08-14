@@ -10,13 +10,15 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-methods=(
+method_codes=(
     "mob"
     "gpcc_rfpl"
     "pbf_rfpl"
     "pbf_rfpl_filt"
     "pbhmf_rfpl"
     "pbhmf_rfpl_filt"
+    "pbhmf_rfpl_recomb26"
+    "pbhmf_rfpl_recomb26_filt"
 )
 # ---------------------------------------------------------------------------- #
 # Load base scripts
@@ -34,31 +36,37 @@ source "$BENCH_ENVS_DIR/merge-plaseval.sh"
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
-plaseval_dir="$UNI_PLASEVAL_GDV_EVAL_DIR"
+#
+# Create the temp TSV file
+#
+tmp_tsv="$SLURM_TMPDIR/comp.tsv"
+
+# Write header
+printf "species_id\tsample_uid\tmethod_code\teval_file\n" >"$tmp_tsv"
+
+# Get species_id/sample_id tuples via utils.sh
+mapfile -t sample_tuples < <(get_sample_tuples "$SAMPLES_TSV")
+
+# Loop over methods and sample tuples
+for m in "${method_codes[@]}"; do
+    eval_dir=$(get_plaseval_eval_meth_dir "$m")
+    for tuple in "${sample_tuples[@]}"; do
+        IFS=$'\t' read -r species_id sample_id <<<"$tuple"
+        smp_uid=$(get_sample_uid "$species_id" "$sample_id")
+        eval_out=$(get_plaseval_eval_out "$eval_dir" "$smp_uid")
+        printf "%s\t%s\t%s\t%s\n" "$species_id" "$smp_uid" "$m" "$eval_out" >>"$tmp_tsv"
+    done
+done
+# ---------------------------------------------------------------------------- #
+#                                  Set Outputs                                 #
+# ---------------------------------------------------------------------------- #
 merge_dir=$(get_plaseval_eval_merge_dir)
 mkdir -p "$merge_dir"
 
 py_script="$BENCH_SCRIPTS_DIR/merge-plaseval/merge_plaseval_evaluations.py"
 
-# FIXME create a TSV file with header:
-# sample_uid method_code eval_file
-
-sopt_meths=()
-for m in "${methods[@]}"; do
-    sopt_meths+=(-m "$m")
-done
-
-sopt_evals=()
-for m in "${methods[@]}"; do
-    eval_dir=$(get_plaseval_eval_meth_dir "$m")
-    eval_out=$(get_plaseval_eval_out "$eval_dir" "$smp_uid")
-    sopt_evals+=(-e "$m")
-done
-
 # ---------------------------------------------------------------------------- #
 # Merging
 # ---------------------------------------------------------------------------- #
 python3 "$py_script" \
-    eval "$SAMPLES_CSV" "$merge_dir" \
-    "${sopt_meths[@]}" \
-    "${sopt_evals[@]}"
+    eval "$tmp_tsv" "$merge_dir"
