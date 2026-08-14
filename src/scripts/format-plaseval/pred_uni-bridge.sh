@@ -31,7 +31,7 @@ source "$BENCH_ENVS_DIR/format-plaseval/configure.sh"
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
-smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
+smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 
 old_data_dir="/project/def-chauvec/wg-anoph/benchmarking/DATA"
 gfa_gz="$old_data_dir/ASSEMBLY_FILES/FILTERED_100/UNICYCLER/$smp_uid/assembly.gfa.gz"
