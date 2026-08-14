@@ -91,15 +91,15 @@ get_sample_uids() {
 # Usage:
 #   > spe_smp_id=$(get_sample_uid_from_slurm_array "$samples_file")
 function get_sample_uid_from_slurm_array {
-    local smp_file=$1
+    local samples_tsv=$1
 
     local species_idx species_id
     species_idx=$(get_tsv_col_idx "$samples_tsv" "species_id") || return 1
-    species_id=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "$smp_file" | cut -f"$species_idx")
+    species_id=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "$samples_tsv" | cut -f"$species_idx")
 
     local sample_idx sample_id
     sample_idx=$(get_tsv_col_idx "$samples_tsv" "sample_id") || return 1
-    sample_id=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "$smp_file" | cut -f"$sample_idx")
+    sample_id=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "$samples_tsv" | cut -f"$sample_idx")
 
     get_sample_uid "$species_id" "$sample_id"
 }
