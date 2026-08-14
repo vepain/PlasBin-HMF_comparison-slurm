@@ -11,7 +11,7 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-declare -r method_code="pbhmf_rfpl" # choose among the list of method codes
+declare -r METHOD_CODE="pbhmf_rfpl" # choose among the list of method codes
 
 # ---------------------------------------------------------------------------- #
 # Load base scripts
@@ -37,7 +37,7 @@ smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 old_data_dir="/project/def-chauvec/wg-anoph/benchmarking/DATA"
 gt_dir="$old_data_dir/RESULTS/FORMATTED_BINS/UNICYCLER/GROUND_TRUTH"
 
-pred_tsv=$(get_pred_plaseval_fmt "$smp_uid" "$method_code")
+pred_tsv=$(get_pred_plaseval_fmt "$smp_uid" "$METHOD_CODE")
 gt_tsv="$gt_dir/$smp_uid.gt.tsv"
 
 min_len=$(get_min_len "$smp_uid")
@@ -50,7 +50,7 @@ fi
 #
 # New conventionnal data
 #
-output_dir=$(get_plaseval_eval_meth_dir "$method_code")
+output_dir=$(get_plaseval_eval_meth_dir "$METHOD_CODE")
 plaseval_out=$(get_plaseval_eval_out "$output_dir" "$smp_uid")
 plaseval_log=$(get_plaseval_eval_log "$output_dir" "$smp_uid")
 
@@ -62,7 +62,7 @@ register_job_id "$output_dir"
 # ---------------------------------------------------------------------------- #
 # Running PlasEval (GDV fork) for the method
 # ---------------------------------------------------------------------------- #
-echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $method_code"
+echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $METHOD_CODE"
 
 mkdir -p "$output_dir"
 

@@ -11,8 +11,8 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-declare -r alpha=0.5         # change between 0 and +inf
-declare -r method_code="mob" # choose among the list of method codes
+declare -r ALPHA=0.5         # change between 0 and +inf
+declare -r METHOD_CODE="mob" # choose among the list of method codes
 
 # ---------------------------------------------------------------------------- #
 # Load base scripts
@@ -39,13 +39,13 @@ old_data_dir="/project/def-chauvec/wg-anoph/benchmarking/DATA"
 bin_res_dir="$old_data_dir/RESULTS/FORMATTED_BINS/UNICYCLER/BINNING_RESULTS"
 gt_dir="$old_data_dir/RESULTS/FORMATTED_BINS/UNICYCLER/GROUND_TRUTH"
 
-pred_tsv="$bin_res_dir/$smp_uid.$method_code.tsv"
+pred_tsv="$bin_res_dir/$smp_uid.$METHOD_CODE.tsv"
 gt_tsv="$gt_dir/$smp_uid.gt.tsv"
 
 #
 # New conventionnal data
 #
-output_dir=$(get_plaseval_comp_alpha_meth_dir "$alpha" "$method_code")
+output_dir=$(get_plaseval_comp_alpha_meth_dir "$ALPHA" "$METHOD_CODE")
 plaseval_out=$(get_plaseval_comp_out "$output_dir" "$smp_uid")
 plaseval_log=$(get_plaseval_comp_log "$output_dir" "$smp_uid")
 
@@ -57,7 +57,7 @@ register_job_id "$output_dir"
 # ---------------------------------------------------------------------------- #
 # Running PlasEval (GDV fork) for the method
 # ---------------------------------------------------------------------------- #
-echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $method_code"
+echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $METHOD_CODE"
 
 mkdir -p "$output_dir"
 
@@ -65,6 +65,6 @@ apptainer run -C -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
     comp \
     --l "$pred_tsv" \
     --r "$gt_tsv" \
-    --p $alpha \
+    --p $ALPHA \
     --out_file "$plaseval_out" \
     --log_file "$plaseval_log"

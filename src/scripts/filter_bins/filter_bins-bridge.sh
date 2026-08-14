@@ -11,9 +11,9 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-method_code="pbhmf_rfpl" # choose among the list of method codes
-method_tool="pbhmf"      # must be "pbhmf" or "pbf", and respecting method_code
-plm_thr=0.5              # plasmidness threshold (0.5 = default)
+METHOD_CODE="pbhmf_rfpl" # choose among the list of method codes
+METHOD_TOOL="pbhmf"      # must be "pbhmf" or "pbf", and respecting method_code
+PLM_THRESHOLD=0.5        # plasmidness threshold (0.5 = default)
 # ---------------------------------------------------------------------------- #
 # Filter PlasBin-flow/HMF bins (remove low-plasmidness contigs) to mimic
 # gplasCC outputs.
@@ -35,21 +35,21 @@ source "$BENCH_ENVS_DIR/filter-bins.sh"
 # ---------------------------------------------------------------------------- #
 smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 
-bin_dir=$(get_uni_bin_dir "$smp_uid" "$method_code")
+bin_dir=$(get_uni_bin_dir "$smp_uid" "$METHOD_CODE")
 
-filt_method_code="$method_code"_filt
+FILT_METHOD_CODE="$METHOD_CODE"_filt
 
-case "$method_tool" in
+case "$METHOD_TOOL" in
 "pbhmf")
-    bins_tsv=$(get_pbhmf_pbf_bin_pred "$smp_uid" "$method_code")
-    filtered_bins_tsv=$(get_pbhmf_pbf_bin_pred "$smp_uid" "$filt_method_code")
+    bins_tsv=$(get_pbhmf_pbf_bin_pred "$smp_uid" "$METHOD_CODE")
+    filtered_bins_tsv=$(get_pbhmf_pbf_bin_pred "$smp_uid" "$FILT_METHOD_CODE")
     ;;
 "pbf")
-    bins_tsv=$(get_pbf_bin_pred "$smp_uid" "$method_code")
-    filtered_bins_tsv=$(get_pbf_bin_pred "$smp_uid" "$filt_method_code")
+    bins_tsv=$(get_pbf_bin_pred "$smp_uid" "$METHOD_CODE")
+    filtered_bins_tsv=$(get_pbf_bin_pred "$smp_uid" "$FILT_METHOD_CODE")
     ;;
 *)
-    echo "method_tool must be 'pbhmf' or 'pbf'"
+    echo "METHOD_TOOL must be 'pbhmf' or 'pbf'"
     exit 1
     ;;
 esac
@@ -70,10 +70,10 @@ register_job_id "$(dirname "$bin_dir")"
 # ---------------------------------------------------------------------------- #
 # Filtering
 # ---------------------------------------------------------------------------- #
-echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid filter $method_code bins"
+echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid filter $METHOD_CODE bins"
 
 mkdir -p "$(dirname "$filtered_bins_tsv")"
 
 python3 "$py_script" rm-low-plm \
     "$bins_tsv" "$plm_tsv" "$seeds_tsv" "$filtered_bins_tsv" \
-    --plm-thr "$plm_thr"
+    --plm-thr "$PLM_THRESHOLD"
