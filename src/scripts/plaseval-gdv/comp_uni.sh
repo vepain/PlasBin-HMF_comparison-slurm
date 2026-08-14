@@ -35,7 +35,7 @@ smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
 pred_tsv=$(get_pred_plaseval_fmt "$smp_uid" "$method_code")
 gt_tsv=$(get_gt_plaseval_fmt "$smp_uid")
 
-output_dir=$(get_plaseval_comp_alpha_meth_dir "$UNI_PLASEVAL_GDV_COMP_DIR" "$alpha" "$method_code")
+output_dir=$(get_plaseval_comp_alpha_meth_dir "$alpha" "$method_code")
 plaseval_out=$(get_plaseval_comp_out "$output_dir" "$smp_uid")
 plaseval_log=$(get_plaseval_comp_log "$output_dir" "$smp_uid")
 

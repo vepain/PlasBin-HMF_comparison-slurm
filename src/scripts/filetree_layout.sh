@@ -128,40 +128,6 @@ function get_mob_bin_pred() {
 }
 
 # ============================================================================ #
-#                               MERGED PLASEVAL REPORTS                        #
-# ============================================================================ #
-# Usage:
-#   alpha_dir=$(get_plaseval_comp_alpha_dir "$UNI_PLASEVAL_GDV_COMP_DIR" "$alpha")
-function get_plaseval_comp_alpha_dir() {
-    local base_dir=$1    # PlasEval comp directory
-    local alpha_value=$2 # Alpha
-    echo "$base_dir/alpha_${alpha_value//./}"
-}
-
-# Usage:
-#   merge_dir=$(get_plaseval_eval_merge_dir)
-function get_plaseval_eval_merge_dir() {
-    echo "$UNI_PLASEVAL_GDV_EVAL_DIR/merged"
-}
-
-# Usage:
-#   merge_dir=$(get_plaseval_comp_merge_dir "$alpha")
-function get_plaseval_comp_merge_dir() {
-    local alpha_value=$1
-    echo "$(get_plaseval_comp_alpha_dir "$UNI_PLASEVAL_GDV_COMP_DIR" "$alpha_value")/merged"
-}
-
-# ============================================================================ #
-#                              SAMPLE PROPERTIES                               #
-# ============================================================================ #
-# Usage:
-#   min_len=$(get_min_len "$smp_uid")
-function get_min_len() {
-    local smp_uid=$1
-    echo ""
-}
-
-# ============================================================================ #
 #                            PLASEVAL FORMATTED BINS                           #
 # ============================================================================ #
 UNI_PLASEVAL_PRED_BINS_DIR="$BENCH_DATA_DIR/results/formatted_bins/unicycler/predictions"
@@ -187,17 +153,19 @@ function get_gt_plaseval_fmt() {
 # ============================================================================ #
 UNI_PLASEVAL_GDV_COMP_DIR="$BENCH_DATA_DIR/results/plaseval_gdv/unicycler/comp"
 
+function get_plaseval_comp_alpha_dir() {
+    local alpha_value=$1 # Alpha
+    echo "$UNI_PLASEVAL_GDV_COMP_DIR/alpha_${alpha_value//./}"
+}
+
 # Usage:
-#   base=$UNI_PLASEVAL_GDV_COMP_DIR
 #   alpha=0.5
 #   method_code="pbf_rfpl"
-#   dir=$(get_plaseval_comp_alpha_meth_dir "$base" "$alpha" "$method_code")
+#   dir=$(get_plaseval_comp_alpha_meth_dir "$alpha" "$method_code")
 function get_plaseval_comp_alpha_meth_dir() {
-    local base_dir=$1    # PlasEval comp directory
-    local alpha_value=$2 # Alpha
-    local method_code=$3
-    local alpha_dirname="alpha_${alpha_value//./}"
-    echo "$base_dir/$alpha_dirname/$method_code"
+    local alpha_value=$1 # Alpha
+    local method_code=$2
+    echo "$(get_plaseval_comp_alpha_dir "$alpha_value")/$method_code"
 }
 
 # Usage:
@@ -238,7 +206,7 @@ function get_plaseval_eval_minlen() {
 }
 
 # Usage:
-#   plaseval_out=$(get_plaseval_comp_out "$eval_dir" "$smp_uid")
+#   plaseval_out=$(get_plaseval_eval_out "$eval_dir" "$smp_uid")
 function get_plaseval_eval_out() {
     local eval_dir=$1 # PlasEval comp alpha directory
     local smp_uid=$2  # Sample UID
@@ -246,9 +214,35 @@ function get_plaseval_eval_out() {
 }
 
 # Usage:
-#   plaseval_log=$(get_plaseval_comp_log "$eval_dir" "$smp_uid")
+#   plaseval_log=$(get_plaseval_eval_log "$eval_dir" "$smp_uid")
 function get_plaseval_eval_log() {
     local eval_dir=$1 # PlasEval comp alpha directory
     local smp_uid=$2  # Sample UID
     echo "$eval_dir/${smp_uid}.log"
+}
+
+# ============================================================================ #
+#                               MERGED PLASEVAL REPORTS                        #
+# ============================================================================ #
+# Usage:
+#   merge_dir=$(get_plaseval_eval_merge_dir)
+function get_plaseval_eval_merge_dir() {
+    echo "$UNI_PLASEVAL_GDV_EVAL_DIR/merged"
+}
+
+# Usage:
+#   merge_dir=$(get_plaseval_comp_merge_dir "$alpha")
+function get_plaseval_comp_merge_dir() {
+    local alpha_value=$1
+    echo "$(get_plaseval_comp_alpha_dir "$alpha_value")/merged"
+}
+
+# ============================================================================ #
+#                              SAMPLE PROPERTIES                               #
+# ============================================================================ #
+# Usage:
+#   min_len=$(get_min_len "$smp_uid")
+function get_min_len() {
+    local smp_uid=$1
+    echo ""
 }
