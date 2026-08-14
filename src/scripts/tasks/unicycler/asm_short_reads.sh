@@ -30,8 +30,8 @@ declare -r sra_sr_col="sra_sr"
 # 1. Samples file
 #
 # Usage:
-#   > spe_smp_id=$(get_spe_smp_id "$samples_file")
-function get_spe_smp_id {
+#   > spe_smp_id=$(get_sample_uid_from_slurm_array "$samples_file")
+function get_sample_uid_from_slurm_array {
     local smp_file=$1
     local species
     species=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "$smp_file" | cut -f1)

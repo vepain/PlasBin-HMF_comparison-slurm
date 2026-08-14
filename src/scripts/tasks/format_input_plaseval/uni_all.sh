@@ -22,8 +22,8 @@ umask 007
 # 1. Samples file
 #
 # Usage:
-#   > spe_smp_id=$(get_spe_smp_id "$samples_file")
-function get_spe_smp_id {
+#   > spe_smp_id=$(get_sample_uid_from_slurm_array "$samples_file")
+function get_sample_uid_from_slurm_array {
     local smp_file=$1
     local species
     species=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "$smp_file" | cut -f1)
@@ -50,7 +50,7 @@ scripts_dir="$home_dir/scripts/format_input_plaseval"
 samples_csv="$home_dir/completed_samples.csv"
 #samples_csv="test_samples.csv"
 
-smp_uid=$(get_spe_smp_id "$samples_csv")
+smp_uid=$(get_sample_uid_from_slurm_array "$samples_csv")
 
 echo "${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID} $smp_uid"
 

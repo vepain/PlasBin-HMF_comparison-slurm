@@ -36,7 +36,7 @@ mkdir -p "$plasmidcc_outdir" 2>/dev/null
 
 # Get species and sample ID
 #
-function get_spe_smp_id {
+function get_sample_uid_from_slurm_array {
     local species
     species=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "$samples_file" | cut -f1)
     local sample_id
@@ -141,7 +141,7 @@ function get_species {
     echo "$spe"
 }
 
-spe_smp_id=$(get_spe_smp_id)
+spe_smp_id=$(get_sample_uid_from_slurm_array)
 
 output_dir="$plasmidcc_outdir/$spe_smp_id"
 mkdir -p "$output_dir" 2>/dev/null

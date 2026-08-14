@@ -26,7 +26,7 @@ source "$BENCH_ENVS_DIR/rfplasmids.sh"
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
-smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
+smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 
 gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
 output_dir=$(get_rfplasmid_out_dir "$smp_uid")
