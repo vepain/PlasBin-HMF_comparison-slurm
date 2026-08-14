@@ -11,8 +11,8 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-declare -r method_code="pbhmf_rfpl"
-declare -r method_format="pbhmf" # In pbf, pbhmf, mob or gpcc
+declare -r METHOD_CODE="pbhmf_rfpl"
+declare -r METHOD_FORMAT="pbhmf" # In pbf, pbhmf, mob or gpcc
 # ---------------------------------------------------------------------------- #
 # Format PB-HMF binning results into a PlasEval prediction TSV.
 # ---------------------------------------------------------------------------- #
@@ -35,26 +35,26 @@ smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 
 gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
 
-case "$method_format" in
+case "$METHOD_FORMAT" in
 "pbf")
-    results=$(get_pbf_bin_pred "$smp_uid" "$method_code")
+    results=$(get_pbf_bin_pred "$smp_uid" "$METHOD_CODE")
     tool="pbf"
     ;;
 "pbhmf")
-    results=$(get_pbhmf_pbf_bin_pred "$smp_uid" "$method_code")
+    results=$(get_pbhmf_pbf_bin_pred "$smp_uid" "$METHOD_CODE")
     tool="pbf"
     ;;
 "gpcc")
-    results=$(get_gpcc_bin_pred "$smp_uid" "$method_code")
+    results=$(get_gpcc_bin_pred "$smp_uid" "$METHOD_CODE")
     tool="gp"
     ;;
 "mob")
-    results=$(get_mob_bin_pred "$smp_uid" "$method_code")
+    results=$(get_mob_bin_pred "$smp_uid" "$METHOD_CODE")
     tool="mob"
     ;;
 esac
 
-pred_tsv=$(get_pred_plaseval_fmt "$smp_uid" "$method_code")
+pred_tsv=$(get_pred_plaseval_fmt "$smp_uid" "$METHOD_CODE")
 outdir=$(dirname "$pred_tsv")
 outfile=$(basename "$pred_tsv")
 
@@ -71,7 +71,7 @@ register_job_id "$outdir"
 # ---------------------------------------------------------------------------- #
 # Formatting
 # ---------------------------------------------------------------------------- #
-echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid format pred $method_code"
+echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid format pred $METHOD_CODE"
 
 python3 "$py_script" \
     --tool "$tool" \

@@ -89,33 +89,33 @@ function get_uni_bin_dir() {
 #                                      Pbf                                     #
 # ---------------------------------------------------------------------------- #
 function get_pbf_bin_pred() {
-    local smp_uid=$1
-    local method_code=$2
-    echo "$(get_uni_bin_dir "$smp_uid" "$method_code")/bins.tsv"
+    local _smp_uid=$1
+    local _method_code=$2
+    echo "$(get_uni_bin_dir "$_smp_uid" "$_method_code")/bins.tsv"
 }
 
 # ---------------------------------------------------------------------------- #
 #                                     PBHMF                                    #
 # ---------------------------------------------------------------------------- #
 function get_pbhmf_pbf_bin_pred() {
-    local smp_uid=$1
-    local method_code=$2
-    echo "$(get_uni_bin_dir "$smp_uid" "$method_code")/plasbin_flow_bins.tsv"
+    local _smp_uid=$1
+    local _method_code=$2
+    echo "$(get_uni_bin_dir "$_smp_uid" "$_method_code")/plasbin_flow_bins.tsv"
 }
 
 function get_pbhmf_pbf_bin_pred_filt() {
-    local smp_uid=$1
-    local method_code=$2
-    echo "$(get_uni_bin_dir "$smp_uid" "$method_code")/plasbin_flow_bins_filt.tsv"
+    local _smp_uid=$1
+    local _method_code=$2
+    echo "$(get_uni_bin_dir "$_smp_uid" "$_method_code")/plasbin_flow_bins_filt.tsv"
 }
 
 # ---------------------------------------------------------------------------- #
 #                                     Gpcc                                     #
 # ---------------------------------------------------------------------------- #
 function get_gpcc_bin_pred() {
-    local smp_uid=$1
-    local method_code=$2
-    echo "$(get_uni_bin_dir "$smp_uid" "$method_code")/bins.tab"
+    local _smp_uid=$1
+    local _method_code=$2
+    echo "$(get_uni_bin_dir "$_smp_uid" "$_method_code")/bins.tab"
 }
 
 # ---------------------------------------------------------------------------- #

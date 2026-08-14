@@ -11,7 +11,7 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-declare -r len_thr=100 # minimum contig length (matches FILTERED_100 assemblies)
+declare -r LEN_THRESHOLD=100 # minimum contig length (matches FILTERED_100 assemblies)
 
 # ---------------------------------------------------------------------------- #
 # Format the ground truth into a PlasEval TSV (usually a one-off; the *.gt.tsv
@@ -54,6 +54,6 @@ echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid form
 
 python3 "$py_script" \
     --gt "$gt_csv" \
-    --len_thr "$len_thr" \
+    --len_thr "$LEN_THRESHOLD" \
     --outdir "$outdir" \
     --outfile "$outfile"

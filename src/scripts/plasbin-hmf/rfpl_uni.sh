@@ -11,7 +11,7 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-declare -r method_code="pbhmf_rfpl"
+declare -r METHOD_CODE="pbhmf_rfpl"
 # ---------------------------------------------------------------------------- #
 # Run PlasBin-HMF binning (RFPlasmid plasmidness + seeds).
 # ---------------------------------------------------------------------------- #
@@ -40,7 +40,7 @@ seeds_tsv=$(get_seeds_pbhmf_rfpl_tsv "$smp_uid")
 #
 # Outputs
 #
-output_dir=$(get_uni_bin_dir "$smp_uid" "$method_code")
+output_dir=$(get_uni_bin_dir "$smp_uid" "$METHOD_CODE")
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
@@ -50,7 +50,7 @@ register_job_id "$(dirname "$output_dir")"
 # ---------------------------------------------------------------------------- #
 # Running PlasBin-HMF
 # ---------------------------------------------------------------------------- #
-echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $method_code"
+echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $METHOD_CODE"
 
 mkdir -p "$output_dir"
 

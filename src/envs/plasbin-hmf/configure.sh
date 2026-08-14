@@ -14,7 +14,7 @@ pip install --no-index --upgrade pip
 
 pip install "gurobipy==13.0.2" --no-index
 
-pip install plasbin-hmf
+pip install "plasbin-hmf<1.0"
 
 PBHMF_ENVS_DIR="$BENCH_ENVS_DIR/plasbin-hmf"
 
