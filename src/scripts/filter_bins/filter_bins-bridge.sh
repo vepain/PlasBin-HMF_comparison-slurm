@@ -35,8 +35,6 @@ source "$BENCH_ENVS_DIR/filter-bins.sh"
 # ---------------------------------------------------------------------------- #
 smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 
-bin_dir=$(get_uni_bin_dir "$smp_uid" "$METHOD_CODE")
-
 FILT_METHOD_CODE="$METHOD_CODE"_filt
 
 case "$METHOD_TOOL" in
@@ -65,7 +63,7 @@ py_script="$BENCH_SCRIPTS_DIR/filter_bins/filter_pbf_bins.py"
 # ---------------------------------------------------------------------------- #
 # Register the job id
 # ---------------------------------------------------------------------------- #
-register_job_id "$(dirname "$bin_dir")"
+register_job_id "$(get_uni_bin_dir "$smp_uid" "$FILT_METHOD_CODE")"
 
 # ---------------------------------------------------------------------------- #
 # Filtering
