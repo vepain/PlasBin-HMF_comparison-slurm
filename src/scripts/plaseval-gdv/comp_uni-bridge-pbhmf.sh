@@ -44,7 +44,7 @@ gt_tsv="$gt_dir/$smp_uid.gt.tsv"
 #
 # New conventionnal data
 #
-output_dir=$(get_plaseval_comp_alpha_meth_dir "$UNI_PLASEVAL_GDV_COMP_DIR" "$alpha" "$method_code")
+output_dir=$(get_plaseval_comp_alpha_meth_dir "$alpha" "$method_code")
 plaseval_out=$(get_plaseval_comp_out "$output_dir" "$smp_uid")
 plaseval_log=$(get_plaseval_comp_log "$output_dir" "$smp_uid")
 
