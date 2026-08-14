@@ -6,14 +6,16 @@ icon: lucide/boxes
 
 ## Overview
 
-| Code              | Description                                    |
-| ----------------- | ---------------------------------------------- |
-| `mob`             | MOB suite                                      |
-| `gpcc_rfpl`       | gplasCC + RFPlasmid                            |
-| `pbf_rfpl`        | PlasBin-flow + RFPlasmid                       |
-| `pbf_rfpl_filt`   | PlasBin-flow + RFPlasmid + filtered            |
-| `pbhmf_rfpl`      | PlasBin-HMF + RFPlasmid (RECOMB-CG)            |
-| `pbhmf_rfpl_filt` | PlasBin-HMF + RFPlasmid + filtered (RECOMB-CG) |
+| Code                       | Description                                      |
+| -------------------------- | ------------------------------------------------ |
+| `mob`                      | MOB suite                                        |
+| `gpcc_rfpl`                | gplasCC + RFPlasmid                              |
+| `pbf_rfpl`                 | PlasBin-flow + RFPlasmid                         |
+| `pbf_rfpl_filt`            | PlasBin-flow + RFPlasmid + filtered              |
+| `pbhmf_rfpl`               | PlasBin-HMF + RFPlasmid (new version)            |
+| `pbhmf_rfpl_filt`          | PlasBin-HMF + RFPlasmid + filtered (new version) |
+| `pbhmf_rfpl_recomb26`      | PlasBin-HMF + RFPlasmid (RECOMB-CG)              |
+| `pbhmf_rfpl_recomb26_filt` | PlasBin-HMF + RFPlasmid + filtered (RECOMB-CG)   |
 
 ## PlasBin-HMF + RFPlasmid + Platon
 
@@ -57,6 +59,7 @@ Modify the sbatch script:
 ```sh
 nano filter_bins.sh
 ```
+
 Launch the slurm job:
 
 ```sh
