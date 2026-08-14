@@ -50,11 +50,11 @@ cd "$work_dir"
 Modify the sbatch script:
 
 * if filtering PlasBin-flow (e.g. `pbf_rfpl`):
-  * `method_code=pbf_rfpl`
-  * `method_tool=pbf`
+  * `METHOD_CODE=pbf_rfpl`
+  * `METHOD_TOOL=pbf`
 * if filtering PlasBin-HMF (e.g. `pbhmf_rfpl`):
-  * `method_code=pbhmf_rfpl`
-  * `method_tool=pbhmf`
+  * `METHOD_CODE=pbhmf_rfpl`
+  * `METHOD_TOOL=pbhmf`
 
 ```sh
 nano filter_bins.sh
@@ -66,4 +66,4 @@ Launch the slurm job:
 sbatch filter_bins.sh
 ```
 
-It will create a new prediction with the new method code `${method_code}_filt`.
+It will create a new prediction with the new method code `${METHOD_CODE}_filt`.

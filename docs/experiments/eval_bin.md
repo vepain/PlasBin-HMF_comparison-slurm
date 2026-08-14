@@ -17,9 +17,9 @@ cp scripts/format-plaseval/pred_uni.sh "$work_dir"
 cd "$work_dir"
 ```
 
-Set the `method_code` (see [the method code table](binning.md#overview)).
+Set the `METHOD_CODE` (see [the method code table](binning.md#overview)).
 
-Set the `method_format` variable at the beginning of the script:
+Set the `METHOD_FORMAT` variable at the beginning of the script:
 
 * `pbf` for PlasBin-flow
 * `pbhmf` for PlasBin-HMF

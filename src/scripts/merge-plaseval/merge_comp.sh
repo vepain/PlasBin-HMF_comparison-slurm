@@ -10,8 +10,8 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-declare -r alpha=0.5 # must match the comp_uni.sh run
-method_codes=(
+declare -r ALPHA=0.5 # must match the comp_uni.sh run
+METHOD_CODES=(
     "mob"
     "gpcc_rfpl"
     "pbf_rfpl"
@@ -49,7 +49,7 @@ printf "species_id\tsample_uid\tmethod_code\teval_file\n" >"$tmp_tsv"
 mapfile -t sample_tuples < <(get_sample_tuples "$SAMPLES_TSV")
 
 # Loop over methods and sample tuples
-for m in "${method_codes[@]}"; do
+for m in "${METHOD_CODES[@]}"; do
     eval_dir=$(get_plaseval_eval_meth_dir "$m")
     for tuple in "${sample_tuples[@]}"; do
         IFS=$'\t' read -r species_id sample_id <<<"$tuple"
@@ -62,7 +62,7 @@ done
 # ---------------------------------------------------------------------------- #
 # Set outputs
 # ---------------------------------------------------------------------------- #
-merge_dir=$(get_plaseval_comp_merge_dir "$alpha")
+merge_dir=$(get_plaseval_comp_merge_dir "$ALPHA")
 mkdir -p "$merge_dir"
 
 py_script="$BENCH_SCRIPTS_DIR/merge-plaseval/merge_plaseval_evaluations.py"
