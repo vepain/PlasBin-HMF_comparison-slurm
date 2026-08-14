@@ -36,7 +36,7 @@ declare -r apptainer_img="$home_dir/ENVS/apptainer_gplascc.sif"
 
 # Get species and sample ID
 #
-function get_spe_smp_id {
+function get_sample_uid_from_slurm_array {
     local smp_file=$1
     local species
     species=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "$smp_file" | cut -f1)
@@ -86,7 +86,7 @@ function run_gplascc {
     apptainer run -C -B /project -B /scratch -W "$SLURM_TMPDIR" "$apptainer_img" gplas -o "$uid_out_dir" -i "$asm_gfa" -P "$gplascc_input" -n "$file_prefix" -l 1
 }
 
-spe_smp_id=$(get_spe_smp_id "$samples_csv")
+spe_smp_id=$(get_sample_uid_from_slurm_array "$samples_csv")
 
 smp_outdir="$all_smp_out_dir/$spe_smp_id"
 mkdir -p "$smp_outdir" 2>/dev/null

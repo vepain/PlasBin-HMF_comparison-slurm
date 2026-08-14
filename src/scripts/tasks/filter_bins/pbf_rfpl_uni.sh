@@ -16,7 +16,7 @@ umask 007
 
 # Get species and sample ID
 #
-function get_spe_smp_id {
+function get_sample_uid_from_slurm_array {
     local samples_file=$1
     local species
     species=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "$samples_file" | cut -f1)
@@ -39,7 +39,7 @@ fmt_in_dir="$home_dir/DATA/RESULTS/FORMATTED_INPUT"
 module load python/3.11
 source "$home_dir/ENVS/env_pbhmf_py311/bin/activate"
 
-smp_uid=$(get_spe_smp_id "$samples_file")
+smp_uid=$(get_sample_uid_from_slurm_array "$samples_file")
 
 plm_tsv="$fmt_in_dir/RFPLASMID/UNICYCLER/INPUT_PBF/${smp_uid}_scores.tsv"
 seeds_tsv="$fmt_in_dir/PLATON/UNICYCLER/INPUT_PBF/${smp_uid}_seeds.tsv"

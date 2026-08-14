@@ -32,7 +32,7 @@ source "$BENCH_ENVS_DIR/format-plaseval/configure.sh"
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
-smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
+smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 
 gt_csv=$(get_gt_csv "$smp_uid")
 

@@ -2,7 +2,8 @@
 
 import csv
 import warnings
-from enum import IntEnum, StrEnum
+from dataclasses import dataclass
+from enum import StrEnum
 from pathlib import Path
 from typing import Annotated, Self
 
@@ -16,29 +17,57 @@ APP = typer.Typer(
 )
 
 
-class SamplesHeader(IntEnum):
-    """Samples header."""
+class EvalsTSVHeader(StrEnum):
+    """Evals TSV header."""
 
-    SPECIES_ID = 0
-    SAMPLE_ID = 1
-
-
-def fmt_sample_uid(row: list[str]) -> str:
-    """Get the sample UID."""
-    species_id = row[SamplesHeader.SPECIES_ID.value]
-    sample_id = row[SamplesHeader.SAMPLE_ID.value]
-    return f"{species_id}-{sample_id}"
+    SPECIES_ID = "species_id"
+    SAMPLE_UID = "sample_uid"
+    METHOD_CODE = "method_code"
+    EVAL_FILE = "eval_file"
 
 
-class MethodCodes(StrEnum):
-    """Method codes."""
+def get_evals_df(evals_tsv: Path) -> pd.DataFrame:
+    """Get the evals dataframe."""
+    return pd.read_csv(
+        evals_tsv,
+        sep="\t",
+        columns=[
+            EvalsTSVHeader.SPECIES_ID.value,
+            EvalsTSVHeader.SAMPLE_UID.value,
+            EvalsTSVHeader.METHOD_CODE.value,
+            EvalsTSVHeader.EVAL_FILE.value,
+        ],
+        dtype={
+            EvalsTSVHeader.SPECIES_ID.value: str,
+            EvalsTSVHeader.SAMPLE_UID.value: str,
+            EvalsTSVHeader.METHOD_CODE.value: str,
+            EvalsTSVHeader.EVAL_FILE.value: Path,
+        },
+        header=True,
+    )
 
-    MOB = "mob"
-    PBF_RFPL = "pbf_rfpl"
-    PBF_RFPL_FILT = "pbf_rfpl_filt"
-    PBHMF_RFPL = "pbhmf_rfpl"
-    PBHMF_RFPL_FILT = "pbhmf_rfpl_filt"
-    GPCC_RFPL = "gpcc_rfpl"
+
+@dataclass(frozen=True)
+class EvalsRowParser:
+    """Evals row parser."""
+
+    row: pd.Series
+
+    def species_id(self) -> str:
+        """Get the species ID."""
+        return self.row[EvalsTSVHeader.SPECIES_ID.value]
+
+    def sample_uid(self) -> str:
+        """Get the sample UID."""
+        return self.row[EvalsTSVHeader.SAMPLE_UID.value]
+
+    def method_code(self) -> str:
+        """Get the method code."""
+        return self.row[EvalsTSVHeader.METHOD_CODE.value]
+
+    def eval_file(self) -> Path:
+        """Get the eval file."""
+        return self.row[EvalsTSVHeader.EVAL_FILE.value]
 
 
 class PlasEvalCmds(StrEnum):
@@ -46,28 +75,6 @@ class PlasEvalCmds(StrEnum):
 
     COMP = "comp"
     EVAL = "eval"
-
-
-class PlasEvalFSManager:
-    """PlasEval file system manager."""
-
-    def __init__(self, output_dir: Path) -> None:
-        self._output_dir: Path = output_dir
-
-    def output_dir(self) -> Path:
-        """Get the output directory."""
-        return self._output_dir
-
-    def _filename(self, sample_uid: str, method_code: MethodCodes, ext: str) -> str:
-        return f"{sample_uid}_{method_code.value}_gt.{ext}"
-
-    def out_file(self, sample_uid: str, method_code: MethodCodes) -> Path:
-        """Get the output file."""
-        return self._output_dir / self._filename(sample_uid, method_code, "out")
-
-    def log_file(self, sample_uid: str, method_code: MethodCodes) -> Path:
-        """Get the log file."""
-        return self._output_dir / self._filename(sample_uid, method_code, "log")
 
 
 class MergeFsManager:
@@ -93,8 +100,11 @@ class MergeFsManager:
 class Args:
     """Typer arguments."""
 
-    SAMPLES_TSV = typer.Argument(help="Path to samples TSV")
-    EVAL_DIR = typer.Argument(help="Path to evaluation directory")
+    EVALS_TSV = typer.Argument(
+        help=(
+            "Path to evaluations TSV, with columns: sample_uid method_code eval_file"
+        ),
+    )
     OUTPUT_DIR = typer.Argument(help="Path to output directory")
 
 
@@ -102,6 +112,7 @@ class Opts:
     """Typer options."""
 
     METHOD_CODE = typer.Option("-m", help="Method code")
+    METHOD_EVAL = typer.Option("-e", help="Method eval")
 
 
 class CompStats:
@@ -196,30 +207,22 @@ class CompMergeHeader(StrEnum):
 
 @APP.command("comp")
 def comp_results(
-    samples_tsv: Annotated[Path, Args.SAMPLES_TSV],
-    evals_dir: Annotated[Path, Args.EVAL_DIR],
+    evals_tsv: Annotated[Path, Args.EVALS_TSV],
     output_dir: Annotated[Path, Args.OUTPUT_DIR],
-    method_codes: Annotated[list[MethodCodes], Opts.METHOD_CODE],
 ) -> None:
     """Merge PlasEval evaluations."""
-    if not samples_tsv.exists():
-        rprint("[red]Samples TSV not found:[/red]", samples_tsv)
+    if not evals_tsv.exists():
+        rprint("[red]Evaluations TSV not found:[/red]", evals_tsv)
         raise typer.Exit(1)
 
-    if not evals_dir.exists():
-        rprint("[red]Evaluations directory not found:[/red]", evals_dir)
-        raise typer.Exit(1)
+    df_evals = get_evals_df(evals_tsv)
 
-    plaseval_fs = PlasEvalFSManager(evals_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     merge_fs = MergeFsManager(output_dir, PlasEvalCmds.COMP)
 
     rprint("Merging Plaseval comp command evaluations...")
-    with samples_tsv.open() as f, merge_fs.merge_evals_tsv().open("w") as f_out:
-        smpl_rdr = csv.reader(f, delimiter="\t")
+    with merge_fs.merge_evals_tsv().open("w") as f_out:
         merge_wrt = csv.writer(f_out, delimiter="\t")
-
-        next(smpl_rdr)  # skip header
         merge_wrt.writerow(
             [
                 CompMergeHeader.SPECIES_ID.value,
@@ -233,64 +236,72 @@ def comp_results(
             ],
         )
 
-        d_spe_meth_pos_count: dict[str, dict[str, int]] = {}  # species: method: count
-        d_spe_meth_miss_count: dict[str, dict[str, int]] = {}  # species: method: count
-        for row in smpl_rdr:
-            species = row[SamplesHeader.SPECIES_ID.value]
-            sample_uid = fmt_sample_uid(row)
+        d_spe_meth_pos_count: dict[
+            str,
+            dict[str, int],
+        ] = {}  # species: method: count
+        d_spe_meth_miss_count: dict[
+            str,
+            dict[str, int],
+        ] = {}  # species: method: count
+        for _, row in df_evals.iterrows():
+            row_parser = EvalsRowParser(row)
+
+            species = row_parser.species_id()
+            sample_uid = row_parser.sample_uid()
+            method_code = row_parser.method_code()
+            method_eval = row_parser.eval_file()
 
             if species not in d_spe_meth_pos_count:
-                d_spe_meth_pos_count[species] = {
-                    method_code.value: 0 for method_code in method_codes
-                }
+                d_spe_meth_pos_count[species] = {}
             if species not in d_spe_meth_miss_count:
-                d_spe_meth_miss_count[species] = {
-                    method_code.value: 0 for method_code in method_codes
-                }
+                d_spe_meth_miss_count[species] = {}
+
+            if method_code not in d_spe_meth_pos_count[species]:
+                d_spe_meth_pos_count[species][method_code] = 0
+            if method_code not in d_spe_meth_miss_count[species]:
+                d_spe_meth_miss_count[species][method_code] = 0
 
             missing_evals = d_spe_meth_miss_count[species]
             positive_evals = d_spe_meth_pos_count[species]
 
-            for method_code in method_codes:
-                out_file = plaseval_fs.out_file(
-                    sample_uid,
-                    method_code,
+            if not method_eval.exists() or method_eval.stat().st_size == 0:
+                missing_evals[method_code] += 1
+                merge_wrt.writerow(
+                    [
+                        species,
+                        sample_uid,
+                        method_code,
+                        None,
+                        None,
+                        None,
+                        None,
+                        None,
+                    ],
                 )
-                if not out_file.exists() or out_file.stat().st_size == 0:
-                    missing_evals[method_code.value] += 1
-                    merge_wrt.writerow(
-                        [
-                            species,
-                            sample_uid,
-                            method_code,
-                            None,
-                            None,
-                            None,
-                            None,
-                            None,
-                        ],
-                    )
 
-                else:
-                    positive_evals[method_code.value] += 1
+            else:
+                positive_evals[method_code] += 1
 
-                    try:
-                        plaseval_stats = CompStats.from_file(out_file)
-                    except ValueError as e:
-                        rprint("[red]Error:[/red]", e)
-                        raise typer.Exit(1) from e
-                    merge_wrt.writerow(
-                        [
-                            species,
-                            sample_uid,
-                            method_code,
-                            plaseval_stats.cuts(),
-                            plaseval_stats.joins(),
-                            plaseval_stats.extra(),
-                            plaseval_stats.missing(),
-                            plaseval_stats.dissimilarity(),
-                        ],
-                    )
+                try:
+                    plaseval_stats = CompStats.from_file(method_eval)
+                except ValueError as e:
+                    rprint("[red]Error:[/red]", e)
+                    raise typer.Exit(1) from e
+                merge_wrt.writerow(
+                    [
+                        species,
+                        sample_uid,
+                        method_code,
+                        plaseval_stats.cuts(),
+                        plaseval_stats.joins(),
+                        plaseval_stats.extra(),
+                        plaseval_stats.missing(),
+                        plaseval_stats.dissimilarity(),
+                    ],
+                )
+
+    method_codes = list(df_evals[EvalsTSVHeader.METHOD_CODE.value].unique())
 
     rprint("Writing log...")
     with merge_fs.log_file().open("w") as f:
@@ -304,13 +315,9 @@ def comp_results(
         )
         for species in all_species:
             if species not in d_spe_meth_pos_count:
-                d_spe_meth_pos_count[species] = {
-                    method_code.value: 0 for method_code in method_codes
-                }
+                d_spe_meth_pos_count[species] = dict.fromkeys(method_codes, 0)
             if species not in d_spe_meth_miss_count:
-                d_spe_meth_miss_count[species] = {
-                    method_code.value: 0 for method_code in method_codes
-                }
+                d_spe_meth_miss_count[species] = dict.fromkeys(method_codes, 0)
 
             spe_pos_counts = d_spe_meth_pos_count[species]
             spe_miss_counts = d_spe_meth_miss_count[species]
@@ -319,11 +326,10 @@ def comp_results(
                 merge_log_wrt.writerow(
                     [
                         species,
-                        method_code.value,
-                        spe_pos_counts[method_code.value],
-                        spe_miss_counts[method_code.value],
-                        spe_pos_counts[method_code.value]
-                        + spe_miss_counts[method_code.value],
+                        method_code,
+                        spe_pos_counts[method_code],
+                        spe_miss_counts[method_code],
+                        spe_pos_counts[method_code] + spe_miss_counts[method_code],
                     ],
                 )
             merge_log_wrt.writerow(
@@ -337,17 +343,15 @@ def comp_results(
             )
         for method_code in method_codes:
             pos_count = sum(
-                d_spe_meth_pos_count[species][method_code.value]
-                for species in all_species
+                d_spe_meth_pos_count[species][method_code] for species in all_species
             )
             miss_count = sum(
-                d_spe_meth_miss_count[species][method_code.value]
-                for species in all_species
+                d_spe_meth_miss_count[species][method_code] for species in all_species
             )
             merge_log_wrt.writerow(
                 [
                     "all",
-                    method_code.value,
+                    method_code,
                     pos_count,
                     miss_count,
                     pos_count + miss_count,
@@ -399,21 +403,16 @@ class EvalMergeHeader(StrEnum):
 
 @APP.command(name="eval")
 def eval_results(
-    samples_tsv: Annotated[Path, Args.SAMPLES_TSV],
-    evals_dir: Annotated[Path, Args.EVAL_DIR],
+    evals_tsv: Annotated[Path, Args.EVALS_TSV],
     output_dir: Annotated[Path, Args.OUTPUT_DIR],
-    method_codes: Annotated[list[MethodCodes], Opts.METHOD_CODE],
 ) -> None:
     """Merge the PlasEval eval results."""
-    if not samples_tsv.exists():
-        rprint("[red]Samples TSV not found:[/red]", samples_tsv)
+    if not evals_tsv.exists():
+        rprint("[red]Evaluations TSV not found:[/red]", evals_tsv)
         raise typer.Exit(1)
 
-    if not evals_dir.exists():
-        rprint("[red]Evaluations directory not found:[/red]", evals_dir)
-        raise typer.Exit(1)
+    df_evals = get_evals_df(evals_tsv)
 
-    plaseval_fs = PlasEvalFSManager(evals_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     merge_fs = MergeFsManager(output_dir, PlasEvalCmds.EVAL)
 
@@ -434,83 +433,80 @@ def eval_results(
     )
 
     rprint("Merging Plaseval eval command evaluations...")
-    with samples_tsv.open() as f:
-        smpl_rdr = csv.reader(f, delimiter="\t", quotechar='"')
-        next(smpl_rdr)  # skip header
-        for row in smpl_rdr:
-            species = row[SamplesHeader.SPECIES_ID.value]
-            sample_uid = fmt_sample_uid(row)
+    for _, row in df_evals.iterrows():
+        row_parser = EvalsRowParser(row)
 
-            for method_code in method_codes:
-                eval_tsv = plaseval_fs.out_file(sample_uid, method_code)
-                if not eval_tsv.exists() or eval_tsv.stat().st_size == 0:
-                    # Add a row with Nan values
-                    with warnings.catch_warnings():
-                        warnings.simplefilter(action="ignore", category=FutureWarning)
-                        merge_eval_df.loc[len(merge_eval_df)] = [
-                            species,
-                            sample_uid,
-                            method_code.value,
-                            None,
-                            None,
-                            None,
-                            None,
-                            None,
-                            None,
-                        ]
-                else:
-                    eval_stats = pd.read_csv(eval_tsv, sep="\t", header=0)
-                    # Get rows where "Level" column == "Overall"
-                    overall_rows: pd.DataFrame = eval_stats[
-                        eval_stats["Level"] == "Overall"
-                    ]
+        species = row_parser.species_id()
+        sample_uid = row_parser.sample_uid()
+        method_code = row_parser.method_code()
+        method_eval = row_parser.eval_file()
 
-                    def get_stat(
-                        rows: pd.DataFrame,
-                        stat: EvalStats,
-                    ) -> tuple[float, float] | None:
-                        """Return unweighted and weighted stats."""
-                        stat_row: pd.DataFrame = rows[rows["Statistic"] == stat.value]
-                        if len(stat_row) != 1:
-                            rprint(
-                                "[red]Stat parse error, len != 1:[/red]",
-                                stat.value,
-                            )
-                            rprint(stat_row)
-                            return None
+        if not method_eval.exists() or method_eval.stat().st_size == 0:
+            # Add a row with Nan values
+            with warnings.catch_warnings():
+                warnings.simplefilter(action="ignore", category=FutureWarning)
+                merge_eval_df.loc[len(merge_eval_df)] = [
+                    species,
+                    sample_uid,
+                    method_code,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+        else:
+            eval_stats = pd.read_csv(method_eval, sep="\t", header=0)
+            # Get rows where "Level" column == "Overall"
+            overall_rows: pd.DataFrame = eval_stats[eval_stats["Level"] == "Overall"]
 
-                        row = stat_row.iloc[0]
-                        return row["Unwtd_Stat"], row["Wtd_Stat"]
+            def get_stat(
+                rows: pd.DataFrame,
+                stat: EvalStats,
+            ) -> tuple[float, float] | None:
+                """Return unweighted and weighted stats."""
+                stat_row: pd.DataFrame = rows[rows["Statistic"] == stat.value]
+                if len(stat_row) != 1:
+                    rprint(
+                        "[red]Stat parse error, len != 1:[/red]",
+                        stat.value,
+                    )
+                    rprint(stat_row)
+                    return None
 
-                    stats: dict[EvalStats, tuple[float, float]] = {
-                        EvalStats.PRECISION: (0, 0),
-                        EvalStats.RECALL: (0, 0),
-                        EvalStats.F1: (0, 0),
-                    }
-                    for stat in stats:
-                        unw_w_stats = get_stat(overall_rows, stat)
-                        if unw_w_stats is None:
-                            rprint(
-                                "[red]"
-                                f"Stat not found: {stat.value}"
-                                f" for {sample_uid} {method_code.value}"
-                                f" ({eval_tsv})."
-                                "[/red]",
-                            )
-                            raise typer.Exit(1)
-                        stats[stat] = unw_w_stats
+                row = stat_row.iloc[0]
+                return row["Unwtd_Stat"], row["Wtd_Stat"]
 
-                    merge_eval_df.loc[len(merge_eval_df)] = [
-                        species,
-                        sample_uid,
-                        method_code.value,
-                        stats[EvalStats.PRECISION][0],
-                        stats[EvalStats.RECALL][0],
-                        stats[EvalStats.F1][0],
-                        stats[EvalStats.PRECISION][1],
-                        stats[EvalStats.RECALL][1],
-                        stats[EvalStats.F1][1],
-                    ]
+            stats: dict[EvalStats, tuple[float, float]] = {
+                EvalStats.PRECISION: (0, 0),
+                EvalStats.RECALL: (0, 0),
+                EvalStats.F1: (0, 0),
+            }
+            for stat in stats:
+                unw_w_stats = get_stat(overall_rows, stat)
+                if unw_w_stats is None:
+                    rprint(
+                        "[red]"
+                        f"Stat not found: {stat.value}"
+                        f" for {sample_uid} {method_code}"
+                        f" ({method_eval})."
+                        "[/red]",
+                    )
+                    raise typer.Exit(1)
+                stats[stat] = unw_w_stats
+
+            merge_eval_df.loc[len(merge_eval_df)] = [
+                species,
+                sample_uid,
+                method_code,
+                stats[EvalStats.PRECISION][0],
+                stats[EvalStats.RECALL][0],
+                stats[EvalStats.F1][0],
+                stats[EvalStats.PRECISION][1],
+                stats[EvalStats.RECALL][1],
+                stats[EvalStats.F1][1],
+            ]
 
     merge_eval_df.to_csv(merge_fs.merge_evals_tsv(), sep="\t", index=False)
     rprint("[green]Evaluations merged:[/green]", merge_fs.merge_evals_tsv())

@@ -30,7 +30,7 @@ source "$BENCH_ENVS_DIR/plaseval-gdv.sh"
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
-smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
+smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 
 pred_tsv=$(get_pred_plaseval_fmt "$smp_uid" "$method_code")
 gt_tsv=$(get_gt_plaseval_fmt "$smp_uid")

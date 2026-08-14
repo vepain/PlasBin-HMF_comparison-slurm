@@ -11,9 +11,15 @@
 # User Variables
 # ---------------------------------------------------------------------------- #
 declare -r alpha=0.5 # must match the comp_uni.sh run
-methods=(
+method_codes=(
+    "mob"
+    "gpcc_rfpl"
+    "pbf_rfpl"
+    "pbf_rfpl_filt"
     "pbhmf_rfpl"
     "pbhmf_rfpl_filt"
+    "pbhmf_rfpl_recomb26"
+    "pbhmf_rfpl_recomb26_filt"
 )
 # ---------------------------------------------------------------------------- #
 # Load base scripts
@@ -31,20 +37,38 @@ source "$BENCH_ENVS_DIR/merge-plaseval.sh"
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
-plaseval_dir=$(get_plaseval_comp_alpha_dir "$UNI_PLASEVAL_GDV_COMP_DIR" "$alpha")
+#
+# Create the temp TSV file
+#
+tmp_tsv="$SLURM_TMPDIR/comp.tsv"
+
+# Write header
+printf "species_id\tsample_uid\tmethod_code\teval_file\n" >"$tmp_tsv"
+
+# Get species_id/sample_id tuples via utils.sh
+mapfile -t sample_tuples < <(get_sample_tuples "$SAMPLES_TSV")
+
+# Loop over methods and sample tuples
+for m in "${method_codes[@]}"; do
+    eval_dir=$(get_plaseval_eval_meth_dir "$m")
+    for tuple in "${sample_tuples[@]}"; do
+        IFS=$'\t' read -r species_id sample_id <<<"$tuple"
+        smp_uid=$(get_sample_uid "$species_id" "$sample_id")
+        eval_out=$(get_plaseval_eval_out "$eval_dir" "$smp_uid")
+        printf "%s\t%s\t%s\t%s\n" "$species_id" "$smp_uid" "$m" "$eval_out" >>"$tmp_tsv"
+    done
+done
+
+# ---------------------------------------------------------------------------- #
+# Set outputs
+# ---------------------------------------------------------------------------- #
 merge_dir=$(get_plaseval_comp_merge_dir "$alpha")
 mkdir -p "$merge_dir"
 
 py_script="$BENCH_SCRIPTS_DIR/merge-plaseval/merge_plaseval_evaluations.py"
 
-sopt_meths=()
-for m in "${methods[@]}"; do
-    sopt_meths+=(-m "$m")
-done
-
 # ---------------------------------------------------------------------------- #
 # Merging
 # ---------------------------------------------------------------------------- #
 python3 "$py_script" \
-    comp "$SAMPLES_CSV" "$plaseval_dir" "$merge_dir" \
-    "${sopt_meths[@]}"
+    comp "$tmp_tsv" "$merge_dir"

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # ---------------------------------------------------------------------------- #
 # Installation of PlasBin-HMF
+#
+# Deprecated
 # ---------------------------------------------------------------------------- #
 BENCH_ROOT_DIR=$(realpath "$1")
 # shellcheck source=../../src/scripts/config.sh

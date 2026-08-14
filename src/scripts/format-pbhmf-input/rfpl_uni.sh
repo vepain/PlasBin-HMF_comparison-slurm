@@ -27,7 +27,7 @@ source "$BENCH_ENVS_DIR/pbhmf.sh"
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
-smp_uid=$(get_spe_smp_id "$SAMPLES_CSV")
+smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 
 rfplasmid_dir=$(get_rfplasmid_out_dir "$smp_uid")
 
