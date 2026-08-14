@@ -103,12 +103,6 @@ function get_pbhmf_pbf_bin_pred() {
     echo "$(get_uni_bin_dir "$_smp_uid" "$_method_code")/plasbin_flow_bins.tsv"
 }
 
-function get_pbhmf_pbf_bin_pred_filt() {
-    local _smp_uid=$1
-    local _method_code=$2
-    echo "$(get_uni_bin_dir "$_smp_uid" "$_method_code")/plasbin_flow_bins_filt.tsv"
-}
-
 # ---------------------------------------------------------------------------- #
 #                                     Gpcc                                     #
 # ---------------------------------------------------------------------------- #
