@@ -11,9 +11,9 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-declare -r method_code="pbhmf_rfpl" # choose among the list of method codes
-declare -r method_tool="pbhmf"      # must be "pbhmf" or "pbf", and respecting method_code
-declare -r plm_thr=0.5              # plasmidness threshold (0.5 = default)
+method_code="pbhmf_rfpl" # choose among the list of method codes
+method_tool="pbhmf"      # must be "pbhmf" or "pbf", and respecting method_code
+plm_thr=0.5              # plasmidness threshold (0.5 = default)
 # ---------------------------------------------------------------------------- #
 # Filter PlasBin-flow/HMF bins (remove low-plasmidness contigs) to mimic
 # gplasCC outputs.
