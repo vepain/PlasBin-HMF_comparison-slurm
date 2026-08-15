@@ -7,7 +7,7 @@
 # For each sample in the sample file, check if plaseval (comp command)
 # has produced any log or out files.
 # If neither file exists, the row number is appended to OUTFILE
-# (default: tasks_to_redo_${alpha_value//./}_${METHOD_CODE}.txt).
+# (default: tasks_to_redo_${ALPHA//./}_${METHOD_CODE}.txt).
 
 set -euo pipefail
 
@@ -18,7 +18,7 @@ fi
 
 ALPHA="$1"
 METHOD_CODE="$2"
-OUTFILE="${3:-tasks_to_redo_${alpha_value//./}_${METHOD_CODE}.txt}"
+OUTFILE="${3:-tasks_to_redo_${ALPHA//./}_${METHOD_CODE}.txt}"
 # ---------------------------------------------------------------------------- #
 # Load base scripts
 # ---------------------------------------------------------------------------- #
