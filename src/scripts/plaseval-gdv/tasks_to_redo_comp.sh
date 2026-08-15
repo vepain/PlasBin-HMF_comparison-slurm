@@ -1,23 +1,24 @@
 #!/usr/bin/env bash
 #
-# tasks_to_redo.sh
+# tasks_to_redo_comp.sh
 #
-# Usage: ./tasks_to_redo.sh METHOD_CODE [OUTFILE]
+# Usage: ./tasks_to_redo_comp.sh ALPHA METHOD_CODE [OUTFILE]
 #
-# For each sample in the sample file, check if plasbin-hmf has produced
-# `no_solution.yaml` or `solution_metadata.yaml`.
+# For each sample in the sample file, check if plaseval (comp command)
+# has produced any log or out files.
 # If neither file exists, the row number is appended to OUTFILE
-# (default: tasks_to_redo_${METHOD_CODE}.txt).
+# (default: tasks_to_redo_${alpha_value//./}_${METHOD_CODE}.txt).
 
 set -euo pipefail
 
-if [[ $# -lt 1 || $# -gt 2 ]]; then
-    echo "Usage: $0 METHOD_CODE [OUTFILE]" >&2
+if [[ $# -lt 2 || $# -gt 3 ]]; then
+    echo "Usage: $0 ALPHA METHOD_CODE [OUTFILE]" >&2
     exit 1
 fi
 
-METHOD_CODE="$1"
-OUTFILE="${2:-tasks_to_redo_${METHOD_CODE}.txt}"
+ALPHA="$1"
+METHOD_CODE="$2"
+OUTFILE="${3:-tasks_to_redo_${alpha_value//./}_${METHOD_CODE}.txt}"
 # ---------------------------------------------------------------------------- #
 # Load base scripts
 # ---------------------------------------------------------------------------- #
@@ -48,6 +49,8 @@ n_redo=0
 n_total=0
 row_num=0
 
+comp_dir=$(get_plaseval_comp_alpha_meth_dir "$ALPHA" "$METHOD_CODE")
+
 rm -f "$OUTFILE"
 
 while IFS=$'\t' read -r -a fields; do
@@ -69,9 +72,10 @@ while IFS=$'\t' read -r -a fields; do
     sample_uid=$(get_sample_uid "$species_id" "$sample_id")
     n_total=$((n_total + 1))
 
-    uni_bin_dir=$(get_uni_bin_dir "$sample_uid" "$METHOD_CODE")
+    plaseval_out=$(get_plaseval_comp_out "$comp_dir" "$sample_uid")
+    plaseval_log=$(get_plaseval_comp_log "$comp_dir" "$sample_uid")
 
-    if [[ -f "$uni_bin_dir/no_solution.yaml" || -f "$uni_bin_dir/solution_metadata.yaml" ]]; then
+    if [[ -f "$plaseval_out" || -f "$plaseval_log" ]]; then
         : # done, nothing to do
     else
         echo "$row_num" >>"$OUTFILE"

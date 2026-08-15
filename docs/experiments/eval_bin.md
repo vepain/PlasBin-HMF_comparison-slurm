@@ -9,13 +9,25 @@ icon: lucide/badge-check
 
 Copy the script `format-plaseval/pred_uni.sh` to another place to modify it:
 
-```sh
-work_dir="/scratch/$USER/format-plaseval"
-mkdir -p "$work_dir"
+=== ":lucide-file-terminal: Bash"
 
-cp scripts/format-plaseval/pred_uni.sh "$work_dir"
-cd "$work_dir"
-```
+    ```bash
+    work_dir="/scratch/$USER/format-plaseval"
+    mkdir -p "$work_dir"
+
+    cp scripts/format-plaseval/pred_uni.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/format-plaseval"
+    mkdir -p "$work_dir"
+
+    cp scripts/format-plaseval/pred_uni.sh "$work_dir"
+    cd "$work_dir"
+    ```
 
 Set the `METHOD_CODE` (see [the method code table](binning.md#overview)).
 
@@ -44,13 +56,25 @@ sbatch pred_uni.sh
 
 Copy the script `plaseval-gdv/comp_uni.sh` to another place to modify it:
 
-```sh
-work_dir="/scratch/$USER/plaseval-gdv"
-mkdir -p "$work_dir"
+=== ":lucide-file-terminal: Bash"
 
-cp scripts/plaseval-gdv/comp_uni.sh "$work_dir"
-cd "$work_dir"
-```
+    ```bash
+    work_dir="/scratch/$USER/plaseval-gdv"
+    mkdir -p "$work_dir"
+
+    cp scripts/plaseval-gdv/comp_uni.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/plaseval-gdv"
+    mkdir -p "$work_dir"
+
+    cp scripts/plaseval-gdv/comp_uni.sh "$work_dir"
+    cd "$work_dir"
+    ```
 
 Set the alpha value (in $[0, \infty)$), and the [binning method code](binning.md):
 
@@ -70,13 +94,25 @@ sbatch comp_uni.sh
 
 Copy the script `merge-plaseval/merge_comp.sh` to another place to modify it:
 
-```sh
-work_dir="/scratch/$USER/merge-plaseval"
-mkdir -p "$work_dir"
+=== ":lucide-file-terminal: Bash"
 
-cp scripts/merge-plaseval/merge_comp.sh "$work_dir"
-cd "$work_dir"
-```
+    ```bash
+    work_dir="/scratch/$USER/merge-plaseval"
+    mkdir -p "$work_dir"
+
+    cp scripts/merge-plaseval/merge_comp.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/merge-plaseval"
+    mkdir -p "$work_dir"
+
+    cp scripts/merge-plaseval/merge_comp.sh "$work_dir"
+    cd "$work_dir"
+    ```
 
 Set the same alpha value (in $[0, \infty)$), and the [binning method codes](binning.md):
 
@@ -94,13 +130,25 @@ sbatch merge_comp.sh
 
 Copy the script `merge-plaseval/merge_eval.sh` to another place to modify it:
 
-```sh
-work_dir="/scratch/$USER/merge-plaseval"
-mkdir -p "$work_dir"
+=== ":lucide-file-terminal: Bash"
 
-cp scripts/merge-plaseval/merge_eval.sh "$work_dir"
-cd "$work_dir"
-```
+    ```bash
+    work_dir="/scratch/$USER/merge-plaseval"
+    mkdir -p "$work_dir"
+
+    cp scripts/merge-plaseval/merge_eval.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/merge-plaseval"
+    mkdir -p "$work_dir"
+
+    cp scripts/merge-plaseval/merge_eval.sh "$work_dir"
+    cd "$work_dir"
+    ```
 
 Set the [binning method codes](binning.md):
 

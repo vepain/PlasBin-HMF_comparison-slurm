@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
-# tasks_to_redo.sh
+# tasks_to_redo_deval.sh
 #
-# Usage: ./tasks_to_redo.sh METHOD_CODE [OUTFILE]
+# Usage: ./tasks_to_redo_comp.sh METHOD_CODE [OUTFILE]
 #
-# For each sample in the sample file, check if plasbin-hmf has produced
-# `no_solution.yaml` or `solution_metadata.yaml`.
+# For each sample in the sample file, check if plaseval (eval command)
+# has produced any log or out files.
 # If neither file exists, the row number is appended to OUTFILE
 # (default: tasks_to_redo_${METHOD_CODE}.txt).
 
@@ -48,6 +48,8 @@ n_redo=0
 n_total=0
 row_num=0
 
+eval_dir=$(get_plaseval_eval_meth_dir "$METHOD_CODE")
+
 rm -f "$OUTFILE"
 
 while IFS=$'\t' read -r -a fields; do
@@ -69,9 +71,10 @@ while IFS=$'\t' read -r -a fields; do
     sample_uid=$(get_sample_uid "$species_id" "$sample_id")
     n_total=$((n_total + 1))
 
-    uni_bin_dir=$(get_uni_bin_dir "$sample_uid" "$METHOD_CODE")
+    plaseval_out=$(get_plaseval_eval_out "$eval_dir" "$sample_uid")
+    plaseval_log=$(get_plaseval_eval_log "$eval_dir" "$sample_uid")
 
-    if [[ -f "$uni_bin_dir/no_solution.yaml" || -f "$uni_bin_dir/solution_metadata.yaml" ]]; then
+    if [[ -f "$plaseval_out" || -f "$plaseval_log" ]]; then
         : # done, nothing to do
     else
         echo "$row_num" >>"$OUTFILE"

@@ -4,12 +4,13 @@ icon: lucide/info
 
 # Introduction
 
-All the experiments scripts are in `$benchmark_root_dir/scripts` directory.
-In what follow, we consider you are in that the `$benchmark_root_dir`, i.e.:
+!!! important
 
-```sh
-cd "$benchmark_root_dir"
-```
+    In what follow, we consider you are in that the `$benchmark_root_dir`, i.e.:
+
+    ```sh
+    cd "$benchmark_root_dir"
+    ```
 
 !!! tip
 
