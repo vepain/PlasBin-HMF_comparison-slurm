@@ -24,13 +24,13 @@ echo "Instantiated benchmark in $bench_root_dir"
 # ---------------------------------------------------------------------------- #
 # In every shell script, replace the TODO:BENCH_ROOT_DIR token
 # ---------------------------------------------------------------------------- #
-find "$bench_root_dir" -type f -name '*.sh' -exec \
+find "$bench_root_dir/envs" "$bench_root_dir/scripts" -type f -name '*.sh' -exec \
     sed -i "s|TODO:BENCH_ROOT_DIR|$bench_root_dir|g" {} +
 
 # ---------------------------------------------------------------------------- #
 # Make all scripts executable
 # ---------------------------------------------------------------------------- #
-find "$bench_root_dir" -type f -name '*.sh' -exec \
+find "$bench_root_dir/envs" "$bench_root_dir/scripts" -type f -name '*.sh' -exec \
     chmod +x {} +
 
 # ---------------------------------------------------------------------------- #
