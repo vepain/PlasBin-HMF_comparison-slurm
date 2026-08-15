@@ -1,7 +1,3 @@
----
-status: deprecated
----
-
 # Installation PlasBin-HMF
 
 !!! warning
@@ -15,7 +11,7 @@ chmod +x scripts/fir_envs/plasbin-hmf.sh
 ./scripts/fir_envs/plasbin-hmf.sh "$benchmark_root_dir"
 ```
 
-The script build a custom gurobipy wheel for the Alliance Canada Fir Cluster.
+The script install the python virtual environment for PlasBin-HMF
 
 ??? info "Script"
 
