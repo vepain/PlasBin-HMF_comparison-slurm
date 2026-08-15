@@ -3,7 +3,9 @@
 #
 # PlasBin-HMF Fir environment
 #
+# You must create the virtual environment first.
 # See https://gitlab.com/vepain/plasbin-hmf for installation.
+#
 # ============================================================================ #
 module load python/3.13
 module load gurobi/13.0
