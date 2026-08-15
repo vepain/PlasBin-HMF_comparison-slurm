@@ -21,13 +21,25 @@ icon: lucide/boxes
 
 Copy the script `scripts/plasbin-hmf/rfpl_uni.sh` to another place to modify it:
 
-```sh
-work_dir="/scratch/$USER/plasbin-hmf"
-mkdir -p "$work_dir"
+=== ":lucide-file-terminal: Bash"
 
-cp scripts/plasbin-hmf/rfpl_uni.sh "$work_dir"
-cd "$work_dir"
-```
+    ```bash
+    work_dir="/scratch/$USER/plasbin-hmf"
+    mkdir -p "$work_dir"
+
+    cp scripts/plasbin-hmf/rfpl_uni.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/plasbin-hmf"
+    mkdir -p "$work_dir"
+
+    cp scripts/plasbin-hmf/rfpl_uni.sh "$work_dir"
+    cd "$work_dir"
+    ```
 
 Launch the slurm job:
 
@@ -39,22 +51,41 @@ sbatch rfpl_uni.sh
 
 Copy the script `scripts/filter_bins/filter_bins.sh` to another place to modify it:
 
-```sh
-work_dir="/scratch/$USER/filter_bins"
-mkdir -p "$work_dir"
+=== ":lucide-file-terminal: Bash"
 
-cp scripts/filter_bins/filter_bins.sh "$work_dir"
-cd "$work_dir"
-```
+    ```bash
+    work_dir="/scratch/$USER/filter_bins"
+    mkdir -p "$work_dir"
+
+    cp scripts/filter_bins/filter_bins.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/filter_bins"
+    mkdir -p "$work_dir"
+
+    cp scripts/filter_bins/filter_bins.sh "$work_dir"
+    cd "$work_dir"
+    ```
 
 Modify the sbatch script:
 
-* if filtering PlasBin-flow (e.g. `pbf_rfpl`):
-  * `METHOD_CODE=pbf_rfpl`
-  * `METHOD_TOOL=pbf`
-* if filtering PlasBin-HMF (e.g. `pbhmf_rfpl`):
-  * `METHOD_CODE=pbhmf_rfpl`
-  * `METHOD_TOOL=pbhmf`
+=== "PlasBin-flow (e.g. `pbf_rfpl`)"
+
+    ```bash
+    METHOD_CODE=pbf_rfpl
+    METHOD_TOOL=pbf
+    ```
+
+=== "PlasBin-HMF (e.g. `pbhmf_rfpl`)"
+
+    ```bash
+    METHOD_CODE=pbhmf_rfpl
+    METHOD_TOOL=pbhmf
+    ```
 
 ```sh
 nano filter_bins.sh
