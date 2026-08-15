@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # ---------------------------------------------------------------------------- #
+#
 # Installation of PlasBin-HMF
 #
-# Deprecated
 # ---------------------------------------------------------------------------- #
 BENCH_ROOT_DIR=$(realpath "$1")
 # shellcheck source=../../src/scripts/config.sh
@@ -13,24 +13,24 @@ running_dir=$(pwd)
 umask 007
 
 # ---------------------------------------------------------------------------- #
-# Build the compute canada wheel for gurobipy
+# Build the compute canada wheel for plasbin-hmf
 # ---------------------------------------------------------------------------- #
-cd "/scratch/$USER" || exit 1
-mkdir gurobi-wheel
-cd gurobi-wheel || exit 1
+PBHMF_ENVS_DIR="$BENCH_ENVS_DIR/plasbin-hmf"
 
-wget https://raw.githubusercontent.com/ComputeCanada/wheels_builder/main/unmanylinuxize.sh
-chmod u+rx unmanylinuxize.sh
-wget https://raw.githubusercontent.com/ComputeCanada/wheels_builder/main/manipulate_wheels.py
-chmod u+rx manipulate_wheels.py
+cd "$PBHMF_ENVS_DIR" || exit 1
 
-./unmanylinuxize.sh --package gurobipy --version 13.0.2 --url https://files.pythonhosted.org/packages/a5/11/77458930745fb661a0b5aea39211101a22c5413161bb10f954f015af3f70/gurobipy-13.0.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
+module load python/3.13
+module load gurobi/13.0
 
-#
+virtualenv --no-download venv
+source venv/bin/activate
+pip install --no-index --upgrade pip
+
+pip install "gurobipy==13.0.2" --no-index
+pip install "plasbin-hmf<1.0"
+
+# ---------------------------------------------------------------------------- #
 # Finish
-#
-mv ./gurobipy-13.0.2+computecanada-cp313-cp313-linux_x86_64.whl "$BENCH_ENVS_DIR"
-cd ..
-# Remove the working dir
-rm -rf gurobi-wheel
+# ---------------------------------------------------------------------------- #
+deactivate
 cd "$running_dir" || exit 1
