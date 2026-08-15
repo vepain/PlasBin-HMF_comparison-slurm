@@ -2,28 +2,27 @@
 #
 # find_tasks_to_redo.sh
 #
-# Usage: ./find_tasks_to_redo.sh BENCH_ROOT_DIR METHOD_CODE [OUTFILE]
+# Usage: ./find_tasks_to_redo.sh METHOD_CODE [OUTFILE]
 #
-# For each row of $SAMPLES_CSV (with header; row 1 = header), builds the
-# sample_uid from the "species_id" and "sample_id" columns via
-# get_sample_uid, then checks whether the corresponding uni-bin dir
-# (get_uni_bin_dir SAMPLE_UID METHOD_CODE) contains either
-# "no_solution.yaml" or "solution_metadata.yaml".
+# For each sample in the sample file, check if plasbin-hmf has produced
+# `no_solution.yaml` or `solution_metadata.yaml`.
 # If neither file exists, the row number is appended to OUTFILE
 # (default: tasks_to_redo_${METHOD_CODE}.txt).
 
 set -euo pipefail
 
-if [[ $# -lt 2 || $# -gt 3 ]]; then
-    echo "Usage: $0 BENCH_ROOT_DIR METHOD_CODE [OUTFILE]" >&2
+if [[ $# -lt 1 || $# -gt 2 ]]; then
+    echo "Usage: $0 METHOD_CODE [OUTFILE]" >&2
     exit 1
 fi
 
-BENCH_ROOT_DIR=$(realpath "$1")
-METHOD_CODE="$2"
-OUTFILE="${3:-tasks_to_redo_${METHOD_CODE}.txt}"
+METHOD_CODE="$1"
+OUTFILE="${2:-tasks_to_redo_${METHOD_CODE}.txt}"
 # ---------------------------------------------------------------------------- #
-# shellcheck source=../../../src/scripts/config.sh
+# Load base scripts
+# ---------------------------------------------------------------------------- #
+BENCH_ROOT_DIR="TODO:BENCH_ROOT_DIR"
+# shellcheck source=../config.sh
 source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 
 running_dir=$(pwd)
