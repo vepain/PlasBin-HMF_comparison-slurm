@@ -37,7 +37,6 @@ def get_evals_df(evals_tsv: Path) -> pd.DataFrame:
             EvalsTSVHeader.METHOD_CODE.value: str,
             EvalsTSVHeader.EVAL_FILE.value: Path,
         },
-        header=True,
     )
 
 
