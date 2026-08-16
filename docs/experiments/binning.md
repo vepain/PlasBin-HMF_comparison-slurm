@@ -19,6 +19,10 @@ icon: lucide/boxes
 
 ## PlasBin-HMF + RFPlasmid + Platon
 
+!!! warning
+
+    The sbatch script requires to create before the virtual environment, see as an example [the script for the Fir HPC](../setup/envs/plasbin-hmf.md)
+
 Copy the script `scripts/plasbin-hmf/rfpl_uni.sh` to another place to modify it:
 
 === ":lucide-file-terminal: Bash"
