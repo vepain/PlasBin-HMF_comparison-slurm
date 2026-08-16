@@ -59,17 +59,6 @@ sbatch pred_uni.sh
 
 Copy the script `plaseval-gdv/eval.sh` to another place to modify it:
 
-<<<<<<< HEAD
-```sh
-work_dir="/scratch/$USER/plaseval-gdv"
-mkdir -p "$work_dir"
-
-cp scripts/plaseval-gdv/eval.sh "$work_dir"
-cd "$work_dir"
-```
-
-Set the alpha value (in $[0, \infty)$), and the [binning method code](binning.md):
-=======
 === ":lucide-file-terminal: Bash"
 
     ```bash
@@ -91,7 +80,6 @@ Set the alpha value (in $[0, \infty)$), and the [binning method code](binning.md
     ```
 
 Set the [binning method code](binning.md):
->>>>>>> develop
 
 ```sh
 nano eval.sh
