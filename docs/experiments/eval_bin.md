@@ -50,10 +50,16 @@ sbatch pred_uni.sh
 
 ## PlasEval-GDV fork
 
+
+!!! warning
+
+    The sbatch script requires to create before the virtual environment, see as an example [the script for the Fir HPC](../setup/envs/plasbin-hmf.md)
+
 ### Evaluate the adapted F1 scores (`eval` command)
 
 Copy the script `plaseval-gdv/eval.sh` to another place to modify it:
 
+<<<<<<< HEAD
 ```sh
 work_dir="/scratch/$USER/plaseval-gdv"
 mkdir -p "$work_dir"
@@ -63,6 +69,29 @@ cd "$work_dir"
 ```
 
 Set the alpha value (in $[0, \infty)$), and the [binning method code](binning.md):
+=======
+=== ":lucide-file-terminal: Bash"
+
+    ```bash
+    work_dir="/scratch/$USER/plaseval-gdv"
+    mkdir -p "$work_dir"
+
+    cp scripts/plaseval-gdv/eval.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/plaseval-gdv"
+    mkdir -p "$work_dir"
+
+    cp scripts/plaseval-gdv/eval.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+Set the [binning method code](binning.md):
+>>>>>>> develop
 
 ```sh
 nano eval.sh
@@ -112,42 +141,6 @@ sbatch comp_uni.sh
 
 ## Merging the PlasEval results to prepare for figures
 
-### PlasEval comp results
-
-Copy the script `merge-plaseval/merge_comp.sh` to another place to modify it:
-
-=== ":lucide-file-terminal: Bash"
-
-    ```bash
-    work_dir="/scratch/$USER/merge-plaseval"
-    mkdir -p "$work_dir"
-
-    cp scripts/merge-plaseval/merge_comp.sh "$work_dir"
-    cd "$work_dir"
-    ```
-
-=== ":lucide-fish: Fish"
-
-    ```fish
-    set work_dir "/scratch/$USER/merge-plaseval"
-    mkdir -p "$work_dir"
-
-    cp scripts/merge-plaseval/merge_comp.sh "$work_dir"
-    cd "$work_dir"
-    ```
-
-Set the same alpha value (in $[0, \infty)$), and the [binning method codes](binning.md):
-
-```sh
-nano merge_comp.sh
-```
-
-Run sbatch:
-
-```sh
-sbatch merge_comp.sh
-```
-
 ### PlasEval eval results
 
 Copy the script `merge-plaseval/merge_eval.sh` to another place to modify it:
@@ -182,4 +175,41 @@ Run sbatch:
 
 ```sh
 sbatch merge_eval.sh
+```
+
+
+### PlasEval comp results
+
+Copy the script `merge-plaseval/merge_comp.sh` to another place to modify it:
+
+=== ":lucide-file-terminal: Bash"
+
+    ```bash
+    work_dir="/scratch/$USER/merge-plaseval"
+    mkdir -p "$work_dir"
+
+    cp scripts/merge-plaseval/merge_comp.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/merge-plaseval"
+    mkdir -p "$work_dir"
+
+    cp scripts/merge-plaseval/merge_comp.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+Set the same alpha value (in $[0, \infty)$), and the [binning method codes](binning.md):
+
+```sh
+nano merge_comp.sh
+```
+
+Run sbatch:
+
+```sh
+sbatch merge_comp.sh
 ```
