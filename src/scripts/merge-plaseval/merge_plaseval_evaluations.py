@@ -31,12 +31,6 @@ def get_evals_df(evals_tsv: Path) -> pd.DataFrame:
     return pd.read_csv(
         evals_tsv,
         sep="\t",
-        columns=[
-            EvalsTSVHeader.SPECIES_ID.value,
-            EvalsTSVHeader.SAMPLE_UID.value,
-            EvalsTSVHeader.METHOD_CODE.value,
-            EvalsTSVHeader.EVAL_FILE.value,
-        ],
         dtype={
             EvalsTSVHeader.SPECIES_ID.value: str,
             EvalsTSVHeader.SAMPLE_UID.value: str,
