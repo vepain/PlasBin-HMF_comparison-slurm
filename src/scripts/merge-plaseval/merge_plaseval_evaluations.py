@@ -35,7 +35,7 @@ def get_evals_df(evals_tsv: Path) -> pd.DataFrame:
             EvalsTSVHeader.SPECIES_ID.value: str,
             EvalsTSVHeader.SAMPLE_UID.value: str,
             EvalsTSVHeader.METHOD_CODE.value: str,
-            EvalsTSVHeader.EVAL_FILE.value: Path,
+            EvalsTSVHeader.EVAL_FILE.value: str,
         },
     )
 
@@ -60,7 +60,7 @@ class EvalsRowParser:
 
     def eval_file(self) -> Path:
         """Get the eval file."""
-        return self.row[EvalsTSVHeader.EVAL_FILE.value]
+        return Path(self.row[EvalsTSVHeader.EVAL_FILE.value])
 
 
 class PlasEvalCmds(StrEnum):
