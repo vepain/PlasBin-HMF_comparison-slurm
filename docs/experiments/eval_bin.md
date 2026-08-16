@@ -165,41 +165,6 @@ Run sbatch:
 sbatch merge_eval.sh
 ```
 
-### PlasEval eval results
-
-Copy the script `merge-plaseval/merge_eval.sh` to another place to modify it:
-
-=== ":lucide-file-terminal: Bash"
-
-    ```bash
-    work_dir="/scratch/$USER/merge-plaseval"
-    mkdir -p "$work_dir"
-
-    cp scripts/merge-plaseval/merge_eval.sh "$work_dir"
-    cd "$work_dir"
-    ```
-
-=== ":lucide-fish: Fish"
-
-    ```fish
-    set work_dir "/scratch/$USER/merge-plaseval"
-    mkdir -p "$work_dir"
-
-    cp scripts/merge-plaseval/merge_eval.sh "$work_dir"
-    cd "$work_dir"
-    ```
-
-Set the [binning method codes](binning.md):
-
-```sh
-nano merge_eval.sh
-```
-
-Run sbatch:
-
-```sh
-sbatch merge_eval.sh
-```
 
 ### PlasEval comp results
 
