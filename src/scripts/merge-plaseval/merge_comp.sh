@@ -50,12 +50,12 @@ mapfile -t sample_tuples < <(get_sample_tuples "$SAMPLES_CSV")
 
 # Loop over methods and sample tuples
 for m in "${METHOD_CODES[@]}"; do
-    eval_dir=$(get_plaseval_eval_meth_dir "$m")
+    comp_dir=$(get_plaseval_comp_alpha_meth_dir "$ALPHA" "$m")
     for tuple in "${sample_tuples[@]}"; do
         IFS=$'\t' read -r species_id sample_id <<<"$tuple"
         smp_uid=$(get_sample_uid "$species_id" "$sample_id")
-        eval_out=$(get_plaseval_eval_out "$eval_dir" "$smp_uid")
-        printf "%s\t%s\t%s\t%s\n" "$species_id" "$smp_uid" "$m" "$eval_out" >>"$tmp_tsv"
+        comp_out=$(get_plaseval_comp_out "$comp_dir" "$smp_uid")
+        printf "%s\t%s\t%s\t%s\n" "$species_id" "$smp_uid" "$m" "$comp_out" >>"$tmp_tsv"
     done
 done
 
