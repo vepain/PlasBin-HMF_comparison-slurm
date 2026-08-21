@@ -14,14 +14,14 @@ If the file containing the list of such array task IDs is `tasks_to_redo.txt`, t
 
     ```bash
     IDS=$(paste -sd, tasks_to_redo.txt)
-    sbatch --array=$IDS your_script.sh"
+    sbatch --array=$IDS your_script.sh
     ```
 
 === ":lucide-fish: Fish"
 
     ```fish
     set IDS (paste -sd, tasks_to_redo.txt)
-    sbatch --array=$IDS your_script.sh"
+    sbatch --array=$IDS your_script.sh
     ```
 
 ## PlasBin-HMF
