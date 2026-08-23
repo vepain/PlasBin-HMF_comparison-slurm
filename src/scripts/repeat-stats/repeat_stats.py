@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Annotated
 
 import pandas as pd
+import rich
 import typer
 
 APP = typer.Typer(
@@ -146,6 +147,7 @@ def cli(
         ],
     )
     out_stats_df.to_csv(out_stats_tsv, sep="\t", index=False)
+    rich.print(f"[green]Output written to: {out_stats_tsv}[/green]")
 
 
 if __name__ == "__main__":
