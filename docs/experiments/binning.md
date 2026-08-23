@@ -102,3 +102,5 @@ sbatch filter_bins.sh
 ```
 
 It will create a new prediction with the new method code `${METHOD_CODE}_filt`.
+
+

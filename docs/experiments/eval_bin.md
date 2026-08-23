@@ -201,3 +201,35 @@ Run sbatch:
 ```sh
 sbatch merge_comp.sh
 ```
+
+
+## Get ground truth repeat stats
+
+
+Copy the script `repeat-stats/ground_truths.sh` to another place to modify it:
+
+=== ":lucide-file-terminal: Bash"
+
+    ```bash
+    work_dir="/scratch/$USER/repeat-stats"
+    mkdir -p "$work_dir"
+
+    cp scripts/repeat-stats/ground_truths.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/repeat-stats"
+    mkdir -p "$work_dir"
+
+    cp scripts/repeat-stats/ground_truths.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+Run sbatch:
+
+```sh
+sbatch ground_truths.sh
+```
