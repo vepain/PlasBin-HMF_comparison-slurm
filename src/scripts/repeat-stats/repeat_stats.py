@@ -124,7 +124,7 @@ def cli(
 
         num_contigs = len(bins_df)
         num_unique_contigs = bins_df[PlasEvalBinsTSVHeader.CONTIG.value].nunique()
-        repeat_ratio = num_unique_contigs / num_contigs if num_contigs else 0.0
+        repeat_ratio = num_contigs / num_unique_contigs if num_unique_contigs else None
 
         rows.append(
             {
