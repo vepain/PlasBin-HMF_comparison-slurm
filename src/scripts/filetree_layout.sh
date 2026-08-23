@@ -143,6 +143,11 @@ function get_gt_plaseval_fmt() {
 }
 
 # ============================================================================ #
+#                                 REPEAT STATS                                 #
+# ============================================================================ #
+UNI_REPEAT_STATS_GT_TSV="$BENCH_DATA_DIR/results/repeat_stats/unicycler/ground_truths.tsv"
+
+# ============================================================================ #
 #                                 PLASEVAL-GDV  (COMP)                         #
 # ============================================================================ #
 UNI_PLASEVAL_GDV_COMP_DIR="$BENCH_DATA_DIR/results/plaseval_gdv/unicycler/comp"
