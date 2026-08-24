@@ -15,4 +15,6 @@ PBHMF_ENVS_DIR="$BENCH_ENVS_DIR/plasbin-hmf"
 source "$PBHMF_ENVS_DIR/venv/bin/activate"
 
 PBHMF_CONFIG_YAML="$PBHMF_ENVS_DIR/pbhmf_config.yaml"
+PBHMF_CONFIG_ST_CONST_YAML="$PBHMF_ENVS_DIR/pbhmf_config_st-const.yaml"
+
 GUROBI_CONFIG_YAML="$PBHMF_ENVS_DIR/gurobi_config.yaml"
