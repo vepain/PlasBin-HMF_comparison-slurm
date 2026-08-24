@@ -9,6 +9,10 @@
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
+# User Variables
+# ---------------------------------------------------------------------------- #
+declare -r METHOD_CODE="pbhmf_rfpl"
+# ---------------------------------------------------------------------------- #
 # Run PlasBin-HMF binning (RFPlasmid plasmidness + seeds).
 # ---------------------------------------------------------------------------- #
 # Load base scripts
@@ -26,7 +30,6 @@ source "$BENCH_ENVS_DIR/plasbin-hmf/configure.sh"
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
-method_code="pbhmf_rfpl"
 smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 #
 # Inputs (bridge)
@@ -38,7 +41,7 @@ seeds_tsv="$old_data_dir/RESULTS/FORMATTED_INPUT/PLATON/UNICYCLER/INPUT_PBF/${sm
 #
 # Outputs
 #
-output_dir=$(get_uni_bin_dir "$smp_uid" "$method_code")
+output_dir=$(get_uni_bin_dir "$smp_uid" "$METHOD_CODE")
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
@@ -48,7 +51,7 @@ register_job_id "$(dirname "$output_dir")"
 # ---------------------------------------------------------------------------- #
 # Running PlasBin-HMF
 # ---------------------------------------------------------------------------- #
-echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $method_code"
+echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $METHOD_CODE"
 
 mkdir -p "$output_dir"
 
