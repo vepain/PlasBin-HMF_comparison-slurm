@@ -16,5 +16,6 @@ source "$PBHMF_ENVS_DIR/venv/bin/activate"
 
 PBHMF_CONFIG_YAML="$PBHMF_ENVS_DIR/pbhmf_config.yaml"
 PBHMF_CONFIG_ST_CONST_YAML="$PBHMF_ENVS_DIR/pbhmf_config_st-const.yaml"
+PBHMF_CONFIG_MAXCOVRATIO_20_YAML="$PBHMF_ENVS_DIR/pbhmf_config_mcr20.yaml"
 
 GUROBI_CONFIG_YAML="$PBHMF_ENVS_DIR/gurobi_config.yaml"
