@@ -63,7 +63,9 @@ Like building the apptainer image.
 
 >[!IMPORTANT]
 > According to the [Alliance Canadian Fir HPC cluster documentation](https://docs.alliancecan.ca/wiki/Python#Creating_virtual_environments_inside_of_your_jobs), virtual environment should be built everytime (i.e. for each array job task).
-> That means do not build neither store the virtual environment in `envs` - this implies to not create a script to init the environment.
+> In the doc, they use `--no-index` option: it means no network connexion is required to install the environement. Thus, the dependencies (the wheels) must be available on the cluster environment.
+> This is the case for `filter_bins` for example.
+> If not possible (e.g. `plasbin-hmf`), the `src/scripts` directory can contain a script to install the virtual environment under the future `"$benchmark_root_dir"/envs` directory. Then, the environment script (`src/envs`) just load the environment.
 
 ### 4 - Document
 
@@ -74,7 +76,7 @@ In `docs`:
 2. In `docs/experiments`, document how to use the sbatch script.
    1. Add the entry to the navigation menu, see `nav` section in `./zensical.toml`
 
->[!TIP]
+> [!TIP]
 > Do not worry too much about the document structure, try one, we will change later if needed.
 
 ## Build the documentation
