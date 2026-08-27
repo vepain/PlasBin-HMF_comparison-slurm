@@ -1,5 +1,11 @@
 # To-do
 
+> [!IMPORTANT]
+> Check the task when the script has been tested on the cluster.
+>
+> * Use 🚧 to say the task is in "work in progress"
+> * Use 🧪 to say the task script is under HPC tests or need to be tested
+
 ## Short read assembly
 
 ## Hybrid assembly
@@ -14,7 +20,7 @@
 
 ## Binning
 
-* [ ] plasbin-hmf
+* [ ] 🧪 plasbin-hmf
   * [x] bridge
 * [ ] gplascc
 * [ ] mob
@@ -22,9 +28,9 @@
 
 ## Evaluation
 
-* [ ] format plaseval input
-  * [ ] bridge
-* [ ] plaseval comp
+* [ ] 🧪 format plaseval input
   * [x] bridge
-* [ ] merge eval
-  * [ ] bridge
+* [ ] 🧪 plaseval comp
+  * [x] bridge
+* [ ] 🧪 merge eval
+  * [x] bridge
