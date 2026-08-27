@@ -9,7 +9,7 @@ constraints:
   min_bin_size: 1000
   min_coverage: 0.3
   plasmidness_coefficient: 0.0
-  max_coverage_ratio: 10.0
+  max_coverage_ratio: 20.0
   partially_circular_s_t_constraints: false
 input:
   input_format: PlasBin-flow
