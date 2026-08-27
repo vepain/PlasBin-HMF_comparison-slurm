@@ -11,10 +11,10 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-declare -r METHOD_CODE="pbhmf_rfpl_st-const"
+declare -r METHOD_CODE="pbhmf_rfpl_mcr10"
 # ---------------------------------------------------------------------------- #
 # Run PlasBin-HMF binning (RFPlasmid plasmidness + seeds).
-# Use pbhmf_config_st-const.yaml config file.
+# Use pbhmf_config_mcr20.yaml config file.
 # ---------------------------------------------------------------------------- #
 # Load base scripts
 # ---------------------------------------------------------------------------- #
@@ -58,5 +58,5 @@ mkdir -p "$output_dir"
 
 plasbin-hmf run "$gfa_gz" "$plm_tsv" "$seeds_tsv" \
     -o "$output_dir" \
-    --config "$PBHMF_CONFIG_ST_CONST_YAML" \
+    --config "$PBHMF_CONFIG_MCR10_YAML" \
     --gurobi-config "$GUROBI_CONFIG_YAML"
