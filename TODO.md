@@ -11,11 +11,19 @@
 
 ## Short read assembly
 
+* [ ] `src/scripts/tasks/unicycler/asm_short_reads.sh`
+
 ## Hybrid assembly
+
+* [ ] `src/scripts/tasks/unicycler/asm_hybrid_reads.sh`
 
 ## Filter uncompleted hybrid assembly
 
+* [ ] [👤 @vepain] Find Tomas' script(s), otherwise recode
+
 ## Generate ground truth
+
+* [ ] [👤 @vepain] Find Tomas' script(s), otherwise recode
 
 ## Classification
 
@@ -24,9 +32,9 @@
 
 ## Binning
 
-* [ ] 🧪 plasbin-hmf
+* [ ] [👤 @vepain] 🧪 plasbin-hmf
   * [x] bridge
-* [ ] gplascc (default)
+* [ ] [👤 @msgr0] gplascc (default)
 * [ ] mob
 * [ ] plasbin-flow
 
@@ -38,3 +46,9 @@
   * [x] bridge
 * [ ] 🧪 merge eval
   * [x] bridge
+
+## Figures
+
+* [ ] [👤 @vepain] distributions
+* [ ] [👤 @vepain] res-presence
+* [ ] [👤 @vepain] repeat-stats
