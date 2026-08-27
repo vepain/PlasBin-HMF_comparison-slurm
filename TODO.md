@@ -4,7 +4,10 @@
 > Check the task when the script has been tested on the cluster.
 >
 > * Use 🚧 to say the task is in "work in progress"
-> * Use 🧪 to say the task script is under HPC tests or need to be tested
+> * Use 🧪 to say the task script need to be tested on HPC cluster
+> * Use 📑 to say the task need to be documented
+>
+> Follow the [CONTRIBUTING](CONTRIBUTING.md) guidelines
 
 ## Short read assembly
 
@@ -17,12 +20,13 @@
 ## Classification
 
 * [ ] rfplasmid
+* [ ] platon
 
 ## Binning
 
 * [ ] 🧪 plasbin-hmf
   * [x] bridge
-* [ ] gplascc
+* [ ] gplascc (default)
 * [ ] mob
 * [ ] plasbin-flow
 
