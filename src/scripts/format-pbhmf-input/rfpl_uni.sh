@@ -31,8 +31,8 @@ smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 
 rfplasmid_dir=$(get_rfplasmid_out_dir "$smp_uid")
 
-plm_tsv=$(get_plm_pbhmf_rfpl_tsv "$smp_uid")       # RFPlasmid -> PBf plasmidness
-seeds_tsv=$(get_seeds_pbhmf_platon_tsv "$smp_uid") # RFPlasmid -> PBf seeds
+plm_tsv=$(get_plm_pbf_rfpl_tsv "$smp_uid")       # RFPlasmid -> PBf plasmidness
+seeds_tsv=$(get_seeds_pbf_platon_tsv "$smp_uid") # RFPlasmid -> PBf seeds
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
