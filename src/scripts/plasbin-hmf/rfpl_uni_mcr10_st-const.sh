@@ -37,7 +37,7 @@ smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 #
 gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
 plm_tsv=$(get_plm_pbhmf_rfpl_tsv "$smp_uid")
-seeds_tsv=$(get_seeds_pbhmf_rfpl_tsv "$smp_uid")
+seeds_tsv=$(get_seeds_pbhmf_platon_tsv "$smp_uid")
 #
 # Outputs
 #

@@ -31,8 +31,8 @@ smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 
 rfplasmid_dir=$(get_rfplasmid_out_dir "$smp_uid")
 
-plm_tsv=$(get_plm_pbhmf_rfpl_tsv "$smp_uid")     # RFPlasmid -> PBf plasmidness
-seeds_tsv=$(get_seeds_pbhmf_rfpl_tsv "$smp_uid") # RFPlasmid -> PBf seeds
+plm_tsv=$(get_plm_pbhmf_rfpl_tsv "$smp_uid")       # RFPlasmid -> PBf plasmidness
+seeds_tsv=$(get_seeds_pbhmf_platon_tsv "$smp_uid") # RFPlasmid -> PBf seeds
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
@@ -46,7 +46,6 @@ echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid form
 
 mkdir -p "$(dirname "$plm_tsv")" "$(dirname "$seeds_tsv")"
 
-# TODO: confirm the format.py subcommand names against the installed pangebin.
 # RFPlasmid classification -> PBf plasmidness TSV
 python3 "$FORMAT_PY" rfplasmid-to-pbf "$rfplasmid_dir" "$plm_tsv"
 

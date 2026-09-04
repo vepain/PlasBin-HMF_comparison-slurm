@@ -51,6 +51,16 @@ function get_rfplasmid_out_dir() {
 }
 
 # ---------------------------------------------------------------------------- #
+#                                    Platon                                    #
+# ---------------------------------------------------------------------------- #
+UNI_PLATON_DIR="$BENCH_DATA_DIR/results/platon/unicycler"
+
+function get_platon_out_dir() {
+    local _smp_uid=$1
+    echo "$UNI_PLATON_DIR/$_smp_uid"
+}
+
+# ---------------------------------------------------------------------------- #
 #                         Formatted PlasBin-flow Input                         #
 # ---------------------------------------------------------------------------- #
 UNI_FORMATTED_INPUT_DIR="$BENCH_DATA_DIR/results/formatted_input/unicycler"
@@ -63,12 +73,12 @@ function get_plm_pbhmf_rfpl_tsv() {
     echo "$UNI_FORMATTED_INPUT_DIR/rfplasmid/input_pbf/${smp_uid}_scores.tsv"
 }
 
-# RFPlasmid seed contigs in PBf format.
+# Platon seed contigs in PBf format.
 # Usage:
-#   seeds_tsv=$(get_seeds_pbhmf_rfpl_tsv "$smp_uid")
-function get_seeds_pbhmf_rfpl_tsv() {
+#   seeds_tsv=$(get_seeds_pbhmf_platon_tsv "$smp_uid")
+function get_seeds_pbhmf_platon_tsv() {
     local smp_uid=$1
-    echo "$UNI_FORMATTED_INPUT_DIR/rfplasmid/input_pbf/${smp_uid}_seeds.tsv"
+    echo "$UNI_FORMATTED_INPUT_DIR/platon/input_pbf/${smp_uid}_seeds.tsv"
 }
 
 # ============================================================================ #
@@ -194,14 +204,6 @@ UNI_PLASEVAL_GDV_EVAL_DIR="$BENCH_DATA_DIR/results/plaseval_gdv/unicycler/eval"
 function get_plaseval_eval_meth_dir() {
     local method_code=$1 # Method code
     echo "$UNI_PLASEVAL_GDV_EVAL_DIR/$method_code"
-}
-
-# Usage:
-#   plaseval_log=$(get_plaseval_eval_minlen "$eval_dir" "$smp_uid")
-function get_plaseval_eval_minlen() {
-    local eval_dir=$1 # PlasEval eval directory
-    local smp_uid=$2  # Sample UID
-    echo "$eval_dir/${smp_uid}.log"
 }
 
 # Usage:
