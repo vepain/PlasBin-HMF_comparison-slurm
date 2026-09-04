@@ -67,16 +67,16 @@ UNI_FORMATTED_INPUT_DIR="$BENCH_DATA_DIR/results/formatted_input/unicycler"
 
 # RFPlasmid plasmidness scores in PBf format.
 # Usage:
-#   plm_tsv=$(get_plm_pbhmf_rfpl_tsv "$smp_uid")
-function get_plm_pbhmf_rfpl_tsv() {
+#   plm_tsv=$(get_plm_pbf_rfpl_tsv "$smp_uid")
+function get_plm_pbf_rfpl_tsv() {
     local smp_uid=$1
     echo "$UNI_FORMATTED_INPUT_DIR/rfplasmid/input_pbf/${smp_uid}_scores.tsv"
 }
 
 # Platon seed contigs in PBf format.
 # Usage:
-#   seeds_tsv=$(get_seeds_pbhmf_platon_tsv "$smp_uid")
-function get_seeds_pbhmf_platon_tsv() {
+#   seeds_tsv=$(get_seeds_pbf_platon_tsv "$smp_uid")
+function get_seeds_pbf_platon_tsv() {
     local smp_uid=$1
     echo "$UNI_FORMATTED_INPUT_DIR/platon/input_pbf/${smp_uid}_seeds.tsv"
 }

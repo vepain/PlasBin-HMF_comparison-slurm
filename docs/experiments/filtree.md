@@ -1,8 +1,10 @@
 ---
-icon: lucide/badge-check
+icon: lucide/folder-tree
 ---
 
 # Experiment filetree structure
+
+The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree architecture of the experiments, summarized in the following code block:
 
 ```sh
 📂 BENCH_ROOT_DIR
@@ -28,10 +30,10 @@ icon: lucide/badge-check
         │   └── 📂 unicycler    # $UNI_FORMATTED_INPUT_DIR
         │       ├── 📂 rfplasmid
         │       │   └── 📂 input_pbf
-        │       │       └── 📄 {smp_uid}_scores.tsv     # get_plm_pbhmf_rfpl_tsv
+        │       │       └── 📄 {smp_uid}_scores.tsv     # get_plm_pbf_rfpl_tsv
         │       └── 📂 platon
         │           └── 📂 input_pbf
-        │               └── 📄 {smp_uid}_seeds.tsv      # get_seeds_pbhmf_platon_tsv
+        │               └── 📄 {smp_uid}_seeds.tsv      # get_seeds_pbf_platon_tsv
         ├── 📂 binning
         │   └── 📂 unicycler    # $UNI_BIN_DIR
         │       └── 📂 {method_code}

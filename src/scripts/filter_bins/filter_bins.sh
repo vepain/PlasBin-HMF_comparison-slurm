@@ -52,8 +52,8 @@ case "$METHOD_TOOL" in
     ;;
 esac
 
-plm_tsv=$(get_plm_pbhmf_rfpl_tsv "$smp_uid")
-seeds_tsv=$(get_seeds_pbhmf_platon_tsv "$smp_uid")
+plm_tsv=$(get_plm_pbf_rfpl_tsv "$smp_uid")
+seeds_tsv=$(get_seeds_pbf_platon_tsv "$smp_uid")
 
 py_script="$BENCH_SCRIPTS_DIR/filter_bins/filter_pbf_bins.py"
 
