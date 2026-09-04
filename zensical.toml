@@ -48,6 +48,7 @@ Copyright &copy; 2026 The authors
             "setup/envs/index.md",
         ] },
         { "Experiments" = [
+            "experiments/filtree.md",
             "experiments/intro.md",
             "experiments/binning.md",
             "experiments/eval_bin.md",
@@ -348,6 +349,7 @@ Copyright &copy; 2026 The authors
     [project.markdown_extensions.admonition]
     [project.markdown_extensions.pymdownx.details]
     [project.markdown_extensions.pymdownx.superfences]
+
 
     # XXX tmp until better Zensical dev, https://zensical.org/docs/authoring/markdown/
     [project.markdown_extensions.gfm_admonition]
