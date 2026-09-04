@@ -48,9 +48,8 @@ echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid rfpl
 
 mkdir -p "$output_dir"
 
-# TODO: confirm --species (or use "generic") against the installed RFPlasmid.
+# FIXME species is not generic for all, see tasks/rfplasmid/run_rfplasmid.sh
 apptainer run -C -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
-    rfplasmid \
     --species generic \
     --input "$input_dir" \
     --threads "$SLURM_CPUS_PER_TASK" \

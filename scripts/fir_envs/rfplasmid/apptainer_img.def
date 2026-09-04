@@ -1,0 +1,76 @@
+Bootstrap: docker
+From: continuumio/miniconda3:24.9.2-0
+
+%labels
+    Author       victorepain@disroot.org
+    Software     RFPlasmid
+    Version      1.2 (github master)
+    Commit       7985b3cfba60c8d7c15bb887b2606c7386dcf648
+    Upstream     https://github.com/aldertzomer/RFPlasmid
+
+%post
+    set -eux
+
+    apt-get update
+    apt-get install -y --no-install-recommends git wget ca-certificates procps
+    rm -rf /var/lib/apt/lists/*
+
+    # ------------------------------------------------------------------ #
+    # Conda environment with all RFPlasmid runtime dependencies
+    # (mirrors the bioconda recipe's dependency list)
+    # ------------------------------------------------------------------ #
+    . /opt/conda/etc/profile.d/conda.sh
+    conda config --set channel_priority strict
+    conda create -y -n rfplasmid -c conda-forge -c bioconda -c defaults \
+        python=3.9 \
+        pandas \
+        biopython \
+        pysam \
+        checkm-genome \
+        diamond \
+        kmer-jellyfish \
+        hmmer \
+        prodigal \
+        r-randomforest \
+        wget
+    conda clean -a -y
+
+    # ------------------------------------------------------------------ #
+    # Get RFPlasmid 1.2 directly from GitHub
+    # ------------------------------------------------------------------ #
+    cd /opt
+    git clone https://github.com/aldertzomer/RFPlasmid.git
+    cd RFPlasmid
+    git checkout 7985b3cfba60c8d7c15bb887b2606c7386dcf648
+
+    # Download & format the plasmid/marker-gene databases (baked into image)
+    conda activate rfplasmid
+    bash getdb.sh
+
+    # ------------------------------------------------------------------ #
+    # CheckM reference database (baked into image)
+    # ------------------------------------------------------------------ #
+    mkdir -p /opt/checkm_data
+    cd /opt/checkm_data
+    wget -q https://data.ace.uq.edu.au/public/CheckM_databases/checkm_data_2015_01_16.tar.gz
+    tar xzf checkm_data_2015_01_16.tar.gz
+    rm checkm_data_2015_01_16.tar.gz
+    checkm data setRoot /opt/checkm_data
+
+%environment
+    export PATH=/opt/conda/envs/rfplasmid/bin:$PATH
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+%runscript
+    exec python3 /opt/RFPlasmid/rfplasmid.py "$@"
+
+%test
+    . /opt/conda/etc/profile.d/conda.sh
+    conda activate rfplasmid
+    version=$(python3 /opt/RFPlasmid/rfplasmid.py --version)
+    echo "Installed: $version"
+    case "$version" in
+        *1.2*) echo "OK: version pin matches" ;;
+        *) echo "ERROR: expected RFPlasmid 1.2, got: $version" >&2; exit 1 ;;
+    esac

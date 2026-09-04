@@ -1,5 +1,5 @@
 ---
-icon: lucide/boxes
+icon: lucide/package-open
 ---
 
 # Binning

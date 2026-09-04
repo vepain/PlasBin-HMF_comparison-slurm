@@ -1,0 +1,52 @@
+Bootstrap: docker
+From: continuumio/miniconda3:24.9.2-0
+
+%labels
+    Author       victorepain@disroot.org
+    Software     Platon
+    Version      1.8
+    Upstream     https://github.com/oschwengers/platon
+    Database     https://doi.org/10.5281/zenodo.4066768
+
+%post
+    set -eux
+
+    apt-get update
+    apt-get install -y --no-install-recommends wget ca-certificates procps
+    rm -rf /var/lib/apt/lists/*
+
+    # ------------------------------------------------------------------ #
+    # Platon via BioConda
+    # ------------------------------------------------------------------ #
+    . /opt/conda/etc/profile.d/conda.sh
+    conda config --set channel_priority strict
+    conda create -y -n platon -c conda-forge -c bioconda -c defaults "platon=1.8"
+    conda clean -a -y
+
+    # ------------------------------------------------------------------ #
+    # Mandatory Platon database (baked into the image)
+    # ------------------------------------------------------------------ #
+    mkdir -p /opt/platon
+    cd /opt/platon
+    wget -q https://zenodo.org/record/4066768/files/db.tar.gz
+    tar -xzf db.tar.gz
+    rm db.tar.gz
+
+%environment
+    export PATH=/opt/conda/envs/platon/bin:$PATH
+    export PLATON_DB=/opt/platon/db
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+%runscript
+    exec platon "$@"
+
+%test
+    . /opt/conda/etc/profile.d/conda.sh
+    conda activate platon
+    version=$(platon --version)
+    echo "Installed: $version"
+    case "$version" in
+        *1.8*) echo "OK: version pin matches" ;;
+        *) echo "ERROR: expected platon 1.8, got: $version" >&2; exit 1 ;;
+    esac
