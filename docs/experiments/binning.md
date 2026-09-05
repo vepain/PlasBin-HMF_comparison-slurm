@@ -51,6 +51,44 @@ Launch the slurm job:
 sbatch rfpl_uni.sh
 ```
 
+## gplasCC + RFPlasmid
+
+!!! warning
+
+    The sbatch script requires the RFPlasmid classification formatted for gplasCC,
+    in `{smp_uid}_scores.tsv` files (see `get_plm_gplas_rfpl_tsv` in [the filetree](filtree.md)).
+
+Copy the script `scripts/gplascc/rfpl_uni.sh` to another place to modify it:
+
+=== ":lucide-file-terminal: Bash"
+
+    ```bash
+    work_dir="/scratch/$USER/gplascc"
+    mkdir -p "$work_dir"
+
+    cp scripts/gplascc/rfpl_uni.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/gplascc"
+    mkdir -p "$work_dir"
+
+    cp scripts/gplascc/rfpl_uni.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+Launch the slurm job:
+
+```sh
+sbatch rfpl_uni.sh
+```
+
+The gplasCC per-contig result table is moved to `bins.tab` (see `get_gpcc_bin_pred`),
+which is the file consumed by the PlasEval formatting step (`METHOD_FORMAT=gpcc`).
+
 ## Filtering PlasBin-flow and PlasBin-HMF bins
 
 Copy the script `scripts/filter_bins/filter_bins.sh` to another place to modify it:

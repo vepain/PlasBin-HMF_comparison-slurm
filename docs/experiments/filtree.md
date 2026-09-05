@@ -29,8 +29,10 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
         ├── 📂 formatted_input
         │   └── 📂 unicycler    # $UNI_FORMATTED_INPUT_DIR
         │       ├── 📂 rfplasmid
-        │       │   └── 📂 input_pbf
-        │       │       └── 📄 {smp_uid}_scores.tsv     # get_plm_pbf_rfpl_tsv
+        │       │   ├── 📂 input_pbf
+        │       │   │   └── 📄 {smp_uid}_scores.tsv     # get_plm_pbf_rfpl_tsv
+        │       │   └── 📂 input_gplas
+        │       │       └── 📄 {smp_uid}_scores.tsv     # get_plm_gplas_rfpl_tsv
         │       └── 📂 platon
         │           └── 📂 input_pbf
         │               └── 📄 {smp_uid}_seeds.tsv      # get_seeds_pbf_platon_tsv

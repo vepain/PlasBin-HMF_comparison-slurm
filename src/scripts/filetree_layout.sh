@@ -81,6 +81,17 @@ function get_seeds_pbf_platon_tsv() {
     echo "$UNI_FORMATTED_INPUT_DIR/platon/input_pbf/${smp_uid}_seeds.tsv"
 }
 
+# ---------------------------------------------------------------------------- #
+#                           Formatted gplasCC Input                            #
+# ---------------------------------------------------------------------------- #
+# RFPlasmid plasmidness scores in gplasCC input format.
+# Usage:
+#   plm_tsv=$(get_plm_gplas_rfpl_tsv "$smp_uid")
+function get_plm_gplas_rfpl_tsv() {
+    local smp_uid=$1
+    echo "$UNI_FORMATTED_INPUT_DIR/rfplasmid/input_gplas/${smp_uid}_scores.tsv"
+}
+
 # ============================================================================ #
 #                                   BINNING                                    #
 # ============================================================================ #
