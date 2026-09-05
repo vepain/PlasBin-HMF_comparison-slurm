@@ -2,7 +2,8 @@
 # ---------------------------------------------------------------------------- #
 # SLURM script for job resubmission on our clusters.
 # ---------------------------------------------------------------------------- #
-#SBATCH --cpus-per-task=16
+#SBATCH --cpus-per-task=1
+# #gplas is single threaded
 #SBATCH --mem=32G
 #SBATCH --time=10:00:00
 #SBATCH --array=2-1242
