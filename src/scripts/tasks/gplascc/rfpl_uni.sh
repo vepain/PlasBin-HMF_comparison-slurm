@@ -5,7 +5,7 @@
 #SBATCH --cpus-per-task=1
 # #gplas is single threaded
 #SBATCH --mem=32G
-#SBATCH --time=10:00:00
+#SBATCH --time=3:00:00
 #SBATCH --array=2-1242
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
@@ -28,6 +28,7 @@ source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 # ---------------------------------------------------------------------------- #
 # shellcheck source=../../envs/gplascc.sh
 source "$BENCH_ENVS_DIR/gplascc.sh"
+# requires ${BENCH_ENVS_DIR}/gplascc.sif already built
 
 # ---------------------------------------------------------------------------- #
 # Set arguments
@@ -41,7 +42,7 @@ plm_tsv=$(get_plm_gplas_rfpl_tsv "$smp_uid")
 
 # gplasCC only reads unzipped GFA
 gfa="$SLURM_TMPDIR/$smp_uid.gfa"
-gunzip -c "$gfa_gz" >"$gfa"
+gunzip -c "$gfa_gz" > "$gfa"
 #
 # Outputs
 #
@@ -60,7 +61,7 @@ echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $MET
 
 mkdir -p "$output_dir"
 
-apptainer run -C -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
+apptainer run -C -B "$SLURM_TMPDIR" -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
     gplas \
     -i "$gfa" \
     -P "$plm_tsv" \

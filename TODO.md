@@ -73,18 +73,11 @@
   * [ ] 🧪
   * [x] 📑
 * [ ] [👤 @msgr0] `src/scripts/gplascc/rfpl_uni.sh` (GplasCC + RFPlasmid)
-  * [ ] 🧰 (draft in `scripts/fir_envs/tasks/gplascc`)
+  * [ ] 🧰 (draft in `scripts/fir_envs/tasks/gplascc`) [TODO: requires gplascc.sif creation]
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
-* [ ] [👤 @msgr0] format RFPlasmid classification into the gplasCC input
-      (`get_plm_gplas_rfpl_tsv`), required by `src/scripts/gplascc/rfpl_uni.sh`
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
-  * [ ] 🧪
-  * [ ] 📑
 * [ ] mob
   * [ ] 🧰
   * [ ] 🗃️
