@@ -46,7 +46,7 @@ tmp_tsv="$SLURM_TMPDIR/comp.tsv"
 printf "species_id\tsample_uid\tmethod_code\teval_file\n" >"$tmp_tsv"
 
 # Get species_id/sample_id tuples via utils.sh
-mapfile -t sample_tuples < <(get_sample_tuples "$SAMPLES_CSV")
+mapfile -t sample_tuples < <(get_sample_tuples "$ONLY_LABELLED_SAMPLES_TSV")
 
 # Loop over methods and sample tuples
 for m in "${METHOD_CODES[@]}"; do

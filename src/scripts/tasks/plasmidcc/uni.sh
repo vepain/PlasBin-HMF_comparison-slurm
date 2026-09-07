@@ -6,7 +6,7 @@
 #SBATCH --mem=32G
 #SBATCH --time=10:00:00
 #SBATCH --account=def-chauvec
-#SBATCH --array=2-1242
+#SBATCH --array=2-837
 #SBATCH --output=logs/uni/%A/%a.out
 #SBATCH --error=logs/uni/%A/%a.err
 #SBATCH --mail-user=victorepain@disroot.org
