@@ -5,7 +5,7 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=4G
 #SBATCH --time=3:00:00
-#SBATCH --array=2-1242
+#SBATCH --array=2-837
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
@@ -31,7 +31,7 @@ source "$BENCH_ENVS_DIR/format-plaseval/configure.sh"
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
-smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
+smp_uid=$(get_sample_uid_from_slurm_array "$ONLY_LABELLED_SAMPLES_TSV")
 
 old_data_dir="/project/def-chauvec/wg-anoph/benchmarking/DATA"
 gfa_gz="$old_data_dir/ASSEMBLY_FILES/FILTERED_100/UNICYCLER/$smp_uid/assembly.gfa.gz"

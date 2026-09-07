@@ -5,7 +5,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=32G
 #SBATCH --time=10:00:00
-#SBATCH --array=2-1242
+#SBATCH --array=2-837
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
@@ -31,7 +31,7 @@ source "$BENCH_ENVS_DIR/plasbin-hmf/configure.sh"
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
-smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
+smp_uid=$(get_sample_uid_from_slurm_array "$ONLY_LABELLED_SAMPLES_TSV")
 #
 # Inputs (bridge)
 #

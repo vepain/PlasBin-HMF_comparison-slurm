@@ -32,7 +32,7 @@ tmp_tsv="$SLURM_TMPDIR/comp.tsv"
 printf "sample_uid\tspecies_id\tbins_tsv\n" >"$tmp_tsv"
 
 # Get species_id/sample_id tuples via utils.sh
-mapfile -t sample_tuples < <(get_sample_tuples "$SAMPLES_CSV")
+mapfile -t sample_tuples < <(get_sample_tuples "$ONLY_LABELLED_SAMPLES_TSV")
 
 #
 # Bridge
