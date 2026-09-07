@@ -6,7 +6,7 @@
 #SBATCH --mem=32G
 #SBATCH --time=10:00:00
 #SBATCH --account=def-chauvec
-#SBATCH --array=2-1242
+#SBATCH --array=2-837
 #SBATCH --output=logs/default_uni/%A/%a.out
 #SBATCH --error=logs/default_uni/%A/%a.err
 #SBATCH --mail-user=victorepain@disroot.org
@@ -19,7 +19,7 @@ umask 007
 declare -r home_dir="/project/def-chauvec/wg-anoph/benchmarking"
 declare -r results_dir="$home_dir/DATA/RESULTS"
 declare -r uni_dir="$home_dir/DATA/ASSEMBLY_FILES/FILTERED_100/UNICYCLER"
-declare -r samples_csv="$home_dir/completed_samples.csv"
+declare -r ONLY_LABELLED_SAMPLES_TSV="$home_dir/completed_samples.csv"
 
 declare -r output_dir="$results_dir/BINNING/GPLASCC/DEFAULT/UNICYCLER"
 mkdir -p "$output_dir" 2>/dev/null
@@ -37,9 +37,9 @@ declare -r app_tainer_img="$home_dir/ENVS/apptainer_gplascc.sif"
 #
 function get_sample_uid_from_slurm_array {
     local species
-    species=$(sed -n "${SLURM_ARRAY_TASK_ID}p" ${samples_csv} | cut -f1)
+    species=$(sed -n "${SLURM_ARRAY_TASK_ID}p" ${ONLY_LABELLED_SAMPLES_TSV} | cut -f1)
     local sample_id
-    sample_id=$(sed -n "${SLURM_ARRAY_TASK_ID}p" ${samples_csv} | cut -f2)
+    sample_id=$(sed -n "${SLURM_ARRAY_TASK_ID}p" ${ONLY_LABELLED_SAMPLES_TSV} | cut -f2)
 
     local spe_smp_id="${species}-${sample_id}"
 

@@ -5,7 +5,7 @@
 #SBATCH --mem=32G
 #SBATCH --cpus-per-task=16
 #SBATCH --time=3:00:00
-#SBATCH --array=2-1242
+#SBATCH --array=2-837
 #SBATCH --output=logs/CLASSIFICATION/PLATON/UNICYCLER/platon_unicycler_%A_%a.out
 #SBATCH --error=logs/CLASSIFICATION/PLATON/UNICYCLER/platon_unicycler_%A_%a.err
 

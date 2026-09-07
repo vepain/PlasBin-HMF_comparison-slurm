@@ -6,7 +6,7 @@
 #SBATCH --mem=32G
 #SBATCH --time=10:00:00
 #SBATCH --account=def-chauvec
-#SBATCH --array=2-1242
+#SBATCH --array=2-837
 #SBATCH --output=logs/rfpl_uni/%A/%a.out
 #SBATCH --error=logs/rfpl_uni/%A/%a.err
 #SBATCH --mail-user=victorepain@disroot.org
@@ -22,7 +22,7 @@ declare -r home_dir="/project/def-chauvec/wg-anoph/benchmarking"
 declare -r results_dir="$home_dir/DATA/RESULTS"
 declare -r uni_dir="$home_dir/DATA/ASSEMBLY_FILES/FILTERED_100/UNICYCLER"
 declare -r input_dir="$results_dir/FORMATTED_INPUT/RFPLASMID/UNICYCLER/INPUT_GPLAS"
-declare -r samples_csv="$home_dir/completed_samples.csv"
+declare -r ONLY_LABELLED_SAMPLES_TSV="$home_dir/completed_samples.csv"
 
 declare -r all_smp_out_dir="$results_dir/BINNING/GPLASCC/CUSTOM_RFPLASMID/UNICYCLER"
 mkdir -p "$all_smp_out_dir" 2>/dev/null
@@ -86,7 +86,7 @@ function run_gplascc {
     apptainer run -C -B /project -B /scratch -W "$SLURM_TMPDIR" "$apptainer_img" gplas -o "$uid_out_dir" -i "$asm_gfa" -P "$gplascc_input" -n "$file_prefix" -l 1
 }
 
-spe_smp_id=$(get_sample_uid_from_slurm_array "$samples_csv")
+spe_smp_id=$(get_sample_uid_from_slurm_array "$ONLY_LABELLED_SAMPLES_TSV")
 
 smp_outdir="$all_smp_out_dir/$spe_smp_id"
 mkdir -p "$smp_outdir" 2>/dev/null

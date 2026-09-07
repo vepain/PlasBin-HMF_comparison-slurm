@@ -31,16 +31,16 @@ umask 007
 
 # ---------------------------------------------------------------------------- #
 
-if [[ ! -f "$SAMPLES_CSV" ]]; then
-    echo "Error: SAMPLES_CSV not found: $SAMPLES_CSV" >&2
+if [[ ! -f "$ONLY_LABELLED_SAMPLES_TSV" ]]; then
+    echo "Error: ONLY_LABELLED_SAMPLES_TSV not found: $ONLY_LABELLED_SAMPLES_TSV" >&2
     exit 1
 fi
 
-species_col_idx=$(get_tsv_col_idx "$SAMPLES_CSV" "species_id")
-sample_col_idx=$(get_tsv_col_idx "$SAMPLES_CSV" "sample_id")
+species_col_idx=$(get_tsv_col_idx "$ONLY_LABELLED_SAMPLES_TSV" "species_id")
+sample_col_idx=$(get_tsv_col_idx "$ONLY_LABELLED_SAMPLES_TSV" "sample_id")
 
 if [[ -z "$species_col_idx" || -z "$sample_col_idx" ]]; then
-    echo "Error: could not find 'species_id' and/or 'sample_id' columns in $SAMPLES_CSV" >&2
+    echo "Error: could not find 'species_id' and/or 'sample_id' columns in $ONLY_LABELLED_SAMPLES_TSV" >&2
     exit 1
 fi
 
@@ -77,7 +77,7 @@ while IFS=$'\t' read -r -a fields; do
         echo "$row_num" >>"$OUTFILE"
         n_redo=$((n_redo + 1))
     fi
-done <"$SAMPLES_CSV"
+done <"$ONLY_LABELLED_SAMPLES_TSV"
 
 cd "$running_dir"
 
