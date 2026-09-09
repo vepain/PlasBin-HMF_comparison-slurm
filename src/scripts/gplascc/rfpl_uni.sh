@@ -33,7 +33,7 @@ source "$BENCH_ENVS_DIR/gplascc.sh"
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
-smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
+smp_uid=$(get_sample_uid_from_slurm_array "$ONLY_LABELLED_SAMPLES_TSV")
 #
 # Inputs
 #
