@@ -18,7 +18,8 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
     │       └── 📄 short.gfa.csv    # get_gt_csv
     ├── 📂 assembly_files
     │   ├── 📂 unicycler    # $UNI_ASSEMBLY_DIR
-    │   │   └── 📂 {smp_uid}
+    │   │   └── 📂 {smp_uid}    # get_unicycler_assembly_dir
+    │   │       ├── 📄 assembly.fasta.gz
     │   │       └── 📄 assembly.gfa.gz  # get_unicycler_assembly_gfa_gz
     │   └── 📂 hybrid
     │       └── 📂 unicycler    # $UNI_HYBRID_ASSEMBLY_DIR

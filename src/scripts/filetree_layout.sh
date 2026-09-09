@@ -33,11 +33,20 @@ function get_gt_csv() {
 # ============================================================================ #
 UNI_ASSEMBLY_DIR="$BENCH_DATA_DIR/assembly_files/unicycler"
 
+# Per-sample Unicycler short-read assembly directory
+# (holds assembly.fasta.gz and assembly.gfa.gz).
+# Usage:
+#   asm_dir=$(get_unicycler_assembly_dir "$smp_uid")
+function get_unicycler_assembly_dir() {
+    local smp_uid=$1
+    echo "$UNI_ASSEMBLY_DIR/$smp_uid"
+}
+
 # Usage:
 #   gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
 function get_unicycler_assembly_gfa_gz() {
     local smp_uid=$1
-    echo "$UNI_ASSEMBLY_DIR/$smp_uid/assembly.gfa.gz"
+    echo "$(get_unicycler_assembly_dir "$smp_uid")/assembly.gfa.gz"
 }
 
 # ---------------------------------------------------------------------------- #

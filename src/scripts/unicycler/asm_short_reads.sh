@@ -5,12 +5,12 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=32G
 #SBATCH --time=12:00:00
-#SBATCH --array=2-561
+#SBATCH --array=2-1242
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
-# Assemble a sample with Unicycler in hybrid mode (Illumina + long reads),
-# downloading both read sets from the SRA.
+# Assemble a sample with Unicycler from Illumina short reads only, downloading
+# them from the SRA. This produces the assembly every downstream step reads.
 # ---------------------------------------------------------------------------- #
 # Abort the task on the first failure: a read set that fails to download must not
 # reach Unicycler as a missing input and report success
@@ -34,12 +34,11 @@ source "$BENCH_ENVS_DIR/unicycler.sh"
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
-smp_uid=$(get_sample_uid_from_slurm_array "$SRA_SAMPLES_TSV")
+smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 #
 # Inputs
 #
-sra_sr_id=$(get_tsv_cell_from_slurm_array "$SRA_SAMPLES_TSV" "sra_sr")
-sra_lr_id=$(get_tsv_cell_from_slurm_array "$SRA_SAMPLES_TSV" "sra_lr")
+sra_sr_id=$(get_tsv_cell_from_slurm_array "$SAMPLES_CSV" "short_reads")
 
 # The reads are only Unicycler's input: stage them on the node-local disk,
 # which SLURM wipes at the end of the task. They stay uncompressed -- gzipping a
@@ -47,11 +46,10 @@ sra_lr_id=$(get_tsv_cell_from_slurm_array "$SRA_SAMPLES_TSV" "sra_lr")
 reads_dir="$SLURM_TMPDIR/reads"
 fastq_1="$reads_dir/${sra_sr_id}_1.fastq"
 fastq_2="$reads_dir/${sra_sr_id}_2.fastq"
-fastq_lr="$reads_dir/${sra_lr_id}.fastq"
 #
 # Outputs
 #
-output_dir=$(get_unicycler_hybrid_assembly_dir "$smp_uid")
+output_dir=$(get_unicycler_assembly_dir "$smp_uid")
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
@@ -61,12 +59,12 @@ register_job_id "$(dirname "$output_dir")"
 # ---------------------------------------------------------------------------- #
 # Running Unicycler
 # ---------------------------------------------------------------------------- #
-echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $sra_sr_id $sra_lr_id"
+echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $sra_sr_id"
 
 mkdir -p "$output_dir" "$reads_dir"
 
 #
-# Download the short and the long reads
+# Download the short reads
 # fasterq-dump is the multi-threaded replacement for fastq-dump; it keeps the
 # same _1/_2 (paired) and bare (single) output naming
 #
@@ -74,18 +72,13 @@ prefetch "$sra_sr_id" --output-directory "$reads_dir"
 fasterq-dump --threads "$SLURM_CPUS_PER_TASK" --temp "$SLURM_TMPDIR" \
     --outdir "$reads_dir" "$reads_dir/$sra_sr_id"
 
-prefetch "$sra_lr_id" --output-directory "$reads_dir"
-fasterq-dump --threads "$SLURM_CPUS_PER_TASK" --temp "$SLURM_TMPDIR" \
-    --outdir "$reads_dir" "$reads_dir/$sra_lr_id"
-
 #
-# Hybrid assembly
+# Short-read assembly
 #
 apptainer run -C -B "$SLURM_TMPDIR" -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
     unicycler \
     -1 "$fastq_1" \
     -2 "$fastq_2" \
-    -l "$fastq_lr" \
     -o "$output_dir" \
     -t "$SLURM_CPUS_PER_TASK"
 

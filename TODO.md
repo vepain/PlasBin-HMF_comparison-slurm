@@ -15,12 +15,12 @@
 
 ## Short read assembly
 
-* [ ] `src/scripts/tasks/unicycler/asm_short_reads.sh`
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
+* [ ] `src/scripts/unicycler/asm_short_reads.sh`
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
   * [ ] 🧪
-  * [ ] 📑
+  * [x] 📑
 
 ## Hybrid assembly
 

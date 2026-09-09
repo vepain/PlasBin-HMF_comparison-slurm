@@ -4,32 +4,69 @@ icon: lucide/dna
 
 # Assembly
 
-The assembly scripts read the raw sample list `hyplas_samples.tsv`
-(`$SRA_SAMPLES_TSV`, see [the filetree](filtree.md)), *not* `completed_samples.csv`:
-they run before the assembly filtering step that produces the latter.
+The two assembly scripts are driven by **different sample lists**, because they
+serve different purposes.
 
-Required columns:
+| Script | Sample list | Rows | Purpose |
+| ------ | ----------- | ---- | ------- |
+| `asm_short_reads.sh` | `completed_samples.csv` (`$SAMPLES_CSV`) | 1241 | the assemblies every downstream step consumes |
+| `asm_hybrid_reads.sh` | `hyplas_samples.tsv` (`$SRA_SAMPLES_TSV`) | 560 | hybrid assemblies of the samples that also have a complete reference genome, for ground truth |
 
-| Column       | Description                                     |
-| ------------ | ----------------------------------------------- |
-| `species_id` | Species code (`abau`, `ecol`, ...)              |
-| `sample_id`  | BioSample accession                             |
-| `sra_sr`     | SRA accession for short reads                   |
-| `sra_lr`     | SRA accession for long reads                    |
+Both lists carry `species_id` and `sample_id`, so both scripts key their output by
+the benchmark-wide `smp_uid` (`${species_id}-${sample_id}`).
 
-`species_id` and `sample_id` are the same pair as in `completed_samples.csv`, so the
-assemblies are keyed by the benchmark-wide `smp_uid` (`${species_id}-${sample_id}`)
-that every downstream step expects.
+The SRA accession columns differ:
 
-## Unicycler hybrid assembly
+| List | Short reads | Long reads |
+| ---- | ----------- | ---------- |
+| `completed_samples.csv` | `short_reads` | `long_reads` |
+| `hyplas_samples.tsv` | `sra_sr` | `sra_lr` |
+
+In both scripts the reads are downloaded into `$SLURM_TMPDIR` and discarded with it;
+only `assembly.fasta.gz` and `assembly.gfa.gz` are kept.
 
 !!! warning
 
-    The sbatch script requires `envs/unicycler.sif` to be built beforehand.
+    Both sbatch scripts require `envs/unicycler.sif` to be built beforehand,
+    see [the build script](../setup/envs/unicycler.md).
 
-The reads are downloaded from the SRA into `$SLURM_TMPDIR` and discarded with it;
-only `assembly.fasta.gz` and `assembly.gfa.gz` are kept
-(see `get_unicycler_hybrid_assembly_dir`).
+## Unicycler short-read assembly
+
+Writes to `get_unicycler_assembly_dir`, so that `get_unicycler_assembly_gfa_gz` --
+the input of every classification and binning script -- resolves.
+
+Copy the script `scripts/unicycler/asm_short_reads.sh` to another place to modify it:
+
+=== ":lucide-file-terminal: Bash"
+
+    ```bash
+    work_dir="/scratch/$USER/unicycler"
+    mkdir -p "$work_dir"
+
+    cp scripts/unicycler/asm_short_reads.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/unicycler"
+    mkdir -p "$work_dir"
+
+    cp scripts/unicycler/asm_short_reads.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+Launch the slurm job:
+
+```sh
+sbatch asm_short_reads.sh
+```
+
+## Unicycler hybrid assembly
+
+Writes to `get_unicycler_hybrid_assembly_dir`, kept separate from the short-read
+assemblies.
 
 Copy the script `scripts/unicycler/asm_hybrid_reads.sh` to another place to modify it:
 
@@ -53,8 +90,7 @@ Copy the script `scripts/unicycler/asm_hybrid_reads.sh` to another place to modi
     cd "$work_dir"
     ```
 
-Set `--array` to `2-$(( $(wc -l < hyplas_samples.tsv) ))` (line 1 is the header),
-then launch the slurm job:
+Launch the slurm job:
 
 ```sh
 sbatch asm_hybrid_reads.sh
