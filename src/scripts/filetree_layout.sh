@@ -10,12 +10,8 @@ BENCH_ENVS_DIR="$BENCH_ROOT_DIR/envs"
 BENCH_DATA_DIR="$BENCH_ROOT_DIR/data"
 
 SAMPLES_CSV="$BENCH_ROOT_DIR/completed_samples.csv"
-# Raw sample list, upstream of the assembly filtering step.
-# Columns: species_id, sample_id, sra_sr (short reads), sra_lr (long reads).
-# species_id/sample_id are the same pair as in $SAMPLES_CSV, so
-# `get_sample_uid_from_slurm_array` builds the benchmark-wide smp_uid from it.
 SRA_SAMPLES_TSV="$BENCH_ROOT_DIR/hyplas_samples.tsv"
-
+ONLY_LABELLED_SAMPLES_TSV="$BENCH_ROOT_DIR/only_labelled_samples.tsv"
 # ============================================================================ #
 #                                 GROUND TRUTH                                 #
 # ============================================================================ #

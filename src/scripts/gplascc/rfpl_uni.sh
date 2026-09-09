@@ -6,7 +6,7 @@
 # #gplas is single threaded
 #SBATCH --mem=32G
 #SBATCH --time=3:00:00
-#SBATCH --array=2-1242
+#SBATCH --array=2-837
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
