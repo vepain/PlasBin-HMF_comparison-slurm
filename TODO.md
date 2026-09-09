@@ -24,12 +24,12 @@
 
 ## Hybrid assembly
 
-* [ ] `src/scripts/tasks/unicycler/asm_hybrid_reads.sh`
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
+* [ ] `src/scripts/unicycler/asm_hybrid_reads.sh`
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
   * [ ] 🧪
-  * [ ] 📑
+  * [x] 📑
 
 ## Filter uncompleted hybrid assembly
 

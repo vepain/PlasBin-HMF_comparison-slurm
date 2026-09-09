@@ -10,6 +10,11 @@ BENCH_ENVS_DIR="$BENCH_ROOT_DIR/envs"
 BENCH_DATA_DIR="$BENCH_ROOT_DIR/data"
 
 SAMPLES_CSV="$BENCH_ROOT_DIR/completed_samples.csv"
+# Raw sample list, upstream of the assembly filtering step.
+# Columns: species_id, sample_id, sra_sr (short reads), sra_lr (long reads).
+# species_id/sample_id are the same pair as in $SAMPLES_CSV, so
+# `get_sample_uid_from_slurm_array` builds the benchmark-wide smp_uid from it.
+SRA_SAMPLES_TSV="$BENCH_ROOT_DIR/hyplas_samples.tsv"
 
 # ============================================================================ #
 #                                 GROUND TRUTH                                 #
@@ -33,6 +38,22 @@ UNI_ASSEMBLY_DIR="$BENCH_DATA_DIR/assembly_files/unicycler"
 function get_unicycler_assembly_gfa_gz() {
     local smp_uid=$1
     echo "$UNI_ASSEMBLY_DIR/$smp_uid/assembly.gfa.gz"
+}
+
+# ---------------------------------------------------------------------------- #
+#                            Hybrid assembly output                            #
+# ---------------------------------------------------------------------------- #
+UNI_HYBRID_ASSEMBLY_DIR="$BENCH_DATA_DIR/assembly_files/hybrid/unicycler"
+
+# Per-sample Unicycler hybrid assembly directory
+# (holds assembly.fasta.gz and assembly.gfa.gz).
+# smp_uid is the benchmark-wide "${species_id}-${sample_id}", as everywhere else
+# in this file.
+# Usage:
+#   asm_dir=$(get_unicycler_hybrid_assembly_dir "$smp_uid")
+function get_unicycler_hybrid_assembly_dir() {
+    local smp_uid=$1
+    echo "$UNI_HYBRID_ASSEMBLY_DIR/$smp_uid"
 }
 
 # ============================================================================ #

@@ -9,6 +9,7 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
 ```sh
 📂 BENCH_ROOT_DIR
 ├── 📄 completed_samples.csv
+├── 📄 hyplas_samples.tsv   # $SRA_SAMPLES_TSV (species_id, sample_id, sra_sr, sra_lr)
 ├── 📁 scripts
 ├── 📁 envs
 └── 📂 data
@@ -16,9 +17,14 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
     │   └── 📂 {smp_uid}
     │       └── 📄 short.gfa.csv    # get_gt_csv
     ├── 📂 assembly_files
-    │   └── 📂 unicycler    # $UNI_ASSEMBLY_DIR
-    │       └── 📂 {smp_uid}
-    │           └── 📄 assembly.gfa.gz  # get_unicycler_assembly_gfa_gz
+    │   ├── 📂 unicycler    # $UNI_ASSEMBLY_DIR
+    │   │   └── 📂 {smp_uid}
+    │   │       └── 📄 assembly.gfa.gz  # get_unicycler_assembly_gfa_gz
+    │   └── 📂 hybrid
+    │       └── 📂 unicycler    # $UNI_HYBRID_ASSEMBLY_DIR
+    │           └── 📂 {smp_uid}    # get_unicycler_hybrid_assembly_dir
+    │               ├── 📄 assembly.fasta.gz
+    │               └── 📄 assembly.gfa.gz
     └── 📂 results
         ├── 📂 rfplasmid
         │   └── 📂 unicycler    # $UNI_RFPLASMID_DIR
