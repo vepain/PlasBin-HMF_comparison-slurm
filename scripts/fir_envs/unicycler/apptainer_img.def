@@ -1,0 +1,26 @@
+Bootstrap: docker
+From: staphb/unicycler:0.5.1
+
+%labels
+    Software     Unicycler
+    Version      0.5.1
+    Upstream     https://github.com/rrwick/Unicycler
+    Base         https://hub.docker.com/r/staphb/unicycler
+
+%environment
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+# The image ships spades/racon/miniasm next to unicycler, so the caller names the
+# command: `apptainer run unicycler.sif unicycler -1 ... -2 ... -l ...`.
+# Explicit here so we do not depend on the upstream image's CMD/ENTRYPOINT.
+%runscript
+    exec "$@"
+
+%test
+    version=$(unicycler --version)
+    echo "Installed: $version"
+    case "$version" in
+        *0.5.1*) echo "OK: version pin matches" ;;
+        *) echo "ERROR: expected Unicycler 0.5.1, got: $version" >&2; exit 1 ;;
+    esac

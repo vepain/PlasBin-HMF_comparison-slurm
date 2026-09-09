@@ -15,21 +15,21 @@
 
 ## Short read assembly
 
-* [ ] `src/scripts/tasks/unicycler/asm_short_reads.sh`
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
+* [ ] `src/scripts/unicycler/asm_short_reads.sh`
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
   * [ ] 🧪
-  * [ ] 📑
+  * [x] 📑
 
 ## Hybrid assembly
 
-* [ ] `src/scripts/tasks/unicycler/asm_hybrid_reads.sh`
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
+* [ ] `src/scripts/unicycler/asm_hybrid_reads.sh`
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
   * [ ] 🧪
-  * [ ] 📑
+  * [x] 📑
 
 ## Filter uncompleted hybrid assembly
 
@@ -72,12 +72,12 @@
   * [x] 🚧
   * [ ] 🧪
   * [x] 📑
-* [ ] [👤 @msgr0] `src/scripts/tasks/gplascc/rfpl_uni.sh` (GplasCC + RFPlasmid)
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
-  * [ ] 🧪
-  * [ ] 📑
+* [ ] [👤 @msgr0] `src/scripts/gplascc/rfpl_uni.sh` (GplasCC + RFPlasmid)
+  * [ ] 🧰 (draft in `scripts/fir_envs/tasks/gplascc`) [TODO: requires gplascc.sif creation]
+  * [x] 🗃️
+  * [x] 🚧
+  * [x] 🧪
+  * [x] 📑
 * [ ] mob
   * [ ] 🧰
   * [ ] 🗃️

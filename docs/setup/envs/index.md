@@ -4,6 +4,10 @@ icon: lucide/container
 
 # Install the tool environments on Canadian Alliance Fir cluster
 
+## Assembly
+
+- [Unicycler](unicycler.md)
+
 ## Classifiers
 
 - [Platon](platon.md)
