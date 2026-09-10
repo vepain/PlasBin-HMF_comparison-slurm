@@ -51,18 +51,18 @@
 
 ## Classification
 
-* [ ] rfplasmid
+* [ ] `src/scripts/rfplasmid/uni.sh`
   * [x] 🧰
   * [x] 🗃️
-  * [ ] 🚧
+  * [x] 🚧
   * [ ] 🧪
-  * [ ] 📑
-* [ ] platon
+  * [x] 📑
+* [ ] `src/scripts/platon/uni.sh`
   * [x] 🧰
   * [x] 🗃️
-  * [ ] 🚧
+  * [x] 🚧
   * [ ] 🧪
-  * [ ] 📑
+  * [x] 📑
 
 ## Binning
 
