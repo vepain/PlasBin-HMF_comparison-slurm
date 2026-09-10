@@ -61,11 +61,14 @@ register_job_id "$(dirname "$output_dir")"
 # ---------------------------------------------------------------------------- #
 echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid rfplasmid $rfpl_species"
 
-mkdir -p "$output_dir"
-
+# Do not create "$output_dir": RFPlasmid creates it, and if it already exists it
+# writes to "${output_dir}_<timestamp>" instead, which nothing downstream reads.
+#
 # --jelly: jellyfish k-mer counting, which RFPlasmid strongly recommends (the
-# Python fallback is slow); jellyfish ships in the image
-apptainer run -C -B "$SLURM_TMPDIR" -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
+# Python fallback is slow); jellyfish ships in the image.
+# PYTHONUNBUFFERED: RFPlasmid's progress lines reach the log as they happen instead
+# of only at exit, so a killed task still shows how far it got.
+apptainer run -C -B "$SLURM_TMPDIR" -W "$SLURM_TMPDIR" --env PYTHONUNBUFFERED=1 "$APPTAINER_IMG" \
     --species "$rfpl_species" \
     --jelly \
     --input "$input_dir" \
