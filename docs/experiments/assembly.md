@@ -4,23 +4,16 @@ icon: lucide/dna
 
 # Assembly
 
-The two assembly scripts are driven by **different sample lists**, because they
-serve different purposes.
+Both assembly scripts read `completed_samples.csv` (`$SAMPLES_CSV`, 1241 samples,
+`--array=2-1242`), which carries one SRA accession per read type:
 
-| Script | Sample list | Rows | Purpose |
-| ------ | ----------- | ---- | ------- |
-| `asm_short_reads.sh` | `completed_samples.csv` (`$SAMPLES_CSV`) | 1241 | the assemblies every downstream step consumes |
-| `asm_hybrid_reads.sh` | `hyplas_samples.tsv` (`$SRA_SAMPLES_TSV`) | 560 | hybrid assemblies of the samples that also have a complete reference genome, for ground truth |
+| Script | Reads | Columns |
+| ------ | ----- | ------- |
+| `asm_short_reads.sh` | Illumina | `short_reads` |
+| `asm_hybrid_reads.sh` | Illumina + Oxford Nanopore | `short_reads`, `long_reads` |
 
-Both lists carry `species_id` and `sample_id`, so both scripts key their output by
-the benchmark-wide `smp_uid` (`${species_id}-${sample_id}`).
-
-The SRA accession columns differ:
-
-| List | Short reads | Long reads |
-| ---- | ----------- | ---------- |
-| `completed_samples.csv` | `short_reads` | `long_reads` |
-| `hyplas_samples.tsv` | `sra_sr` | `sra_lr` |
+Both scripts key their output by the benchmark-wide `smp_uid`
+(`${species_id}-${sample_id}`).
 
 In both scripts the reads are downloaded into `$SLURM_TMPDIR` and discarded with it;
 only `assembly.fasta.gz` and `assembly.gfa.gz` are kept.

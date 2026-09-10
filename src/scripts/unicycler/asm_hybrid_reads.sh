@@ -5,7 +5,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=32G
 #SBATCH --time=12:00:00
-#SBATCH --array=2-561
+#SBATCH --array=2-1242
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
@@ -34,12 +34,12 @@ source "$BENCH_ENVS_DIR/unicycler.sh"
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
-smp_uid=$(get_sample_uid_from_slurm_array "$SRA_SAMPLES_TSV")
+smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 #
 # Inputs
 #
-sra_sr_id=$(get_tsv_cell_from_slurm_array "$SRA_SAMPLES_TSV" "sra_sr")
-sra_lr_id=$(get_tsv_cell_from_slurm_array "$SRA_SAMPLES_TSV" "sra_lr")
+sra_sr_id=$(get_tsv_cell_from_slurm_array "$SAMPLES_CSV" "short_reads")
+sra_lr_id=$(get_tsv_cell_from_slurm_array "$SAMPLES_CSV" "long_reads")
 
 # The reads are only Unicycler's input: stage them on the node-local disk,
 # which SLURM wipes at the end of the task. They stay uncompressed -- gzipping a

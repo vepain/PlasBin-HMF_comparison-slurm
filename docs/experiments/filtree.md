@@ -9,7 +9,6 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
 ```sh
 📂 BENCH_ROOT_DIR
 ├── 📄 completed_samples.csv
-├── 📄 hyplas_samples.tsv   # $SRA_SAMPLES_TSV (species_id, sample_id, sra_sr, sra_lr)
 ├── 📁 scripts
 ├── 📁 envs
 └── 📂 data
