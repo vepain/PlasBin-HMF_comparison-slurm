@@ -57,6 +57,27 @@ sbatch uni.sh
 
 Results are written to `get_rfplasmid_out_dir` (`prediction.csv`, ...).
 
+!!! warning "Resubmitting a task"
+
+    If its `--out` directory already exists, RFPlasmid does not overwrite it: it
+    writes to `{smp_uid}_YYYYMMDD_HHMMSS` next to it instead, which no downstream
+    step reads. The sbatch script therefore never creates the output directory
+    itself, but a **previous attempt** leaves one behind. Before resubmitting a
+    sample, delete its directory:
+
+    ```sh
+    rm -rf "$benchmark_root_dir/data/results/rfplasmid/unicycler/$smp_uid"
+    ```
+
+    To recover results that already landed in timestamped directories, move them
+    into place (`rmdir` only removes the empty directory left in the way, so a
+    real result is never deleted):
+
+    ```sh
+    cd "$benchmark_root_dir/data/results/rfplasmid/unicycler"
+    for d in *_20??????_??????; do u=${d%_*_*}; rmdir "$u" && mv "$d" "$u"; done
+    ```
+
 ## Platon
 
 !!! warning
