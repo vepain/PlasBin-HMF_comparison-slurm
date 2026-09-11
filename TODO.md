@@ -103,19 +103,19 @@
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [ ] 📑
-* [ ] `src/scripts/plaseval-gdv/eval.sh`
+* [x] `src/scripts/plaseval-gdv/eval.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
-* [ ] `src/scripts/plaseval-gdv/comp_uni.sh`
+* [x] `src/scripts/plaseval-gdv/comp_uni.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
 * [ ] `src/scripts/merge-plaseval/merge_eval.sh`
   * [x] 🧰
