@@ -15,20 +15,20 @@
 
 ## Short read assembly
 
-* [ ] `src/scripts/unicycler/asm_short_reads.sh`
+* [x] `src/scripts/unicycler/asm_short_reads.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
 
 ## Hybrid assembly
 
-* [ ] `src/scripts/unicycler/asm_hybrid_reads.sh`
+* [x] `src/scripts/unicycler/asm_hybrid_reads.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
 
 ## Filter uncompleted hybrid assembly
@@ -73,23 +73,23 @@
   * [ ] 🧪
   * [x] 📑
 * [ ] [👤 @msgr0] `src/scripts/gplascc/rfpl_uni.sh` (GplasCC + RFPlasmid)
-  * [ ] 🧰 (draft in `scripts/fir_envs/tasks/gplascc`) [TODO: requires gplascc.sif creation]
+  * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
   * [x] 🧪
   * [x] 📑
-* [ ] mob
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
+* [ ] `src/scripts/mob-suite/uni.sh`
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
   * [ ] 🧪
-  * [ ] 📑
-* [ ] plasbin-flow
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
+  * [x] 📑
+* [ ] `src/scripts/plasbin-flow/rfpl_uni.sh`
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
   * [ ] 🧪
-  * [ ] 📑
+  * [x] 📑
 
 ## Evaluation
 
