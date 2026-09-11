@@ -5,6 +5,8 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=32G
 #SBATCH --time=12:00:00
+# measured on Fir (3 samples): ~25 s wall-clock, <=4 cores busy, 2.7 GB peak memory,
+# so this could be reduced to --cpus-per-task=4 --mem=8G --time=1:00:00
 #SBATCH --array=2-837
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err

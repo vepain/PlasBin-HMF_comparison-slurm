@@ -1,7 +1,6 @@
 """PlasEval input binning results formatter."""
 
 import csv
-from collections.abc import Iterator
 from enum import StrEnum
 from pathlib import Path
 from typing import Annotated
@@ -217,27 +216,22 @@ def format_mob(res_file: Path, bins_out_path: Path, assembly: Assembly) -> None:
 def format_gplas(res_file: Path, bins_out_path: Path, assembly: Assembly) -> None:
     """Format gplasCC binning result (without the unbinned contigs).
 
-    - binning results in a space separated file (one contig per line),
-    - ctg_id in first column, plasmid bin id in last column,
-    - some contigs might be unbinned, these are treated as individual plasmids,
+    - gplas results/<name>_results.tab: TSV with a header, one contig per line
+      (Prob_Chromosome, Prob_Plasmid, Prediction, Contig_name, number, length,
+      coverage, Bin),
+    - columns are read by name: ctg_id is the number column (the GFA segment
+      name), plasmid bin id is the Bin column,
+    - contigs with Bin 'Unbinned' are skipped.
     """
-    with res_file.open("r") as f_in, bins_out_path.open("w") as f_out:
-        iter_lines: Iterator[str] = iter(f_in)
+    ctg_df = pd.read_csv(res_file, sep="\t", dtype=str)
+    pls_df = ctg_df[ctg_df["Bin"] != "Unbinned"]
 
+    with bins_out_path.open("w") as f_out:
         f_out.write("plasmid\tcontig\tcontig_len\n")
-
-        next(iter_lines)  # skip header
-        for line in iter_lines:
-            if line:
-                ctg_id, pls = (
-                    line.split("\t")[0],
-                    line.split("\t")[-1].removesuffix("\n"),
-                )
-                if pls != "Unbinned":
-                    ctg_len = assembly.contig(ctg_id).len()
-                    f_out.write(
-                        "GP_" + pls + "\t" + ctg_id + "\t" + str(ctg_len) + "\n",
-                    )
+        for _, row in pls_df.iterrows():
+            ctg_id = row["number"]
+            ctg_len = assembly.contig(ctg_id).len()
+            f_out.write("GP_" + row["Bin"] + "\t" + ctg_id + "\t" + str(ctg_len) + "\n")
 
 
 class Tools(StrEnum):

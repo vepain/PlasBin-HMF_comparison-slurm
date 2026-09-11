@@ -72,32 +72,32 @@
   * [x] 🚧
   * [ ] 🧪
   * [x] 📑
-* [ ] [👤 @msgr0] `src/scripts/gplascc/rfpl_uni.sh` (GplasCC + RFPlasmid)
+* [x] [👤 @msgr0] `src/scripts/gplascc/rfpl_uni.sh` (GplasCC + RFPlasmid)
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
   * [x] 🧪
   * [x] 📑
-* [ ] `src/scripts/mob-suite/uni.sh`
+* [x] `src/scripts/mob-suite/uni.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
-* [ ] `src/scripts/plasbin-flow/rfpl_uni.sh`
+* [x] `src/scripts/plasbin-flow/rfpl_uni.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
 
 ## Evaluation
 
-* [ ] `src/scripts/format-plaseval/pred_uni.sh`
+* [x] `src/scripts/format-plaseval/pred_uni.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
 * [ ] `src/scripts/format-plaseval/gt_uni.sh`
   * [x] 🧰
