@@ -51,6 +51,7 @@ Copyright &copy; 2026 The authors
             "experiments/filtree.md",
             "experiments/intro.md",
             "experiments/assembly.md",
+            "experiments/classification.md",
             "experiments/binning.md",
             "experiments/eval_bin.md",
         ] },

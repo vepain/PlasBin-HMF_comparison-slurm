@@ -10,7 +10,6 @@ BENCH_ENVS_DIR="$BENCH_ROOT_DIR/envs"
 BENCH_DATA_DIR="$BENCH_ROOT_DIR/data"
 
 SAMPLES_CSV="$BENCH_ROOT_DIR/completed_samples.csv"
-SRA_SAMPLES_TSV="$BENCH_ROOT_DIR/hyplas_samples.tsv"
 ONLY_LABELLED_SAMPLES_TSV="$BENCH_ROOT_DIR/only_labelled_samples.tsv"
 # ============================================================================ #
 #                                 GROUND TRUTH                                 #

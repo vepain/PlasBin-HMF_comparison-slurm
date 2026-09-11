@@ -15,20 +15,20 @@
 
 ## Short read assembly
 
-* [ ] `src/scripts/unicycler/asm_short_reads.sh`
+* [x] `src/scripts/unicycler/asm_short_reads.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
 
 ## Hybrid assembly
 
-* [ ] `src/scripts/unicycler/asm_hybrid_reads.sh`
+* [x] `src/scripts/unicycler/asm_hybrid_reads.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
 
 ## Filter uncompleted hybrid assembly
@@ -51,18 +51,18 @@
 
 ## Classification
 
-* [ ] rfplasmid
+* [x] `src/scripts/rfplasmid/uni.sh`
   * [x] 🧰
   * [x] 🗃️
-  * [ ] 🚧
-  * [ ] 🧪
-  * [ ] 📑
-* [ ] platon
+  * [x] 🚧
+  * [x] 🧪
+  * [x] 📑
+* [x] `src/scripts/platon/uni.sh`
   * [x] 🧰
   * [x] 🗃️
-  * [ ] 🚧
-  * [ ] 🧪
-  * [ ] 📑
+  * [x] 🚧
+  * [x] 🧪
+  * [x] 📑
 
 ## Binning
 
@@ -72,50 +72,50 @@
   * [x] 🚧
   * [ ] 🧪
   * [x] 📑
-* [ ] [👤 @msgr0] `src/scripts/gplascc/rfpl_uni.sh` (GplasCC + RFPlasmid)
-  * [ ] 🧰 (draft in `scripts/fir_envs/tasks/gplascc`) [TODO: requires gplascc.sif creation]
+* [x] [👤 @msgr0] `src/scripts/gplascc/rfpl_uni.sh` (GplasCC + RFPlasmid)
+  * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
   * [x] 🧪
   * [x] 📑
-* [ ] mob
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
-  * [ ] 🧪
-  * [ ] 📑
-* [ ] plasbin-flow
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
-  * [ ] 🧪
-  * [ ] 📑
-
-## Evaluation
-
-* [ ] `src/scripts/format-plaseval/pred_uni.sh`
+* [x] `src/scripts/mob-suite/uni.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
+  * [x] 📑
+* [x] `src/scripts/plasbin-flow/rfpl_uni.sh`
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
+  * [x] 🧪
+  * [x] 📑
+
+## Evaluation
+
+* [x] `src/scripts/format-plaseval/pred_uni.sh`
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
+  * [x] 🧪
   * [x] 📑
 * [ ] `src/scripts/format-plaseval/gt_uni.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [ ] 📑
-* [ ] `src/scripts/plaseval-gdv/eval.sh`
+* [x] `src/scripts/plaseval-gdv/eval.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
-* [ ] `src/scripts/plaseval-gdv/comp_uni.sh`
+* [x] `src/scripts/plaseval-gdv/comp_uni.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
 * [ ] `src/scripts/merge-plaseval/merge_eval.sh`
   * [x] 🧰
