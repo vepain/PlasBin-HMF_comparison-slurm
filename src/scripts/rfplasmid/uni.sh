@@ -5,6 +5,8 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=32G
 #SBATCH --time=12:00:00
+# measured on Fir (3 samples): 31-58 s wall, ~2 of 16 cores busy (CPU efficiency 11-14%),
+# so --cpus-per-task=4 and a much shorter --time would fit; peak memory not measured
 #SBATCH --array=2-837
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
