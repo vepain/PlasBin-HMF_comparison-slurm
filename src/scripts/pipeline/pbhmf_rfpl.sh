@@ -12,6 +12,10 @@
 #   > ./pbhmf_rfpl.sh [first_step]
 #   first_step: assembly (default) | classification | format | binning | evaluation
 #
+# Set ARRAY to restrict the per-sample steps to some array indices, e.g. for a test run:
+#   > ARRAY=2,253,374 ./pbhmf_rfpl.sh binning
+# The merges read every sample, so in such a run they are cancelled: that is expected.
+#
 # ============================================================================ #
 
 # ---------------------------------------------------------------------------- #
@@ -20,6 +24,7 @@
 declare -r METHOD_CODE="pbhmf_rfpl"
 declare -r ALPHA=0.5 # PlasEval comp parameter (comp_uni.sh and merge_comp.sh)
 declare -r FIRST_STEP="${1:-assembly}"
+declare -r ARRAY="${ARRAY:-}" # array indices for the per-sample steps; empty = the script's own
 
 # ---------------------------------------------------------------------------- #
 # Load base scripts
@@ -92,8 +97,12 @@ function dep() {
 # --kill-on-invalid-dep: a task whose upstream failed is cancelled, not left pending.
 # Usage: id=$(submit <job name> <dependency, may be empty> <script copy>)
 function submit() {
-    local id
-    id=$(sbatch --parsable --job-name="$1" --kill-on-invalid-dep=yes \
+    local id array_opt=""
+    # only the per-sample steps have an #SBATCH --array line; the merges must stay single jobs
+    if [[ -n "$ARRAY" ]] && grep -q '^#SBATCH --array=' "$3"; then
+        array_opt="--array=$ARRAY"
+    fi
+    id=$(sbatch --parsable --job-name="$1" --kill-on-invalid-dep=yes $array_opt \
         ${2:+--dependency="$2"} "$3" | cut -d';' -f1)
     printf '%s\t%s\t%s\n' "$1" "$id" "${2:--}" | tee -a "$RUN_DIR/jobs.tsv" >&2
     echo "$id"

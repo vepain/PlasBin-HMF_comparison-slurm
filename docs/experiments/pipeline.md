@@ -19,6 +19,17 @@ The optional argument is the first step to run: `assembly` (default), `classific
 `format`, `binning` or `evaluation`. Earlier steps are skipped, and their outputs must
 already exist.
 
+Set `ARRAY` to restrict the per-sample steps to some array indices, for a test run over a
+few samples:
+
+```sh
+ARRAY=2,253,374 "$benchmark_root_dir/scripts/pipeline/pbhmf_rfpl.sh" binning
+```
+
+The merge steps read every sample of `only_labelled_samples.tsv`, so they are left without
+`--array` and will be cancelled in such a run. That is expected: launch them by hand from
+`./pipeline_<date>/` once the full runs are done.
+
 | Step | Scripts | Each task waits for |
 | ---- | ------- | ------------------- |
 | `assembly` | `unicycler/asm_short_reads.sh` | — |
