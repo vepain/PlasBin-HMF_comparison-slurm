@@ -52,6 +52,7 @@ Copyright &copy; 2026 The authors
             "experiments/intro.md",
             "experiments/pipeline.md",
             "experiments/assembly.md",
+            "experiments/ground_truth.md",
             "experiments/classification.md",
             "experiments/binning.md",
             "experiments/eval_bin.md",
