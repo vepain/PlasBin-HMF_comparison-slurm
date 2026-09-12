@@ -40,7 +40,8 @@
   * [x] 🧰 (plain bash/awk, nothing to build)
   * [x] 🗃️ (no environment needed)
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪 (rule validated against Tomas' 1241 label files: 836 kept, 0 disagreements;
+    a run on our own data awaits the hybrid assemblies)
   * [ ] 📑
 
 ## Generate ground truth
