@@ -23,6 +23,15 @@ function get_gt_csv() {
     echo "$GROUND_TRUTH_DIR/$smp_uid/short.gfa.csv"
 }
 
+# Label (chromosome/plasmid) of every contig of the hybrid assembly: the input the
+# ground truth of the short-read contigs is derived from.
+# Usage:
+#   hybrid_csv=$(get_hybrid_labels_csv "$smp_uid")
+function get_hybrid_labels_csv() {
+    local smp_uid=$1
+    echo "$GROUND_TRUTH_DIR/$smp_uid/hybrid.gfa.csv"
+}
+
 # ============================================================================ #
 #                              UNICYCLER ASSEMBLY INPUT                        #
 # ============================================================================ #
