@@ -8,3 +8,10 @@ site/
 !.pixi/config.toml
 __pycache__/
 mem.md
+# macOS
+.DS_Store
+
+# Tomas's prebuilt binaries (kept locally, not in the repo)
+scripts/tvinar-scripts/faSize
+scripts/tvinar-scripts/bedGraphToBigWig
+scripts/tvinar-scripts/*~

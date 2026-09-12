@@ -1,0 +1,2 @@
+source setup-modules
+sbatch --time=1-0 -c 4 --mem=30G scripts/single-sample.pl -r ecol test SRR11948991 SRR12299073
