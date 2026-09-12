@@ -5,6 +5,11 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=32G
 #SBATCH --time=12:00:00
+# measured on Fir (2 samples): 2 h 22 (abau) / 7 h 31 (ecol) wall, CPU efficiency 31-32%
+# (~5 of 16 cores busy, incl. the idle downloads). Fewer cores would cut core-hours, but
+# 7 h 31 is already 63% of --time, so it risks TIMEOUT on the bigger samples. Memory is the
+# binding constraint: abau peaked at 19 GB but ecol at 32 GB = the --mem ceiling, so bigger
+# samples may need --mem=64G
 #SBATCH --array=2-1242
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
