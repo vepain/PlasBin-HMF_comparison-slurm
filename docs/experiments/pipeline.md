@@ -26,9 +26,11 @@ few samples:
 ARRAY=2,253,374 "$benchmark_root_dir/scripts/pipeline/pbhmf_rfpl.sh" binning
 ```
 
-The merge steps read every sample of `only_labelled_samples.tsv`, so they are left without
-`--array` and will be cancelled in such a run. That is expected: launch them by hand from
-`./pipeline_<date>/` once the full runs are done.
+The merge steps read every sample of `only_labelled_samples.tsv` whatever the eval/comp jobs
+covered, and write a row per sample and method: with `ARRAY` set they would produce a
+full-length table whose missing samples are blank rows (their counts do show up in
+`comp_merge_stats.tsv`). A restricted run therefore **skips the merges**; launch them by hand
+from `./pipeline_<date>/` once the full runs are done.
 
 | Step | Scripts | Each task waits for |
 | ---- | ------- | ------------------- |

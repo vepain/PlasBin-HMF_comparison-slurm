@@ -14,7 +14,8 @@
 #
 # Set ARRAY to restrict the per-sample steps to some array indices, e.g. for a test run:
 #   > ARRAY=2,253,374 ./pbhmf_rfpl.sh binning
-# The merges read every sample, so in such a run they are cancelled: that is expected.
+# The merges read every sample of the list, so they are SKIPPED when ARRAY is set: run them
+# by hand from ./pipeline_<date>/ once the full runs are done.
 #
 # ============================================================================ #
 
@@ -177,7 +178,15 @@ for m in "$METHOD_CODE" "${METHOD_CODE}_filt"; do
     comp_ids+=("$(submit "comp-$m" "$(dep aftercorr "$pred_id" "$gt_id")" "$script")")
 done
 
-# Merges need every sample: they only run if all eval/comp tasks succeeded
+# Merges need every sample: they only run if all eval/comp tasks succeeded. With ARRAY set
+# they would still read the whole sample list and write a table whose missing samples are
+# blank rows, so a restricted run skips them.
+if [[ -n "$ARRAY" ]]; then
+    echo "ARRAY is set: skipping merge-eval and merge-comp (they read every sample)" >&2
+    echo "Cancel everything: scancel $(cut -f2 "$RUN_DIR/jobs.tsv" | tr '\n' ' ')" >&2
+    exit 0
+fi
+
 script=$(prep merge-eval merge-plaseval/merge_eval.sh)
 set_array "$script" method_codes "$METHOD_CODE" "${METHOD_CODE}_filt"
 submit merge-eval "$(dep afterok "${eval_ids[@]}")" "$script" >/dev/null
