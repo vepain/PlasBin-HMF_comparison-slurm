@@ -50,6 +50,7 @@ Copyright &copy; 2026 The authors
         { "Experiments" = [
             "experiments/filtree.md",
             "experiments/intro.md",
+            "experiments/pipeline.md",
             "experiments/assembly.md",
             "experiments/classification.md",
             "experiments/binning.md",
