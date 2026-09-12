@@ -33,20 +33,23 @@
 
 ## Filter uncompleted hybrid assembly
 
-* [ ] [👤 @vepain] Find Tomas' script(s), otherwise recode
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
+* [ ] [👤 @msgr0] `src/scripts/ground-truth/filter_complete_samples.sh` (recoded: the rule
+  is in none of Tomas' scripts, but was recovered from his 1241 `hybrid.gfa.csv`
+  files — keep a sample iff no hybrid contig is `unlabeled`, which reproduces his
+  836-sample list exactly)
+  * [x] 🧰 (plain bash/awk, nothing to build)
+  * [x] 🗃️ (no environment needed)
+  * [x] 🚧
   * [ ] 🧪
   * [ ] 📑
 
 ## Generate ground truth
 
-* [ ] [👤 @vepain] Find Tomas' script(s), otherwise recode
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
-  * [ ] 🧪
+* [ ] [👤 @msgr0] `src/scripts/ground-truth/uni_short_vs_hybrid.sh` (ported from Tomas' `ground-truth-new-v2.pl`)
+  * [x] 🧰 (minimap2 is a module, nothing to build)
+  * [x] 🗃️
+  * [x] 🚧
+  * [x] 🧪
   * [ ] 📑
 
 ## Classification
