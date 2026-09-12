@@ -7,8 +7,11 @@ Reproduces the format of Tomas' `short.gfa.csv`:
 - coverages are aligned base pairs on the short contig, per hybrid-contig label,
   each the union of the alignment intervals (so overlapping alignments are not
   counted twice). The chromosome and plasmid unions may overlap each other.
-- un_coverage is the part of the contig covered by no alignment at all.
-- scores are 0/1 flags; a contig covered by both labels is 'ambiguous'.
+- un_coverage is the coverage by hybrid contigs labelled neither chromosome nor
+  plasmid, so it is 0 when every hybrid contig is labelled (not the uncovered part
+  of the contig).
+- scores are 0/1 flags; a contig covered by both labels is 'ambiguous', one covered
+  by neither is 'unlabeled'.
 """
 
 import argparse
@@ -18,7 +21,7 @@ from pathlib import Path
 
 CHROMOSOME = "chromosome"
 PLASMID = "plasmid"
-UNMAPPED = "unmapped"
+UNLABELED = "unlabeled"
 
 
 def open_maybe_gzip(path: Path):
@@ -77,16 +80,16 @@ def main() -> None:
 
     # per short contig: intervals per label, all intervals, and the hybrid contigs hit
     by_label: dict[str, dict[str, list[tuple[int, int]]]] = {}
-    every: dict[str, list[tuple[int, int]]] = {}
     mapsto: dict[str, list[str]] = {}
 
     with args.paf.open() as handle:
         for line in handle:
             fields = line.rstrip("\n").split("\t")
             query, start, end, target = fields[0], int(fields[2]), int(fields[3]), fields[5]
-            label = labels.get(target, UNMAPPED)
+            label = labels.get(target, UNLABELED)
+            if label not in (CHROMOSOME, PLASMID):
+                label = UNLABELED
             by_label.setdefault(query, {}).setdefault(label, []).append((start, end))
-            every.setdefault(query, []).append((start, end))
             hits = mapsto.setdefault(query, [])
             if target not in hits:
                 hits.append(target)
@@ -102,7 +105,7 @@ def main() -> None:
             per_label = by_label.get(contig, {})
             chr_cov = union_length(per_label.get(CHROMOSOME, []))
             pls_cov = union_length(per_label.get(PLASMID, []))
-            un_cov = length - union_length(every.get(contig, []))
+            un_cov = union_length(per_label.get(UNLABELED, []))
             chrom_score = 1 if chr_cov > 0 else 0
             plasmid_score = 1 if pls_cov > 0 else 0
             if chrom_score and plasmid_score:
@@ -112,7 +115,7 @@ def main() -> None:
             elif plasmid_score:
                 label = PLASMID
             else:
-                label = UNMAPPED
+                label = UNLABELED
             writer.writerow(
                 [contig, plasmid_score, chrom_score, label, length,
                  chr_cov, pls_cov, un_cov, ";".join(mapsto.get(contig, []))],

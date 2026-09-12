@@ -64,8 +64,10 @@ gunzip -c "$short_gfa_gz" >"$short_gfa"
 awk '/^S/{print ">"$2"\n"$3}' "$short_gfa" >"$SLURM_TMPDIR/short.fasta"
 gunzip -c "$hybrid_gfa_gz" | awk '/^S/{print ">"$2"\n"$3}' >"$SLURM_TMPDIR/hybrid.fasta"
 
-# minimap2 <target> <query>: the PAF query is the short contig, as in Tomas' files
-minimap2 -c -x asm5 -t "$SLURM_CPUS_PER_TASK" \
+# minimap2 <target> <query>: the PAF query is the short contig, as in Tomas' files.
+# No -x preset: the default reproduces his mapping (111/111 aligned queries on
+# saur-SAMN36766261), while the asm* presets miss the short and the repeated contigs.
+minimap2 -c -t "$SLURM_CPUS_PER_TASK" \
     "$SLURM_TMPDIR/hybrid.fasta" "$SLURM_TMPDIR/short.fasta" \
     >"$SLURM_TMPDIR/short_vs_hybrid.paf"
 
