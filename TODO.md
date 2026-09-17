@@ -15,11 +15,12 @@
 
 ## Pipeline prelude
 
-* [ ] download all the SRAs in once
-* [ ] assemblies with Unicycler
-* [ ] remove the SRAs
-* [ ] filter the short-contig assemblies
-* [ ] remove the unfiltered short-contig assemblies
+* [ ] Download all the SRAs in once (short and long)
+* [ ] Assemblies with Unicycler (short and hybrid)
+  * [ ] We may have several sbatch script with increasing memory/cpus parameters
+* [ ] Remove the SRAs
+* [ ] Filter the short-contig assemblies
+* [ ] Remove the unfiltered short-contig assemblies
 
 ## Short read assembly (unfiltered)
 
