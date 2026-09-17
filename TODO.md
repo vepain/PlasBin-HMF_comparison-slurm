@@ -13,7 +13,15 @@
 >
 > Follow the [CONTRIBUTING](CONTRIBUTING.md) guidelines.
 
-## Short read assembly
+## Pipeline prelude
+
+* [ ] download all the SRAs in once
+* [ ] assemblies with Unicycler
+* [ ] remove the SRAs
+* [ ] filter the short-contig assemblies
+* [ ] remove the unfiltered short-contig assemblies
+
+## Short read assembly (unfiltered)
 
 * [x] `src/scripts/unicycler/asm_short_reads.sh`
   * [x] 🧰
@@ -30,6 +38,17 @@
   * [x] 🚧
   * [x] 🧪
   * [x] 📑
+
+## Filter short read assemblies
+
+* [ ] `???`
+  * [ ] 🧰
+  * [ ] 🗃️
+  * [ ] 🚧
+  * [ ] 🧪
+  * [ ] 📑
+
+<!-- FIXME change the function to assembly graphs and FASTA (filtered one for classification and binning) -->
 
 ## Filter uncompleted hybrid assembly
 
