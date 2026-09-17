@@ -21,6 +21,7 @@ source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 # ---------------------------------------------------------------------------- #
 #                                  Environment                                 #
 # ---------------------------------------------------------------------------- #
+# FIXME no format pbf input environment
 # shellcheck source=../../envs/pbhmf.sh
 source "$BENCH_ENVS_DIR/pbhmf.sh"
 

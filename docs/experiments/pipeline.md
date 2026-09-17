@@ -32,6 +32,8 @@ full-length table whose missing samples are blank rows (their counts do show up 
 `comp_merge_stats.tsv`). A restricted run therefore **skips the merges**; launch them by hand
 from `./pipeline_<date>/` once the full runs are done.
 
+<!-- FIXME format-pbhmf-input/rfpl_uni.sh is using RFPlamid for seeds, while it must me Platon -->
+
 | Step | Scripts | Each task waits for |
 | ---- | ------- | ------------------- |
 | `assembly` | `unicycler/asm_short_reads.sh` | — |

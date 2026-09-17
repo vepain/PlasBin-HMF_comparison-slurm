@@ -139,6 +139,8 @@ if ((first <= 3)); then
         "$(prep format-pbhmf-input format-pbhmf-input/rfpl_uni.sh)")
 fi
 
+# FIXME format Platon seeds, not RFPlasmid seeds
+
 # ---------------------------------------------------------------------------- #
 # 4. PlasBin-HMF binning, then the filtered bins (${METHOD_CODE}_filt)
 # ---------------------------------------------------------------------------- #

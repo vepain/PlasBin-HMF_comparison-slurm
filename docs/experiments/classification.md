@@ -57,7 +57,7 @@ sbatch uni.sh
 
 Results are written to `get_rfplasmid_out_dir` (`prediction.csv`, ...).
 
-!!! warning "Resubmitting a task"
+??? warning "Resubmitting a task"
 
     If its `--out` directory already exists, RFPlasmid does not overwrite it: it
     writes to `{smp_uid}_YYYYMMDD_HHMMSS` next to it instead, which no downstream
@@ -76,6 +76,12 @@ Results are written to `get_rfplasmid_out_dir` (`prediction.csv`, ...).
     ```sh
     cd "$benchmark_root_dir/data/results/rfplasmid/unicycler"
     for d in *_20??????_??????; do u=${d%_*_*}; rmdir "$u" && mv "$d" "$u"; done
+    ```
+
+??? info "Script"
+
+    ```sh title="scripts/rfplasmid/uni.sh"
+    --8<-- "src/scripts/rfplasmid/uni.sh"
     ```
 
 ## Platon
@@ -114,3 +120,9 @@ sbatch uni.sh
 
 Results are written to `get_platon_out_dir`, named after the sample
 (`{smp_uid}.tsv`, `{smp_uid}.plasmid.fasta`, ...).
+
+??? info "Script"
+
+    ```sh title="scripts/platon/uni.sh"
+    --8<-- "src/scripts/platon/uni.sh"
+    ```

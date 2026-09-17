@@ -86,7 +86,35 @@
 
 ## Binning
 
-* [ ] [👤 @vepain] `plasbin-hmf`
+### Prepare inputs
+
+#### PlasBin-flow inputs
+
+* [ ] RFPlasmid PBF plasmidness
+  * [ ] 🧰
+  * [ ] 🗃️
+  * [ ] 🚧
+  * [ ] 🧪
+  * [ ] 📑
+* [ ] Platon PBF seeds
+  * [ ] 🧰
+  * [ ] 🗃️
+  * [ ] 🚧
+  * [ ] 🧪
+  * [ ] 📑
+
+#### gplasCC inputs
+
+* [ ] RFPlasmid gplasCC classification
+  * [ ] 🧰
+  * [ ] 🗃️
+  * [ ] 🚧
+  * [ ] 🧪
+  * [ ] 📑
+
+### Run
+
+* [x] [👤 @vepain] `plasbin-hmf`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧

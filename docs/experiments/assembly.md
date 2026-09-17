@@ -56,6 +56,12 @@ Launch the slurm job:
 sbatch asm_short_reads.sh
 ```
 
+??? info "Script"
+
+    ```sh title="scripts/unicycler/asm_short_reads.sh"
+    --8<-- "src/scripts/unicycler/asm_short_reads.sh"
+    ```
+
 ## Unicycler hybrid assembly
 
 Writes to `get_unicycler_hybrid_assembly_dir`, kept separate from the short-read
@@ -88,3 +94,9 @@ Launch the slurm job:
 ```sh
 sbatch asm_hybrid_reads.sh
 ```
+
+??? info "Script"
+
+    ```sh title="scripts/unicycler/asm_hybrid_reads.sh"
+    --8<-- "src/scripts/unicycler/asm_hybrid_reads.sh"
+    ```
