@@ -1,0 +1,6 @@
+external-sources=true
+enable=check-unassigned-uppercase
+check-sourced=true
+source-path=SCRIPTDIR/../
+source-path=SCRIPTDIR/../../
+source-path=SCRIPTDIR/../../../
