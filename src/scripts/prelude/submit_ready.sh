@@ -3,9 +3,9 @@
 #
 # Submit an assembly script over the samples the prelude has already downloaded.
 #
-# The assembly scripts extract their reads from $PRELUDE_DIR and fail on a
-# sample whose runs are not there yet, so launching the whole array while
-# scripts/prelude.sh is still running wastes tasks. This restricts `--array` to
+# The assembly scripts extract their reads from $SRA_DIR and fail on a sample
+# whose runs are not there yet, so launching the whole array while
+# prelude.sh is still running wastes tasks. This restricts `--array` to
 # the rows that are ready, so the assemblies can start on a partial download and
 # be relaunched in waves: a sample already assembled is left out of the next one.
 #
@@ -20,12 +20,10 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-BENCH_ROOT_DIR="TODO:BENCH_ROOT_DIR"
-declare -r PRELUDE_DIR="$BENCH_ROOT_DIR/prelude" # scripts/prelude.sh's $OUTPUT_DIR
-
 # ---------------------------------------------------------------------------- #
 # Load base scripts
 # ---------------------------------------------------------------------------- #
+BENCH_ROOT_DIR="TODO:BENCH_ROOT_DIR"
 # shellcheck source=../config.sh
 source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 
@@ -67,7 +65,7 @@ queued=$(squeue -h -u "$USER" -t PENDING,RUNNING -r --Format=Name:40,ArrayTaskID
 # The array index is the line number of the sample in $SAMPLES_CSV
 # (`sed -n "${SLURM_ARRAY_TASK_ID}p"`), so the line numbers are the array.
 # ---------------------------------------------------------------------------- #
-ready=$(awk -F'\t' -v d="$PRELUDE_DIR" -v a="$asm_dir" -v cols="$read_cols" -v queued="$queued" '
+ready=$(awk -F'\t' -v d="$SRA_DIR" -v a="$asm_dir" -v cols="$read_cols" -v queued="$queued" '
     BEGIN { n_q = split(queued, q, ","); for (i = 1; i <= n_q; i++) { skip[q[i]] = 1 } }
     NR == 1 {
         for (i = 1; i <= NF; i++) { col[$i] = i }
@@ -90,7 +88,7 @@ ready=$(awk -F'\t' -v d="$PRELUDE_DIR" -v a="$asm_dir" -v cols="$read_cols" -v q
 ' "$SAMPLES_CSV")
 
 if [[ -z "$ready" ]]; then
-    echo "No sample to assemble: none is downloaded in $PRELUDE_DIR, or all are done." >&2
+    echo "No sample to assemble: none is downloaded in $SRA_DIR, or all are done." >&2
     exit 1
 fi
 

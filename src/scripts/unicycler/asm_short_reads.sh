@@ -15,7 +15,7 @@
 #SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
 # Assemble a sample with Unicycler from Illumina short reads only, extracted
-# from the SRA runs scripts/prelude.sh downloaded beforehand. This produces the
+# from the SRA runs scripts/prelude/prelude.sh downloaded beforehand. This produces the
 # assembly every downstream step reads.
 # ---------------------------------------------------------------------------- #
 # Abort the task on the first failure: a read set that fails to extract must not
@@ -46,10 +46,6 @@ smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 #
 sra_sr_id=$(get_tsv_cell_from_slurm_array "$SAMPLES_CSV" "short_reads")
 
-# Where scripts/prelude.sh downloaded the runs (its $OUTPUT_DIR): it holds one
-# <run id>/ directory per run. Move one, move the other.
-prelude_dir="$BENCH_ROOT_DIR/prelude"
-
 # The reads are only Unicycler's input: stage them on the node-local disk,
 # which SLURM wipes at the end of the task. They stay uncompressed -- gzipping a
 # file we are about to delete only makes Unicycler decompress it again.
@@ -79,7 +75,7 @@ mkdir -p "$output_dir" "$reads_dir"
 # same _1/_2 (paired) and bare (single) output naming
 #
 fasterq-dump --threads "$SLURM_CPUS_PER_TASK" --temp "$SLURM_TMPDIR" \
-    --outdir "$reads_dir" "$prelude_dir/$sra_sr_id"
+    --outdir "$reads_dir" "$(get_sra_dir "$sra_sr_id")"
 
 #
 # A spades_assembly/ left by a crashed task makes SPAdes resume that broken

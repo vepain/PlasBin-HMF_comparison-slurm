@@ -53,7 +53,7 @@ Each launch writes the scripts it submitted, with their user variables set, into
 
 !!! warning "Before launching"
 
-    - The reads must already be downloaded by [`scripts/prelude.sh`](prelude.md): the
+    - The reads must already be downloaded by [`scripts/prelude/prelude.sh`](prelude.md): the
       assembly step extracts them, it does not fetch them.
     - The ground truth CSVs (`get_gt_csv`) must exist: generating them is not scripted yet.
     - The `format` step does not run as written yet (`envs/pbhmf.sh` does not exist and

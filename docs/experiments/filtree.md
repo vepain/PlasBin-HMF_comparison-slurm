@@ -15,6 +15,11 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
     ├── 📂 ground_truths    # $GROUND_TRUTH_DIR
     │   └── 📂 {smp_uid}
     │       └── 📄 short.gfa.csv    # get_gt_csv
+    ├── 📂 prelude  # $PRELUDE_DIR
+    │   └── 📂 sra  # $SRA_DIR
+    │       ├── 📂 {sra_id}     # get_sra_dir
+    │       │   └── 📄 {sra_id}.sra
+    │       └── 📄 {sra_id}.done    # get_sra_done_marker
     ├── 📂 assembly_files
     │   ├── 📂 unicycler    # $UNI_ASSEMBLY_DIR
     │   │   └── 📂 {smp_uid}    # get_unicycler_assembly_dir

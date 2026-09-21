@@ -24,6 +24,33 @@ function get_gt_csv() {
 }
 
 # ============================================================================ #
+#                                    PRELUDE                                   #
+# ============================================================================ #
+# The SRA runs, downloaded once for the whole benchmark by
+# scripts/prelude/prelude.sh, extracted by the assembly jobs and deleted by
+# scripts/prelude/delete_ready.sh once the assemblies reading them exist.
+PRELUDE_DIR="$BENCH_DATA_DIR/prelude"
+SRA_DIR="$PRELUDE_DIR/sra"
+
+# prefetch's per-run directory, holding <sra_id>.sra and its reference files.
+# It is also what fasterq-dump takes to extract the FASTQ.
+# Usage:
+#   sra_dir=$(get_sra_dir "$sra_id")
+function get_sra_dir() {
+    local sra_id=$1
+    echo "$SRA_DIR/$sra_id"
+}
+
+# Marker left behind when a run is deleted: prelude.sh skips a marked run
+# instead of downloading it again. Delete it to get the run back.
+# Usage:
+#   marker=$(get_sra_done_marker "$sra_id")
+function get_sra_done_marker() {
+    local sra_id=$1
+    echo "$SRA_DIR/$sra_id.done"
+}
+
+# ============================================================================ #
 #                              UNICYCLER ASSEMBLY INPUT                        #
 # ============================================================================ #
 UNI_ASSEMBLY_DIR="$BENCH_DATA_DIR/assembly_files/unicycler"

@@ -13,8 +13,8 @@
 # waits for its short-read assembly, and the long runs are dropped right away --
 # nothing is left to read them.
 #
-# Each deleted run leaves a `<run id>.done` marker behind, so scripts/prelude.sh
-# does not download it again. Remove the marker to get the run back on the next
+# Each deleted run leaves a `get_sra_done_marker` behind, so prelude.sh does not
+# download it again. Remove the marker to get the run back on the next
 # prelude.
 #
 # Run it on a login node, as often as you like while the assemblies progress.
@@ -27,12 +27,10 @@
 # ---------------------------------------------------------------------------- #
 # User Variables
 # ---------------------------------------------------------------------------- #
-BENCH_ROOT_DIR="TODO:BENCH_ROOT_DIR"
-declare -r PRELUDE_DIR="$BENCH_ROOT_DIR/prelude" # scripts/prelude.sh's $OUTPUT_DIR
-
 # ---------------------------------------------------------------------------- #
 # Load base scripts
 # ---------------------------------------------------------------------------- #
+BENCH_ROOT_DIR="TODO:BENCH_ROOT_DIR"
 # shellcheck source=../config.sh
 source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 
@@ -95,15 +93,16 @@ m=0
 while read -r run; do
     # a run the prelude never downloaded is marked all the same: its assemblies
     # are there, so nothing wants it any more
-    if [[ -d "$PRELUDE_DIR/$run" ]]; then
-        rm -rf "${PRELUDE_DIR:?}/$run"
+    sra_dir=$(get_sra_dir "$run")
+    if [[ -d "$sra_dir" ]]; then
+        rm -rf "${sra_dir:?}"
         n=$((n + 1))
     fi
-    : >"$PRELUDE_DIR/$run.done"
+    : >"$(get_sra_done_marker "$run")"
     m=$((m + 1))
 done <<<"$runs"
 
-echo "$m runs no longer needed: $n deleted, $((m - n)) never downloaded" >&2
+echo "$m runs no longer needed: $n deleted from $SRA_DIR, $((m - n)) never downloaded" >&2
 if ((only_short)); then
     echo "(--only-short: the long runs went with them)" >&2
 fi

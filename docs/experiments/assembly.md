@@ -16,15 +16,14 @@ Both scripts key their output by the benchmark-wide `smp_uid`
 (`${species_id}-${sample_id}`).
 
 Neither script downloads anything: both read the runs [the prelude](prelude.md) has
-already downloaded into `$prelude_dir` (`$BENCH_ROOT_DIR/prelude`, set at the top of
-both scripts -- move it there if you moved the prelude's `$OUTPUT_DIR`). They extract
-the FASTQ into `$SLURM_TMPDIR`, which is discarded with the task; only
+already downloaded into `$SRA_DIR`, resolved through `get_sra_dir` like every other
+path of the benchmark. They extract the FASTQ into `$SLURM_TMPDIR`, which is discarded with the task; only
 `assembly.fasta.gz` and `assembly.gfa.gz` are kept.
 
 !!! warning
 
-    Run [`scripts/prelude.sh`](prelude.md) first: a sample whose runs are missing from
-    `$prelude_dir` fails its task.
+    Run [`scripts/prelude/prelude.sh`](prelude.md) first: a sample whose runs are
+    missing from `$SRA_DIR` fails its task.
 
 !!! warning
 
@@ -33,7 +32,7 @@ the FASTQ into `$SLURM_TMPDIR`, which is discarded with the task; only
 
 ## Launching on a partial prelude
 
-The assemblies do not have to wait for the whole prelude: `scripts/unicycler/submit_ready.sh`
+The assemblies do not have to wait for the whole prelude: `scripts/prelude/submit_ready.sh`
 submits an assembly script over the samples whose runs are already downloaded, and
 leaves out the samples already assembled, so it can be run again in waves as the
 prelude progresses.
@@ -61,8 +60,8 @@ truncated read set.
 
 ??? info "Script"
 
-    ```sh title="scripts/unicycler/submit_ready.sh"
-    --8<-- "src/scripts/unicycler/submit_ready.sh"
+    ```sh title="scripts/prelude/submit_ready.sh"
+    --8<-- "src/scripts/prelude/submit_ready.sh"
     ```
 
 ## Unicycler short-read assembly

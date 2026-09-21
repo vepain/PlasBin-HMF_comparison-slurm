@@ -4,12 +4,12 @@ icon: lucide/download
 
 # Pipeline prelude
 
-`scripts/prelude.sh` downloads every SRA run of `completed_samples.csv` (short and
+`scripts/prelude/prelude.sh` downloads every SRA run of `completed_samples.csv` (short and
 long reads, 2482 runs) in one go, instead of each assembly task fetching its own.
 
-The script is standalone: it shares no variable with the other benchmark scripts, so
-it can be copied anywhere and run as is. Only `BENCH_ROOT_DIR` has to be set, and the
-other user variables are right below it.
+Like every benchmark script it reads its paths from `filetree_layout.sh`: the runs land
+in `$SRA_DIR` (`data/prelude/sra`), one `get_sra_dir` per run. Only `BENCH_ROOT_DIR` has
+to be set, the remaining user variables are right below it.
 
 !!! warning "Not an sbatch script"
 
@@ -22,7 +22,7 @@ other user variables are right below it.
     work_dir="/scratch/$USER/prelude"
     mkdir -p "$work_dir"
 
-    cp scripts/prelude.sh "$work_dir"
+    cp scripts/prelude/prelude.sh "$work_dir"
     cd "$work_dir"
     ```
 
@@ -32,7 +32,7 @@ other user variables are right below it.
     set work_dir "/scratch/$USER/prelude"
     mkdir -p "$work_dir"
 
-    cp scripts/prelude.sh "$work_dir"
+    cp scripts/prelude/prelude.sh "$work_dir"
     cd "$work_dir"
     ```
 
@@ -42,23 +42,22 @@ Launch it (`nohup`, or any way that survives the session: it runs for hours):
 nohup ./prelude.sh > prelude.log 2>&1 &
 ```
 
-Each run lands in `$OUTPUT_DIR/<run id>/` -- `$BENCH_ROOT_DIR/prelude` by default --
-which is the directory `fasterq-dump` takes to extract the FASTQ later. `prefetch`
-leaves the runs it already has alone, so re-run the script to retry whatever failed.
+Each run lands in `get_sra_dir`, the directory `fasterq-dump` takes to extract the
+FASTQ later. `prefetch` leaves the runs it already has alone, so re-run the script to
+retry whatever failed.
 
-The [assembly scripts](assembly.md) read that directory: move it and their
-`$prelude_dir` must follow. They do not have to wait for the download to end, see
-[launching on a partial prelude](assembly.md#launching-on-a-partial-prelude). Once every assembly is done, `$OUTPUT_DIR` can be deleted.
+The [assembly scripts](assembly.md) read `$SRA_DIR` too. They do not have to wait for the download to end, see
+[launching on a partial prelude](assembly.md#launching-on-a-partial-prelude). Once every assembly is done, `$SRA_DIR` can be deleted.
 
 ??? info "Script"
 
-    ```sh title="scripts/prelude.sh"
-    --8<-- "src/scripts/prelude.sh"
+    ```sh title="scripts/prelude/prelude.sh"
+    --8<-- "src/scripts/prelude/prelude.sh"
     ```
 
 ## Removing the runs once assembled
 
-`scripts/unicycler/delete_ready.sh` deletes the runs whose assemblies exist, so the
+`scripts/prelude/delete_ready.sh` deletes the runs whose assemblies exist, so the
 prelude does not have to be kept whole until the end:
 
 ```sh
@@ -90,8 +89,7 @@ prelude again.
 
 ### Markers
 
-Each deleted run leaves a `<run id>.done` marker in `$OUTPUT_DIR`, which `prelude.sh`
-skips, so a later prelude does not download it again. Delete the marker to get the run
+Each deleted run leaves a `get_sra_done_marker` beside it, which `prelude.sh` skips, so a later prelude does not download it again. Delete the marker to get the run
 back. The assembly is the marker on its side: `submit_ready.sh` skips an assembled
 sample before it ever looks at the prelude.
 
@@ -100,6 +98,6 @@ assembled its runs are gone, and neither script picks it up again.
 
 ??? info "Script"
 
-    ```sh title="scripts/unicycler/delete_ready.sh"
-    --8<-- "src/scripts/unicycler/delete_ready.sh"
+    ```sh title="scripts/prelude/delete_ready.sh"
+    --8<-- "src/scripts/prelude/delete_ready.sh"
     ```
