@@ -34,6 +34,8 @@ SRA_DIR="$PRELUDE_DIR/sra"
 
 # prefetch's per-run directory, holding <sra_id>.sra and its reference files.
 # It is also what fasterq-dump takes to extract the FASTQ.
+# The directory name must stay the accession: the toolkit looks a run up by
+# "accession as directory", so this one may be moved but never renamed.
 # Usage:
 #   sra_dir=$(get_sra_dir "$sra_id")
 function get_sra_dir() {
@@ -53,22 +55,27 @@ function get_sra_done_marker() {
 # ============================================================================ #
 #                              UNICYCLER ASSEMBLY INPUT                        #
 # ============================================================================ #
-UNI_ASSEMBLY_DIR="$BENCH_DATA_DIR/assembly_files/unicycler"
+# assembly_files is split by read set first, assembler second:
+# assembly_files/{short,hybrid}/unicycler.
+# ---------------------------------------------------------------------------- #
+#                          Short-read assembly output                          #
+# ---------------------------------------------------------------------------- #
+UNI_SHORT_ASSEMBLY_DIR="$BENCH_DATA_DIR/assembly_files/short/unicycler"
 
 # Per-sample Unicycler short-read assembly directory
 # (holds assembly.fasta.gz and assembly.gfa.gz).
 # Usage:
-#   asm_dir=$(get_unicycler_assembly_dir "$smp_uid")
-function get_unicycler_assembly_dir() {
+#   asm_dir=$(get_unicycler_short_assembly_dir "$smp_uid")
+function get_unicycler_short_assembly_dir() {
     local smp_uid=$1
-    echo "$UNI_ASSEMBLY_DIR/$smp_uid"
+    echo "$UNI_SHORT_ASSEMBLY_DIR/$smp_uid"
 }
 
 # Usage:
 #   gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
 function get_unicycler_assembly_gfa_gz() {
     local smp_uid=$1
-    echo "$(get_unicycler_assembly_dir "$smp_uid")/assembly.gfa.gz"
+    echo "$(get_unicycler_short_assembly_dir "$smp_uid")/assembly.gfa.gz"
 }
 
 # ---------------------------------------------------------------------------- #

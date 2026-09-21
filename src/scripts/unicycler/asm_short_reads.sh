@@ -55,7 +55,7 @@ fastq_2="$reads_dir/${sra_sr_id}_2.fastq"
 #
 # Outputs
 #
-output_dir=$(get_unicycler_assembly_dir "$smp_uid")
+output_dir=$(get_unicycler_short_assembly_dir "$smp_uid")
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
