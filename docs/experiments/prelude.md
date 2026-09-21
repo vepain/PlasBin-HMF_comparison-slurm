@@ -46,7 +46,8 @@ Each run lands in `$OUTPUT_DIR/<run id>/` -- `$BENCH_ROOT_DIR/prelude` by defaul
 which is the directory `fasterq-dump` takes to extract the FASTQ later. `prefetch`
 leaves the runs it already has alone, so re-run the script to retry whatever failed.
 
-Once every assembly is done, `$OUTPUT_DIR` can be deleted.
+The [assembly scripts](assembly.md) read that directory: move it and their
+`$prelude_dir` must follow. Once every assembly is done, `$OUTPUT_DIR` can be deleted.
 
 ??? info "Script"
 

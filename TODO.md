@@ -27,20 +27,20 @@
 
 ## Short read assembly (unfiltered)
 
-* [x] `src/scripts/unicycler/asm_short_reads.sh`
+* [ ] `src/scripts/unicycler/asm_short_reads.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [x] 🧪
+  * [ ] 🧪 the tested version still downloaded its own reads
   * [x] 📑
 
 ## Hybrid assembly
 
-* [x] `src/scripts/unicycler/asm_hybrid_reads.sh`
+* [ ] `src/scripts/unicycler/asm_hybrid_reads.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [x] 🧪
+  * [ ] 🧪 the tested version still downloaded its own reads
   * [x] 📑
 
 ## Filter short read assemblies

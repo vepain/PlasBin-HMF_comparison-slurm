@@ -15,8 +15,16 @@ Both assembly scripts read `completed_samples.csv` (`$SAMPLES_CSV`, 1241 samples
 Both scripts key their output by the benchmark-wide `smp_uid`
 (`${species_id}-${sample_id}`).
 
-In both scripts the reads are downloaded into `$SLURM_TMPDIR` and discarded with it;
-only `assembly.fasta.gz` and `assembly.gfa.gz` are kept.
+Neither script downloads anything: both read the runs [the prelude](prelude.md) has
+already downloaded into `$prelude_dir` (`$BENCH_ROOT_DIR/prelude`, set at the top of
+both scripts -- move it there if you moved the prelude's `$OUTPUT_DIR`). They extract
+the FASTQ into `$SLURM_TMPDIR`, which is discarded with the task; only
+`assembly.fasta.gz` and `assembly.gfa.gz` are kept.
+
+!!! warning
+
+    Run [`scripts/prelude.sh`](prelude.md) first: a sample whose runs are missing from
+    `$prelude_dir` fails its task.
 
 !!! warning
 

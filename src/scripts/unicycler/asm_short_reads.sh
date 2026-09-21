@@ -8,15 +8,17 @@
 # measured on Fir (2 samples): 1 h 14 (abau) / 4 h 35 (ecol) wall, CPU efficiency 30-37%
 # (~5 of 16 cores busy, incl. the idle download), so --cpus-per-task=8 would roughly halve
 # the core-hours at some cost in wall time. Memory is the binding constraint: abau peaked at
-# 18 GB but ecol at 32 GB = the --mem ceiling, so bigger samples may need --mem=64G
+# 18 GB but ecol at 32 GB = the --mem ceiling, so bigger samples may need --mem=64G.
+# Both figures predate prelude.sh: they include a download this job no longer does
 #SBATCH --array=2-1242
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
-# Assemble a sample with Unicycler from Illumina short reads only, downloading
-# them from the SRA. This produces the assembly every downstream step reads.
+# Assemble a sample with Unicycler from Illumina short reads only, extracted
+# from the SRA runs scripts/prelude.sh downloaded beforehand. This produces the
+# assembly every downstream step reads.
 # ---------------------------------------------------------------------------- #
-# Abort the task on the first failure: a read set that fails to download must not
+# Abort the task on the first failure: a read set that fails to extract must not
 # reach Unicycler as a missing input and report success
 # ---------------------------------------------------------------------------- #
 set -e
@@ -44,6 +46,10 @@ smp_uid=$(get_sample_uid_from_slurm_array "$SAMPLES_CSV")
 #
 sra_sr_id=$(get_tsv_cell_from_slurm_array "$SAMPLES_CSV" "short_reads")
 
+# Where scripts/prelude.sh downloaded the runs (its $OUTPUT_DIR): it holds one
+# <run id>/ directory per run. Move one, move the other.
+prelude_dir="$BENCH_ROOT_DIR/prelude"
+
 # The reads are only Unicycler's input: stage them on the node-local disk,
 # which SLURM wipes at the end of the task. They stay uncompressed -- gzipping a
 # file we are about to delete only makes Unicycler decompress it again.
@@ -68,13 +74,12 @@ echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $sra
 mkdir -p "$output_dir" "$reads_dir"
 
 #
-# Download the short reads
+# Extract the short reads
 # fasterq-dump is the multi-threaded replacement for fastq-dump; it keeps the
 # same _1/_2 (paired) and bare (single) output naming
 #
-prefetch "$sra_sr_id" --output-directory "$reads_dir"
 fasterq-dump --threads "$SLURM_CPUS_PER_TASK" --temp "$SLURM_TMPDIR" \
-    --outdir "$reads_dir" "$reads_dir/$sra_sr_id"
+    --outdir "$reads_dir" "$prelude_dir/$sra_sr_id"
 
 #
 # Short-read assembly
