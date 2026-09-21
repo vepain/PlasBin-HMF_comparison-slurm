@@ -43,24 +43,15 @@ function get_sra_dir() {
     echo "$SRA_DIR/$sra_id"
 }
 
-# Marker left behind when a run is deleted: prelude.sh skips a marked run
-# instead of downloading it again. Delete it to get the run back.
-# Usage:
-#   marker=$(get_sra_done_marker "$sra_id")
-function get_sra_done_marker() {
-    local sra_id=$1
-    echo "$SRA_DIR/$sra_id.done"
-}
+# ---------------------------------------------------------------------------- #
+#                           Unicycler assembly output                          #
+# ---------------------------------------------------------------------------- #
+# The raw assemblies are prelude artifacts too: only the filtered ones are kept
+# in the end, so they live under $PRELUDE_DIR next to the runs they come from.
+PRELUDE_ASSEMBLY_DIR="$PRELUDE_DIR/assembly/unicycler"
 
-# ============================================================================ #
-#                              UNICYCLER ASSEMBLY INPUT                        #
-# ============================================================================ #
-# assembly_files is split by read set first, assembler second:
-# assembly_files/{short,hybrid}/unicycler.
-# ---------------------------------------------------------------------------- #
-#                          Short-read assembly output                          #
-# ---------------------------------------------------------------------------- #
-UNI_SHORT_ASSEMBLY_DIR="$BENCH_DATA_DIR/assembly_files/short/unicycler"
+UNI_SHORT_ASSEMBLY_DIR="$PRELUDE_ASSEMBLY_DIR/short"
+UNI_HYBRID_ASSEMBLY_DIR="$PRELUDE_ASSEMBLY_DIR/hybrid"
 
 # Per-sample Unicycler short-read assembly directory
 # (holds assembly.fasta.gz and assembly.gfa.gz).
@@ -77,11 +68,6 @@ function get_unicycler_assembly_gfa_gz() {
     local smp_uid=$1
     echo "$(get_unicycler_short_assembly_dir "$smp_uid")/assembly.gfa.gz"
 }
-
-# ---------------------------------------------------------------------------- #
-#                            Hybrid assembly output                            #
-# ---------------------------------------------------------------------------- #
-UNI_HYBRID_ASSEMBLY_DIR="$BENCH_DATA_DIR/assembly_files/hybrid/unicycler"
 
 # Per-sample Unicycler hybrid assembly directory
 # (holds assembly.fasta.gz and assembly.gfa.gz).

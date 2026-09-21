@@ -15,22 +15,20 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
     ├── 📂 ground_truths    # $GROUND_TRUTH_DIR
     │   └── 📂 {smp_uid}
     │       └── 📄 short.gfa.csv    # get_gt_csv
-    ├── 📂 prelude  # $PRELUDE_DIR
-    │   └── 📂 sra  # $SRA_DIR
-    │       ├── 📂 {sra_id}     # get_sra_dir
-    │       │   └── 📄 {sra_id}.sra
-    │       └── 📄 {sra_id}.done    # get_sra_done_marker
-    ├── 📂 assembly_files   # split by read set first, assembler second
-    │   ├── 📂 short
-    │   │   └── 📂 unicycler    # $UNI_SHORT_ASSEMBLY_DIR
-    │   │       └── 📂 {smp_uid}    # get_unicycler_short_assembly_dir
-    │   │           ├── 📄 assembly.fasta.gz
-    │   │           └── 📄 assembly.gfa.gz  # get_unicycler_assembly_gfa_gz
-    │   └── 📂 hybrid
-    │       └── 📂 unicycler    # $UNI_HYBRID_ASSEMBLY_DIR
-    │           └── 📂 {smp_uid}    # get_unicycler_hybrid_assembly_dir
-    │               ├── 📄 assembly.fasta.gz
-    │               └── 📄 assembly.gfa.gz
+    ├── 📂 prelude  # $PRELUDE_DIR, everything the filter step will consume
+    │   ├── 📂 sra  # $SRA_DIR
+    │   │   └── 📂 {sra_id}     # get_sra_dir
+    │   │       └── 📄 {sra_id}.sra
+    │   └── 📂 assembly
+    │       └── 📂 unicycler    # $PRELUDE_ASSEMBLY_DIR
+    │           ├── 📂 short    # $UNI_SHORT_ASSEMBLY_DIR
+    │           │   └── 📂 {smp_uid}    # get_unicycler_short_assembly_dir
+    │           │       ├── 📄 assembly.fasta.gz
+    │           │       └── 📄 assembly.gfa.gz  # get_unicycler_assembly_gfa_gz
+    │           └── 📂 hybrid   # $UNI_HYBRID_ASSEMBLY_DIR
+    │               └── 📂 {smp_uid}    # get_unicycler_hybrid_assembly_dir
+    │                   ├── 📄 assembly.fasta.gz
+    │                   └── 📄 assembly.gfa.gz
     └── 📂 results
         ├── 📂 rfplasmid
         │   └── 📂 unicycler    # $UNI_RFPLASMID_DIR
@@ -111,9 +109,15 @@ assemblies and emptied after them:
 | `$PRELUDE_DIR` | `data/prelude`, everything the prelude stage holds | -- | -- |
 | `$SRA_DIR` | `data/prelude/sra`, one directory per downloaded run | [`prelude.sh`](prelude.md) | -- |
 | `get_sra_dir` | a run's directory, `<run id>.sra` and its reference files | `prefetch` | `fasterq-dump`, in the [assembly scripts](assembly.md) |
-| `get_sra_done_marker` | `<run id>.done`, left when a run is deleted | [`delete_ready.sh`](prelude.md#removing-the-runs-once-assembled) | `prelude.sh`, which skips a marked run |
+| `$PRELUDE_ASSEMBLY_DIR` | `data/prelude/assembly/unicycler`, then `short/` and `hybrid/` | -- | -- |
+| `get_unicycler_short_assembly_dir` | a sample's short-read assembly | `asm_short_reads.sh` | every classification and binning step |
+| `get_unicycler_hybrid_assembly_dir` | a sample's hybrid assembly | `asm_hybrid_reads.sh` | the ground truth |
 
 A run is downloaded once for the whole benchmark, shared by the short-read and the
 hybrid assembly of a sample -- and by two samples when they list the same accession.
-Deleting `$PRELUDE_DIR` once the assemblies exist costs nothing but the markers: the
-assemblies themselves are what every downstream step reads.
+
+The raw assemblies sit here rather than in `data`'s own tree because they are an
+intermediate too: only the **filtered** assemblies are meant to be kept, and the filter
+step that produces them does not exist yet. Until it does, the downstream steps read
+`get_unicycler_assembly_gfa_gz`, which still points at the unfiltered short-read
+assembly.

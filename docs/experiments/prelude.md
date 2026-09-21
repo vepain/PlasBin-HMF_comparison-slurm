@@ -40,44 +40,15 @@ The [assembly scripts](assembly.md) read `$SRA_DIR` too. They do not have to wai
 
 ## Removing the runs once assembled
 
-`scripts/prelude/delete_ready.sh` deletes the runs whose assemblies exist, so the
-prelude does not have to be kept whole until the end:
+!!! warning "On hold"
 
-```sh
-scripts/prelude/delete_ready.sh
-```
-
-A run goes only once **every** assembly reading it is there -- the long run is read by
-the hybrid assembly, the short one by both -- and a run shared by two samples waits for
-both. Samples held by a pending or running task keep their runs -- any job whose name starts
-with `asm_short` or `asm_hybrid`, see
-[the prefix rule](assembly.md#launching-on-a-partial-prelude). That is why this is a
-pass of its own rather than an `rm` at the end of an assembly script: a task cannot know
-whether the other assembly has run.
-
-### Short-read assemblies only
-
-If no hybrid assembly is planned, nothing will ever read the long runs, and the short
-runs would wait forever for a hybrid assembly that is not coming:
-
-```sh
-scripts/prelude/delete_ready.sh --only-short
-```
-
-A short run then waits for its short-read assembly alone, and **the long runs are
-deleted straight away**, whatever the assemblies look like. It is the biggest sweep the
-script can make -- the Oxford Nanopore runs are the bulky ones -- so run it only once
-the decision is made. Getting them back means deleting their markers and running the
-prelude again.
-
-### Markers
-
-Each deleted run leaves a `get_sra_done_marker` beside it, which `prelude.sh` skips, so a later prelude does not download it again. Delete the marker to get the run
-back. The assembly is the marker on its side: `submit_ready.sh` skips an assembled
-sample before it ever looks at the prelude.
-
-Together they make the prelude and the assemblies a one-shot stage: once a sample is
-assembled its runs are gone, and neither script picks it up again.
+    `scripts/prelude/delete_ready.sh` deletes the runs whose assemblies exist, but what
+    can really go is decided by the filter step, which does not exist yet: only the
+    filtered assemblies are meant to be kept. The script still runs -- a run goes once
+    **every** assembly reading it is there, the long one being read by the hybrid
+    assembly and the short one by both, and samples held by a queued task keep theirs --
+    but it is not wired into any pipeline, and it no longer leaves a marker behind, so a
+    later prelude downloads whatever it deleted.
 
 ??? info "Script"
 

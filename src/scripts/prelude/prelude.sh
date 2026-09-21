@@ -46,13 +46,11 @@ set -euo pipefail
 # Download every run of the sample list
 #
 # Both read columns are fed to one sorted-unique list: a run shared by two
-# samples is downloaded once. A run that delete_ready.sh removed once its
-# assemblies were done leaves a `get_sra_done_marker` behind: it is not wanted
-# again, so it is left out here. Delete the marker to download it again.
+# samples is downloaded once.
 # ---------------------------------------------------------------------------- #
 mkdir -p "$SRA_DIR"
 
-awk -F'\t' -v d="$SRA_DIR" '
+awk -F'\t' '
     NR == 1 {
         for (i = 1; i <= NF; i++) { col[$i] = i }
         if (!("short_reads" in col) || !("long_reads" in col)) {
@@ -61,10 +59,7 @@ awk -F'\t' -v d="$SRA_DIR" '
         }
         next
     }
-    {
-        r = $col["short_reads"]; if (system("test -e " d "/" r ".done")) { print r }
-        r = $col["long_reads"];  if (system("test -e " d "/" r ".done")) { print r }
-    }
+    { print $col["short_reads"]; print $col["long_reads"] }
 ' "$SAMPLES_CSV" | sort -u | xargs -P "$JOBS" -I{} \
     prefetch {} --output-directory "$SRA_DIR" --max-size "$MAX_SIZE" ||
     {

@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 # ============================================================================ #
 #
-# Delete the SRA runs whose assemblies are done, and mark them as such.
+# Delete the SRA runs whose assemblies are done.
+#
+# PAUSED: the assemblies it reads are about to feed the filter step, which is
+# what really decides when a run can go. It still runs, but do not wire it into
+# a pipeline until that step exists.
 #
 # A run goes only once every assembly reading it exists:
 #   - the long run  is read by the hybrid assembly only
@@ -12,10 +16,6 @@
 # --only-short says no hybrid assembly is coming: a sample's short run then only
 # waits for its short-read assembly, and the long runs are dropped right away --
 # nothing is left to read them.
-#
-# Each deleted run leaves a `get_sra_done_marker` behind, so prelude.sh does not
-# download it again. Remove the marker to get the run back on the next
-# prelude.
 #
 # Run it on a login node, as often as you like while the assemblies progress.
 #
@@ -91,16 +91,16 @@ fi
 n=0
 m=0
 while read -r run; do
-    # a run the prelude never downloaded is marked all the same: its assemblies
-    # are there, so nothing wants it any more
     sra_dir=$(get_sra_dir "$run")
     if [[ -d "$sra_dir" ]]; then
         rm -rf "${sra_dir:?}"
         n=$((n + 1))
     fi
-    : >"$(get_sra_done_marker "$run")"
     m=$((m + 1))
 done <<<"$runs"
+
+# Nothing records that a run is gone any more: a later prelude.sh downloads it
+# again. That was the marker's job, and it waits for the filter step.
 
 echo "$m runs no longer needed: $n deleted from $SRA_DIR, $((m - n)) never downloaded" >&2
 if ((only_short)); then
