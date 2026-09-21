@@ -14,13 +14,13 @@
 # Load base scripts
 # ---------------------------------------------------------------------------- #
 BENCH_ROOT_DIR="TODO:BENCH_ROOT_DIR"
-# shellcheck source=../config.sh
+# shellcheck source=src/scripts/config.sh
 source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 
 # ---------------------------------------------------------------------------- #
 #                                  Environment                                 #
 # ---------------------------------------------------------------------------- #
-# shellcheck source=../../envs/platon.sh
+# shellcheck source=src/envs/platon.sh
 source "$BENCH_ENVS_DIR/platon.sh"
 # requires ${BENCH_ENVS_DIR}/Platon.sif already built (its database is baked in)
 

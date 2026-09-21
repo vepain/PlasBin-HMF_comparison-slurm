@@ -26,22 +26,26 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
     │               ├── 📄 assembly.fasta.gz
     │               └── 📄 assembly.gfa.gz
     └── 📂 results
-        ├── 📂 rfplasmid
-        │   └── 📂 unicycler    # $UNI_RFPLASMID_DIR
-        │       └── 📁 {smp_uid}    # get_rfplasmid_out_dir
-        ├── 📂 platon
-        │   └── 📂 unicycler    # $UNI_PLATON_DIR
-        │       └── 📁 {smp_uid}    # get_platon_out_dir
+        ├── 📂 classification
+        │   └── 📂 unicycler    # UNI_CLASSIFICATION_DIR
+        │       ├── 📂 rfplasmid    # $UNI_RFPLASMID_DIR
+        │       │   └── 📁 {smp_uid}    # get_rfplasmid_out_dir
+        │       │       └── 📁 prediction.csv   # get_rfplasmid_prediction_csv
+        │       └── 📂 platon    # $UNI_PLATON_DIR
+        │           └── 📁 {smp_uid}    # get_platon_out_dir
+        │               └── 📁 {smp_uid}.tsv   # get_platon_prediction_tsv
         ├── 📂 formatted_input
         │   └── 📂 unicycler    # $UNI_FORMATTED_INPUT_DIR
-        │       ├── 📂 rfplasmid
-        │       │   ├── 📂 input_pbf
-        │       │   │   └── 📄 {smp_uid}_scores.tsv     # get_plm_pbf_rfpl_tsv
-        │       │   └── 📂 input_gplas
-        │       │       └── 📄 {smp_uid}_scores.tsv     # get_plm_gplas_rfpl_tsv
-        │       └── 📂 platon
-        │           └── 📂 input_pbf
-        │               └── 📄 {smp_uid}_seeds.tsv      # get_seeds_pbf_platon_tsv
+        │       ├── 📂 plasbin_flow    # $UNI_FORMATTED_PBF_INPUT_DIR
+        │       │   ├── 📂 plasmidness
+        │       │   │   └── 📂 rfplasmid
+        │       │   │       └── 📄 {smp_uid}_scores.tsv     # get_plm_pbf_rfpl_tsv
+        │       │   └── 📂 seeds
+        │       │       └── 📂 platon
+        │       │              └── 📄 {smp_uid}_seeds.tsv      # get_seeds_pbf_platon_tsv
+        │       └── 📂 gplascc  # $UNI_FORMATTED_GPCC_INPUT_DIR
+        │           └── 📂 rfplasmid
+        │               └── 📄 {smp_uid}_scores.tsv     # get_plm_gplascc_rfpl_tsv
         ├── 📂 binning
         │   └── 📂 unicycler    # $UNI_BIN_DIR
         │       └── 📂 {method_code}

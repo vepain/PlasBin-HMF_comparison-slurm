@@ -2,20 +2,14 @@
 # ---------------------------------------------------------------------------- #
 # SLURM script for job resubmission on our clusters.
 # ---------------------------------------------------------------------------- #
-#SBATCH --cpus-per-task=1
-# #gplas is single threaded
-#SBATCH --mem=32G
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=4G
 #SBATCH --time=3:00:00
 #SBATCH --array=2-837
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
-# User Variables
-# ---------------------------------------------------------------------------- #
-declare -r METHOD_CODE="gpcc_rfpl"
-declare -r LENGTH_FILTER=1 # gplasCC contig length filter (gplas default: 1000)
-# ---------------------------------------------------------------------------- #
-# Run gplasCC binning with RFPlasmid as the classifier (custom mode).
+# Format RFPlasmid classification into PlasBin-flow plasmidness input TSV file
 # ---------------------------------------------------------------------------- #
 # Load base scripts
 # ---------------------------------------------------------------------------- #
@@ -26,49 +20,29 @@ source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 # ---------------------------------------------------------------------------- #
 #                                  Environment                                 #
 # ---------------------------------------------------------------------------- #
-# shellcheck source=src/envs/gplascc.sh
-source "$BENCH_ENVS_DIR/gplascc.sh"
-# requires ${BENCH_ENVS_DIR}/gplascc.sif already built
+# shellcheck source=src/envs/format-binning-inputs.sh
+source "$BENCH_ENVS_DIR/format-binning-inputs.sh"
 
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
 smp_uid=$(get_sample_uid_from_slurm_array "$ONLY_LABELLED_SAMPLES_TSV")
-#
-# Inputs
-#
-gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
-plm_tsv=$(get_plm_gplascc_rfpl_tsv "$smp_uid")
 
-# gplasCC only reads unzipped GFA
-gfa="$SLURM_TMPDIR/$smp_uid.gfa"
-gunzip -c "$gfa_gz" >"$gfa"
-#
-# Outputs
-#
-output_dir=$(get_uni_bin_dir "$smp_uid" "$METHOD_CODE")
-bins_tab=$(get_gpcc_bin_pred "$smp_uid" "$METHOD_CODE")
+rfpl_pred_csv=$(get_rfplasmid_prediction_csv "$smp_uid")
+pbf_plm_tsv=$(get_plm_pbf_rfpl_tsv "$smp_uid") # RFPlasmid -> PBf plasmidness
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
 # ---------------------------------------------------------------------------- #
-register_job_id "$(dirname "$output_dir")"
+register_job_id "$(dirname "$pbf_plm_tsv")"
 
 # ---------------------------------------------------------------------------- #
-# Running gplasCC
+# Formatting
 # ---------------------------------------------------------------------------- #
 echo_sample_job "$smp_uid" \
-    "$METHOD_CODE"
+    "format RFPlasmid classification into PlasBin-flow plasmidness TSV file"
 
-mkdir -p "$output_dir"
+mkdir -p "$(dirname "$pbf_plm_tsv")"
 
-apptainer run -C -B "$SLURM_TMPDIR" -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
-    gplas \
-    -i "$gfa" \
-    -P "$plm_tsv" \
-    -o "$output_dir" \
-    -n "$smp_uid" \
-    -l "$LENGTH_FILTER"
-
-# gplasCC writes the per-contig bin assignment in "$output_dir/results/<name>_results.tab"
-mv "$output_dir/results/${smp_uid}_results.tab" "$bins_tab"
+# RFPlasmid classification -> PBf plasmidness TSV
+apptainer run "$APPTAINER_IMG" rfplasmid-to-pbf-plm "$rfpl_pred_csv" "$pbf_plm_tsv"

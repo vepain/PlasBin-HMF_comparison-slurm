@@ -16,8 +16,10 @@ umask 007
 #
 # Load file tree layout variables
 #
+# shellcheck source=src/scripts/filetree_layout.sh
 source "$BENCH_SCRIPTS_DIR/filetree_layout.sh" "$BENCH_ROOT_DIR"
 #
 # Source utilities
 #
+# shellcheck source=src/scripts/utils.sh
 source "$BENCH_SCRIPTS_DIR/utils.sh" "$BENCH_ROOT_DIR"

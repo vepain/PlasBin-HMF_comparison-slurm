@@ -69,6 +69,38 @@
   * [ ] 🧪
   * [ ] 📑
 
+### Candiate scripts
+
+* `/project/6001426/wg-anoph/benchmarking/scripts/ground-truth-for-all.pl`
+
+```sh
+$ stat ground-truth-for-all.pl
+
+  File: ground-truth-for-all.pl
+  Size: 1566            Blocks: 8          IO Block: 4194304 regular file
+Device: 3651,409418     Inode: 198160265840174693  Links: 1
+Access: (0750/-rwxr-x---)  Uid: (3052702/   amane)   Gid: (6001426/def-chauvec)
+Access: 2026-09-17 07:14:17.000000000 -0700
+Modify: 2025-06-13 10:47:53.000000000 -0700
+Change: 2025-06-18 00:28:39.000000000 -0700
+ Birth: 2025-06-18 00:28:39.000000000 -0700
+```
+
+* `/project/6001426/wg-anoph/benchmarking/scripts/ground-truth-new-v2.pl`
+
+```sh
+$ stat ground-truth-new-v2.pl
+
+  File: ground-truth-new-v2.pl
+  Size: 8631            Blocks: 24         IO Block: 4194304 regular file
+Device: 3651,409418     Inode: 198160265840174694  Links: 1
+Access: (0750/-rwxr-x---)  Uid: (3052702/   amane)   Gid: (6001426/def-chauvec)
+Access: 2026-09-17 07:09:27.000000000 -0700
+Modify: 2025-06-13 10:47:53.000000000 -0700
+Change: 2025-06-18 00:28:39.000000000 -0700
+ Birth: 2025-06-18 00:28:39.000000000 -0700
+```
+
 ## Classification
 
 * [x] `src/scripts/rfplasmid/uni.sh`
@@ -91,24 +123,24 @@
 #### PlasBin-flow inputs
 
 * [ ] RFPlasmid PBF plasmidness
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
   * [ ] 🧪
   * [ ] 📑
 * [ ] Platon PBF seeds
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
   * [ ] 🧪
   * [ ] 📑
 
 #### gplasCC inputs
 
 * [ ] RFPlasmid gplasCC classification
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
   * [ ] 🧪
   * [ ] 📑
 

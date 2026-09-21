@@ -59,52 +59,6 @@ sbatch rfpl_uni.sh
     --8<-- "src/scripts/plasbin-hmf/rfpl_uni.sh"
     ```
 
-## gplasCC + RFPlasmid
-
-!!! warning
-
-    <!-- DOCU add warning about format gplasCC input -->
-
-    The sbatch script requires the RFPlasmid classification formatted for gplasCC,
-    in `{smp_uid}_scores.tsv` files (see `get_plm_gplas_rfpl_tsv` in [the filetree](filtree.md)).
-
-Copy the script `scripts/gplascc/rfpl_uni.sh` to another place to modify it:
-
-=== ":lucide-file-terminal: Bash"
-
-    ```bash
-    work_dir="/scratch/$USER/gplascc"
-    mkdir -p "$work_dir"
-
-    cp scripts/gplascc/rfpl_uni.sh "$work_dir"
-    cd "$work_dir"
-    ```
-
-=== ":lucide-fish: Fish"
-
-    ```fish
-    set work_dir "/scratch/$USER/gplascc"
-    mkdir -p "$work_dir"
-
-    cp scripts/gplascc/rfpl_uni.sh "$work_dir"
-    cd "$work_dir"
-    ```
-
-Launch the slurm job:
-
-```sh
-sbatch rfpl_uni.sh
-```
-
-The gplasCC per-contig result table is moved to `bins.tab` (see `get_gpcc_bin_pred`),
-which is the file consumed by the PlasEval formatting step (`METHOD_FORMAT=gpcc`).
-
-??? info "Script"
-
-    ```sh title="scripts/gplascc/rfpl_uni.sh"
-    --8<-- "src/scripts/gplascc/rfpl_uni.sh"
-    ```
-
 ## PlasBin-flow + RFPlasmid + Platon
 
 <!-- DOCU add warning about format input -->
@@ -155,6 +109,53 @@ formatting step (`METHOD_FORMAT=pbf`) and by the bin filtering below
 
     ```sh title="scripts/plasbin-flow/rfpl_uni.sh"
     --8<-- "src/scripts/plasbin-flow/rfpl_uni.sh"
+    ```
+
+
+## gplasCC + RFPlasmid
+
+!!! warning
+
+    <!-- DOCU add warning about format gplasCC input -->
+
+    The sbatch script requires the RFPlasmid classification formatted for gplasCC,
+    in `{smp_uid}_scores.tsv` files (see `get_plm_gplascc_rfpl_tsv` in [the filetree](filtree.md)).
+
+Copy the script `scripts/gplascc/rfpl_uni.sh` to another place to modify it:
+
+=== ":lucide-file-terminal: Bash"
+
+    ```bash
+    work_dir="/scratch/$USER/gplascc"
+    mkdir -p "$work_dir"
+
+    cp scripts/gplascc/rfpl_uni.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/gplascc"
+    mkdir -p "$work_dir"
+
+    cp scripts/gplascc/rfpl_uni.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+Launch the slurm job:
+
+```sh
+sbatch rfpl_uni.sh
+```
+
+The gplasCC per-contig result table is moved to `bins.tab` (see `get_gpcc_bin_pred`),
+which is the file consumed by the PlasEval formatting step (`METHOD_FORMAT=gpcc`).
+
+??? info "Script"
+
+    ```sh title="scripts/gplascc/rfpl_uni.sh"
+    --8<-- "src/scripts/gplascc/rfpl_uni.sh"
     ```
 
 ## MOB-recon
