@@ -42,6 +42,9 @@ prelude progresses.
 ./submit_ready.sh asm_short_reads.sh   # or asm_hybrid_reads.sh, which needs both runs
 ```
 
+A resubmitted sample starts SPAdes from scratch: both assembly scripts delete a
+`spades_assembly/` left by a crashed task, which Unicycler would otherwise resume from.
+
 It restricts `--array` to the ready rows -- the array index is the line number of the
 sample in `completed_samples.csv`. A run still being downloaded (`prefetch` leaves a
 `.sra.lock` next to it) counts as not ready: a task reading it would assemble a

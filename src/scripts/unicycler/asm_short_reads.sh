@@ -82,6 +82,13 @@ fasterq-dump --threads "$SLURM_CPUS_PER_TASK" --temp "$SLURM_TMPDIR" \
     --outdir "$reads_dir" "$prelude_dir/$sra_sr_id"
 
 #
+# A spades_assembly/ left by a crashed task makes SPAdes resume that broken
+# state instead of starting over, and the retry fails the same way. Only
+# SPAdes' working directory goes: a finished assembly.gfa.gz is left alone.
+#
+rm -rf "$output_dir/spades_assembly"
+
+#
 # Short-read assembly
 #
 apptainer run -C -B "$SLURM_TMPDIR" -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
