@@ -26,12 +26,14 @@
   * [x] 🚧 not an sbatch script: it runs on a login node
   * [ ] 🧪
   * [x] 📑
+  <!-- REVIEW hybrid assemblies are directly put in the regular pipeline filetree -->
 * [ ] `src/scripts/unicycler/delete_ready.sh`: remove the SRAs whose assemblies are done
   * [x] 🚧 not an sbatch script: it runs on a login node
   * [ ] 🧪
   * [x] 📑
 * [ ] Filter the short-contig assemblies
-* [ ] Remove the unfiltered short-contig assemblies
+* [ ] Remove the unfiltered short-contig assemblies and reads (if hybrid and short assemblies done)
+<!-- REVIEW the current scripts -->
 
 ## Short read assembly (unfiltered)
 
