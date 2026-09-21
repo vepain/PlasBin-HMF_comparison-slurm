@@ -49,9 +49,11 @@ case "${1:-}" in
 esac
 
 # A task still holding a sample keeps its runs, whatever the assemblies look
-# like: it may be extracting them right now.
-queued=$(squeue -h -u "$USER" -n asm_short_reads.sh,asm_hybrid_reads.sh \
-    -t PENDING,RUNNING -r --Format=ArrayTaskID | awk 'NF { print $1 }' | paste -sd, -) || {
+# like: it may be extracting them right now. Any assembly job counts, matched on
+# the `asm_short`/`asm_hybrid` name prefix so that copies with bigger SBATCH
+# resources are seen too -- keep the prefix when making one.
+queued=$(squeue -h -u "$USER" -t PENDING,RUNNING -r --Format=Name:40,ArrayTaskID |
+    awk '$1 ~ /^asm_(short|hybrid)/ { print $2 }' | paste -sd, -) || {
     echo "squeue failed: refusing to delete without knowing what is running." >&2
     exit 1
 }

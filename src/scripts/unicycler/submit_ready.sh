@@ -42,17 +42,23 @@ declare -r SCRIPT="${1:?usage: ./submit_ready.sh <assembly script>}"
 if grep -q '"long_reads"' "$SCRIPT"; then
     read_cols="short_reads long_reads"
     asm_dir="$UNI_HYBRID_ASSEMBLY_DIR"
+    family="asm_hybrid"
 else
     read_cols="short_reads"
     asm_dir="$UNI_ASSEMBLY_DIR"
+    family="asm_short"
 fi
 
-# Tasks already pending or running for this script. A sample submitted twice has
-# two Unicyclers sharing one output directory, and the SPAdes runs crash each
-# other over their K*/ working files -- the assembled sample is not there yet to
-# exclude them, so the queue has to.
-queued=$(squeue -h -u "$USER" -n "$(basename "$SCRIPT")" -t PENDING,RUNNING -r \
-    --Format=ArrayTaskID | awk 'NF { print $1 }' | paste -sd, -) || {
+# Tasks already pending or running over the same assembly tree. A sample
+# submitted twice has two Unicyclers sharing one output directory, and the SPAdes
+# runs crash each other over their K*/ working files -- the assembled sample is
+# not there yet to exclude them, so the queue has to.
+#
+# Matched on the `asm_short`/`asm_hybrid` name prefix, not on this script's own
+# name: a copy with bigger SBATCH resources writes the same tree, and must be
+# seen. Keep the prefix when making such a copy.
+queued=$(squeue -h -u "$USER" -t PENDING,RUNNING -r --Format=Name:40,ArrayTaskID |
+    awk -v f="$family" '$1 ~ "^" f { print $2 }' | paste -sd, -) || {
     echo "squeue failed: refusing to submit without knowing what is already queued." >&2
     exit 1
 }

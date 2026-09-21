@@ -67,7 +67,9 @@ prelude does not have to be kept whole until the end:
 
 A run goes only once **every** assembly reading it is there -- the long run is read by
 the hybrid assembly, the short one by both -- and a run shared by two samples waits for
-both. Samples held by a pending or running task keep their runs. That is why this is a
+both. Samples held by a pending or running task keep their runs -- any job whose name starts
+with `asm_short` or `asm_hybrid`, see
+[the prefix rule](assembly.md#launching-on-a-partial-prelude). That is why this is a
 pass of its own rather than an `rm` at the end of an assembly script: a task cannot know
 whether the other assembly has run.
 

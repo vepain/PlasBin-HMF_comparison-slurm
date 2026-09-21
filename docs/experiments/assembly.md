@@ -45,6 +45,15 @@ prelude progresses.
 A resubmitted sample starts SPAdes from scratch: both assembly scripts delete a
 `spades_assembly/` left by a crashed task, which Unicycler would otherwise resume from.
 
+!!! warning "Keep the `asm_short` / `asm_hybrid` prefix"
+
+    A copy of an assembly script with bigger `--mem` or `--cpus-per-task` writes the
+    same tree as the original, so `submit_ready.sh` and `delete_ready.sh` must see its
+    tasks in the queue. They match queued jobs on the `asm_short` / `asm_hybrid` name
+    prefix, the job name being the script filename. Name a variant
+    `asm_short_reads_64g.sh` and it is seen; name it `unicycler_64g.sh` and it is
+    invisible -- the next launch resubmits the samples it is already assembling.
+
 It restricts `--array` to the ready rows -- the array index is the line number of the
 sample in `completed_samples.csv`. A run still being downloaded (`prefetch` leaves a
 `.sra.lock` next to it) counts as not ready: a task reading it would assemble a
