@@ -26,7 +26,10 @@
   * [x] 🚧 not an sbatch script: it runs on a login node
   * [ ] 🧪
   * [x] 📑
-* [ ] Remove the SRAs
+* [ ] `src/scripts/unicycler/delete_ready.sh`: remove the SRAs whose assemblies are done
+  * [x] 🚧 not an sbatch script: it runs on a login node
+  * [ ] 🧪
+  * [x] 📑
 * [ ] Filter the short-contig assemblies
 * [ ] Remove the unfiltered short-contig assemblies
 

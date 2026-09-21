@@ -44,11 +44,13 @@ umask 007
 # Download every run of the sample list
 #
 # Both read columns are fed to one sorted-unique list: a run shared by two
-# samples is downloaded once.
+# samples is downloaded once. A run that unicycler/delete_ready.sh removed once
+# its assemblies were done leaves a `<run id>.done` marker behind: it is not
+# wanted again, so it is left out here. Delete the marker to download it again.
 # ---------------------------------------------------------------------------- #
 mkdir -p "$OUTPUT_DIR"
 
-awk -F'\t' '
+awk -F'\t' -v d="$OUTPUT_DIR" '
     NR == 1 {
         for (i = 1; i <= NF; i++) { col[$i] = i }
         if (!("short_reads" in col) || !("long_reads" in col)) {
@@ -57,7 +59,10 @@ awk -F'\t' '
         }
         next
     }
-    { print $col["short_reads"]; print $col["long_reads"] }
+    {
+        r = $col["short_reads"]; if (system("test -e " d "/" r ".done")) { print r }
+        r = $col["long_reads"];  if (system("test -e " d "/" r ".done")) { print r }
+    }
 ' "$SAMPLES_CSV" | sort -u | xargs -P "$JOBS" -I{} \
     prefetch {} --output-directory "$OUTPUT_DIR" --max-size "$MAX_SIZE" ||
     {
