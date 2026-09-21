@@ -47,16 +47,29 @@ else
     asm_dir="$UNI_ASSEMBLY_DIR"
 fi
 
+# Tasks already pending or running for this script. A sample submitted twice has
+# two Unicyclers sharing one output directory, and the SPAdes runs crash each
+# other over their K*/ working files -- the assembled sample is not there yet to
+# exclude them, so the queue has to.
+queued=$(squeue -h -u "$USER" -n "$(basename "$SCRIPT")" -t PENDING,RUNNING -r \
+    --Format=ArrayTaskID | awk 'NF { print $1 }' | paste -sd, -) || {
+    echo "squeue failed: refusing to submit without knowing what is already queued." >&2
+    exit 1
+}
+
 # ---------------------------------------------------------------------------- #
 # The array index is the line number of the sample in $SAMPLES_CSV
 # (`sed -n "${SLURM_ARRAY_TASK_ID}p"`), so the line numbers are the array.
 # ---------------------------------------------------------------------------- #
-ready=$(awk -F'\t' -v d="$PRELUDE_DIR" -v a="$asm_dir" -v cols="$read_cols" '
+ready=$(awk -F'\t' -v d="$PRELUDE_DIR" -v a="$asm_dir" -v cols="$read_cols" -v queued="$queued" '
+    BEGIN { n_q = split(queued, q, ","); for (i = 1; i <= n_q; i++) { skip[q[i]] = 1 } }
     NR == 1 {
         for (i = 1; i <= NF; i++) { col[$i] = i }
         n = split(cols, c, " ")
         next
     }
+    # Already queued or running: leave it to the job that has it
+    NR in skip { next }
     # Already assembled: leave it out, this is a relaunch
     system("test -s " a "/" $col["species_id"] "-" $col["sample_id"] "/assembly.gfa.gz") == 0 { next }
     {
@@ -76,4 +89,5 @@ if [[ -z "$ready" ]]; then
 fi
 
 echo "$(grep -c '' <<<"$ready") samples ready, out of $(($(grep -c '' "$SAMPLES_CSV") - 1))" >&2
+[[ -z "$queued" ]] || echo "(skipped $(tr ',' '\n' <<<"$queued" | grep -c '') already queued)" >&2
 sbatch --array="$(paste -sd, - <<<"$ready")" "$SCRIPT"
