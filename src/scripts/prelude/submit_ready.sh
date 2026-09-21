@@ -43,7 +43,7 @@ if grep -q '"long_reads"' "$SCRIPT"; then
     family="asm_hybrid"
 else
     read_cols="short_reads"
-    asm_dir="$UNI_ASSEMBLY_DIR"
+    asm_dir="$UNI_SHORT_ASSEMBLY_DIR"
     family="asm_short"
 fi
 

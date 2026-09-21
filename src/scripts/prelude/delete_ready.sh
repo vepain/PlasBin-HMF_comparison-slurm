@@ -60,7 +60,7 @@ queued=$(squeue -h -u "$USER" -t PENDING,RUNNING -r --Format=Name:40,ArrayTaskID
 # A run is deletable when no row still needs it: rows share runs, so the rows
 # that are not done yet are collected first, and only what is left goes.
 # ---------------------------------------------------------------------------- #
-runs=$(awk -F'\t' -v s="$UNI_ASSEMBLY_DIR" -v h="$UNI_HYBRID_ASSEMBLY_DIR" -v queued="$queued" \
+runs=$(awk -F'\t' -v s="$UNI_SHORT_ASSEMBLY_DIR" -v h="$UNI_HYBRID_ASSEMBLY_DIR" -v queued="$queued" \
     -v only_short="$only_short" '
     BEGIN { n_q = split(queued, q, ","); for (i = 1; i <= n_q; i++) { busy[q[i]] = 1 } }
     NR == 1 { for (i = 1; i <= NF; i++) { col[$i] = i }; next }

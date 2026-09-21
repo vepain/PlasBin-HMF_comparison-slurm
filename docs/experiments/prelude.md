@@ -8,39 +8,22 @@ icon: lucide/download
 long reads, 2482 runs) in one go, instead of each assembly task fetching its own.
 
 Like every benchmark script it reads its paths from `filetree_layout.sh`: the runs land
-in `$SRA_DIR` (`data/prelude/sra`), one `get_sra_dir` per run. Only `BENCH_ROOT_DIR` has
-to be set, the remaining user variables are right below it.
+in `$SRA_DIR` (`data/prelude/sra`), one `get_sra_dir` per run, all rooted at
+[`$BENCH_ROOT_DIR`](filtree.md#rooting-the-tree).
 
 !!! warning "Not an sbatch script"
 
     Run it on a login or data transfer node. It is network bound: inside an sbatch
     job it would hold a compute allocation idle while waiting on the NCBI side.
 
-=== ":lucide-file-terminal: Bash"
-
-    ```bash
-    work_dir="/scratch/$USER/prelude"
-    mkdir -p "$work_dir"
-
-    cp scripts/prelude/prelude.sh "$work_dir"
-    cd "$work_dir"
-    ```
-
-=== ":lucide-fish: Fish"
-
-    ```fish
-    set work_dir "/scratch/$USER/prelude"
-    mkdir -p "$work_dir"
-
-    cp scripts/prelude/prelude.sh "$work_dir"
-    cd "$work_dir"
-    ```
-
 Launch it (`nohup`, or any way that survives the session: it runs for hours):
 
 ```sh
-nohup ./prelude.sh > prelude.log 2>&1 &
+nohup scripts/prelude/prelude.sh >prelude.log 2>&1 &
 ```
+
+Copy it somewhere first only if you want to change its two user variables, the number of
+parallel downloads and `prefetch`'s maximum run size.
 
 Each run lands in `get_sra_dir`, the directory `fasterq-dump` takes to extract the
 FASTQ later. `prefetch` leaves the runs it already has alone, so re-run the script to
@@ -61,7 +44,7 @@ The [assembly scripts](assembly.md) read `$SRA_DIR` too. They do not have to wai
 prelude does not have to be kept whole until the end:
 
 ```sh
-./delete_ready.sh
+scripts/prelude/delete_ready.sh
 ```
 
 A run goes only once **every** assembly reading it is there -- the long run is read by
@@ -78,7 +61,7 @@ If no hybrid assembly is planned, nothing will ever read the long runs, and the 
 runs would wait forever for a hybrid assembly that is not coming:
 
 ```sh
-./delete_ready.sh --only-short
+scripts/prelude/delete_ready.sh --only-short
 ```
 
 A short run then waits for its short-read assembly alone, and **the long runs are

@@ -20,11 +20,12 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
     │       ├── 📂 {sra_id}     # get_sra_dir
     │       │   └── 📄 {sra_id}.sra
     │       └── 📄 {sra_id}.done    # get_sra_done_marker
-    ├── 📂 assembly_files
-    │   ├── 📂 unicycler    # $UNI_ASSEMBLY_DIR
-    │   │   └── 📂 {smp_uid}    # get_unicycler_assembly_dir
-    │   │       ├── 📄 assembly.fasta.gz
-    │   │       └── 📄 assembly.gfa.gz  # get_unicycler_assembly_gfa_gz
+    ├── 📂 assembly_files   # split by read set first, assembler second
+    │   ├── 📂 short
+    │   │   └── 📂 unicycler    # $UNI_SHORT_ASSEMBLY_DIR
+    │   │       └── 📂 {smp_uid}    # get_unicycler_short_assembly_dir
+    │   │           ├── 📄 assembly.fasta.gz
+    │   │           └── 📄 assembly.gfa.gz  # get_unicycler_assembly_gfa_gz
     │   └── 📂 hybrid
     │       └── 📂 unicycler    # $UNI_HYBRID_ASSEMBLY_DIR
     │           └── 📂 {smp_uid}    # get_unicycler_hybrid_assembly_dir
@@ -79,3 +80,40 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
                         ├── 📄 {smp_uid}.out    # get_plaseval_eval_out
                         └── 📄 {smp_uid}.log    # get_plaseval_eval_log
 ```
+
+## Rooting the tree
+
+Every path above hangs off `$BENCH_ROOT_DIR`, the directory
+[`init.sh`](../setup/init.md) populated. Scripts get it in one of two ways:
+
+Every script carries the same line near its top:
+
+```sh
+BENCH_ROOT_DIR="TODO:BENCH_ROOT_DIR"
+```
+
+[`init.sh`](../setup/init.md) replaces that token with your benchmark directory in every
+`.sh` it installs, so there is nothing to fill in by hand -- and a script copied out of
+`$BENCH_ROOT_DIR/scripts` keeps the value. It is the only thing that comes from outside:
+`config.sh` sources `filetree_layout.sh` with it, and every other path is derived.
+
+```sh
+source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
+```
+
+## The prelude subtree
+
+The SRA runs are the one part of the tree that is temporary -- it is filled before the
+assemblies and emptied after them:
+
+| Name | What it is | Written by | Read by |
+| ---- | ---------- | ---------- | ------- |
+| `$PRELUDE_DIR` | `data/prelude`, everything the prelude stage holds | -- | -- |
+| `$SRA_DIR` | `data/prelude/sra`, one directory per downloaded run | [`prelude.sh`](prelude.md) | -- |
+| `get_sra_dir` | a run's directory, `<run id>.sra` and its reference files | `prefetch` | `fasterq-dump`, in the [assembly scripts](assembly.md) |
+| `get_sra_done_marker` | `<run id>.done`, left when a run is deleted | [`delete_ready.sh`](prelude.md#removing-the-runs-once-assembled) | `prelude.sh`, which skips a marked run |
+
+A run is downloaded once for the whole benchmark, shared by the short-read and the
+hybrid assembly of a sample -- and by two samples when they list the same accession.
+Deleting `$PRELUDE_DIR` once the assemblies exist costs nothing but the markers: the
+assemblies themselves are what every downstream step reads.

@@ -20,7 +20,8 @@
 # User Variables
 # ---------------------------------------------------------------------------- #
 declare -r JOBS=4        # parallel downloads, more get throttled on the NCBI side
-declare -r MAX_SIZE=100G # prefetch refuses runs over 20 G by default, some ONT ones are bigger
+declare -r MAX_SIZE=100g # prefetch refuses runs over 20 G by default, some ONT ones are bigger
+                         # (the documented unit suffixes are lowercase k/m/g/t, or u for unlimited)
 
 # ---------------------------------------------------------------------------- #
 # Load base scripts

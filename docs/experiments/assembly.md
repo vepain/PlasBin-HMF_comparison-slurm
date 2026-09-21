@@ -37,8 +37,11 @@ submits an assembly script over the samples whose runs are already downloaded, a
 leaves out the samples already assembled, so it can be run again in waves as the
 prelude progresses.
 
+Run it from the directory holding the script to submit -- it is the copy you edited
+that gets submitted:
+
 ```sh
-./submit_ready.sh asm_short_reads.sh   # or asm_hybrid_reads.sh, which needs both runs
+"$benchmark_root_dir/scripts/prelude/submit_ready.sh" asm_short_reads.sh
 ```
 
 A resubmitted sample starts SPAdes from scratch: both assembly scripts delete a
@@ -66,7 +69,7 @@ truncated read set.
 
 ## Unicycler short-read assembly
 
-Writes to `get_unicycler_assembly_dir`, so that `get_unicycler_assembly_gfa_gz` --
+Writes to `get_unicycler_short_assembly_dir`, so that `get_unicycler_assembly_gfa_gz` --
 the input of every classification and binning script -- resolves.
 
 Copy the script `scripts/unicycler/asm_short_reads.sh` to another place to modify it:
