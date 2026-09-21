@@ -31,6 +31,28 @@ the FASTQ into `$SLURM_TMPDIR`, which is discarded with the task; only
     Both sbatch scripts require `envs/unicycler.sif` to be built beforehand,
     see [the build script](../setup/envs/unicycler.md).
 
+## Launching on a partial prelude
+
+The assemblies do not have to wait for the whole prelude: `scripts/unicycler/submit_ready.sh`
+submits an assembly script over the samples whose runs are already downloaded, and
+leaves out the samples already assembled, so it can be run again in waves as the
+prelude progresses.
+
+```sh
+./submit_ready.sh asm_short_reads.sh   # or asm_hybrid_reads.sh, which needs both runs
+```
+
+It restricts `--array` to the ready rows -- the array index is the line number of the
+sample in `completed_samples.csv`. A run still being downloaded (`prefetch` leaves a
+`.sra.lock` next to it) counts as not ready: a task reading it would assemble a
+truncated read set.
+
+??? info "Script"
+
+    ```sh title="scripts/unicycler/submit_ready.sh"
+    --8<-- "src/scripts/unicycler/submit_ready.sh"
+    ```
+
 ## Unicycler short-read assembly
 
 Writes to `get_unicycler_assembly_dir`, so that `get_unicycler_assembly_gfa_gz` --

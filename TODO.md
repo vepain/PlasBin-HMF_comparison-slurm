@@ -21,6 +21,11 @@
   * [x] 📑
 * [ ] Assemblies with Unicycler (short and hybrid)
   * [ ] We may have several sbatch script with increasing memory/cpus parameters
+* [ ] `src/scripts/unicycler/submit_ready.sh`: assemble the samples the prelude has
+  already downloaded, so the assemblies can start before it ends
+  * [x] 🚧 not an sbatch script: it runs on a login node
+  * [ ] 🧪
+  * [x] 📑
 * [ ] Remove the SRAs
 * [ ] Filter the short-contig assemblies
 * [ ] Remove the unfiltered short-contig assemblies

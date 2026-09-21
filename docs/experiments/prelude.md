@@ -47,7 +47,8 @@ which is the directory `fasterq-dump` takes to extract the FASTQ later. `prefetc
 leaves the runs it already has alone, so re-run the script to retry whatever failed.
 
 The [assembly scripts](assembly.md) read that directory: move it and their
-`$prelude_dir` must follow. Once every assembly is done, `$OUTPUT_DIR` can be deleted.
+`$prelude_dir` must follow. They do not have to wait for the download to end, see
+[launching on a partial prelude](assembly.md#launching-on-a-partial-prelude). Once every assembly is done, `$OUTPUT_DIR` can be deleted.
 
 ??? info "Script"
 
