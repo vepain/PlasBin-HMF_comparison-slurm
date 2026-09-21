@@ -51,6 +51,7 @@ Copyright &copy; 2026 The authors
             "experiments/intro.md",
             "experiments/filtree.md",
             "experiments/pipeline.md",
+            "experiments/prelude.md",
             "experiments/assembly.md",
             "experiments/classification.md",
             "experiments/binning.md",

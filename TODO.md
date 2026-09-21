@@ -15,7 +15,10 @@
 
 ## Pipeline prelude
 
-* [ ] Download all the SRAs in once (short and long)
+* [ ] `src/scripts/prelude.sh`: download all the SRAs in once (short and long)
+  * [x] 🚧 not an sbatch script: it runs on a login/data transfer node
+  * [ ] 🧪
+  * [x] 📑
 * [ ] Assemblies with Unicycler (short and hybrid)
   * [ ] We may have several sbatch script with increasing memory/cpus parameters
 * [ ] Remove the SRAs
