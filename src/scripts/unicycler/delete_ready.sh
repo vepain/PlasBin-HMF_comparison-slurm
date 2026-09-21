@@ -91,13 +91,19 @@ fi
 # Delete, and leave the marker prelude.sh reads
 # ---------------------------------------------------------------------------- #
 n=0
+m=0
 while read -r run; do
-    rm -rf "${PRELUDE_DIR:?}/$run"
+    # a run the prelude never downloaded is marked all the same: its assemblies
+    # are there, so nothing wants it any more
+    if [[ -d "$PRELUDE_DIR/$run" ]]; then
+        rm -rf "${PRELUDE_DIR:?}/$run"
+        n=$((n + 1))
+    fi
     : >"$PRELUDE_DIR/$run.done"
-    n=$((n + 1))
+    m=$((m + 1))
 done <<<"$runs"
 
-echo "$n runs deleted from $PRELUDE_DIR" >&2
+echo "$m runs no longer needed: $n deleted, $((m - n)) never downloaded" >&2
 if ((only_short)); then
     echo "(--only-short: the long runs went with them)" >&2
 fi
