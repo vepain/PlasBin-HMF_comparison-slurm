@@ -122,17 +122,17 @@ Change: 2025-06-18 00:28:39.000000000 -0700
 
 #### PlasBin-flow inputs
 
-* [ ] RFPlasmid PBF plasmidness
+* [x] RFPlasmid PBF plasmidness
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
-* [ ] Platon PBF seeds
+* [x] Platon PBF seeds
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
 
 #### gplasCC inputs
