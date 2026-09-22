@@ -137,12 +137,12 @@ Change: 2025-06-18 00:28:39.000000000 -0700
 
 #### gplasCC inputs
 
-* [ ] RFPlasmid gplasCC classification
+* [x] RFPlasmid gplasCC classification
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
-  * [ ] 📑
+  * [x] 🧪
+  * [x] 📑
 
 ### Run
 
@@ -197,17 +197,17 @@ Change: 2025-06-18 00:28:39.000000000 -0700
   * [x] 🚧
   * [x] 🧪
   * [x] 📑
-* [ ] `src/scripts/merge-plaseval/merge_eval.sh`
+* [x] `src/scripts/merge-plaseval/merge_eval.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
-* [ ] `src/scripts/merge-plaseval/merge_comp.sh`
+* [x] `src/scripts/merge-plaseval/merge_comp.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
 
 ## Figures
