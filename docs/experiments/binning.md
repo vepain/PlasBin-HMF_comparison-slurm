@@ -238,7 +238,7 @@ formatting step (`METHOD_FORMAT=pbf`) and by the bin filtering below
 
 ??? warning "Prior inputs formatting"
 
-    You must first [format the gplasCC inputs](#formatting-gplascc-inputs).
+    You must first [format the gplasCC inputs](#formatting-gplascc-classification-input-from-rfplasmid).
 
 Copy the script `scripts/gplascc/rfpl_uni.sh` to another place to modify it:
 
