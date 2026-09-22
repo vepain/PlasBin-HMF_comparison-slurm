@@ -3,8 +3,12 @@ tmp/
 
 # Zensical
 site/
+
 # pixi environments
 .pixi/*
 !.pixi/config.toml
-__pycache__/
 mem.md
+
+# Caches
+__pycache__/
+.cache/
