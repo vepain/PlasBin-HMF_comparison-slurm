@@ -22,7 +22,7 @@
 * [ ] Filter the short-contig assemblies
 * [ ] Remove the unfiltered short-contig assemblies
 
-## Short read assembly (unfiltered)
+### Short read assembly (unfiltered)
 
 * [x] `src/scripts/unicycler/asm_short_reads.sh`
   * [x] 🧰
@@ -31,16 +31,7 @@
   * [x] 🧪
   * [x] 📑
 
-## Hybrid assembly
-
-* [x] `src/scripts/unicycler/asm_hybrid_reads.sh`
-  * [x] 🧰
-  * [x] 🗃️
-  * [x] 🚧
-  * [x] 🧪
-  * [x] 📑
-
-## Filter short read assemblies
+### Filter short read assemblies
 
 * [ ] `???`
   * [ ] 🧰
@@ -51,7 +42,16 @@
 
 <!-- FIXME change the function to assembly graphs and FASTA (filtered one for classification and binning) -->
 
-## Filter uncompleted hybrid assembly
+### Hybrid assembly
+
+* [x] `src/scripts/unicycler/asm_hybrid_reads.sh`
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
+  * [x] 🧪
+  * [x] 📑
+
+### Filter uncompleted hybrid assembly
 
 * [ ] [👤 @vepain] Find Tomas' script(s), otherwise recode
   * [ ] 🧰
@@ -122,18 +122,18 @@ Change: 2025-06-18 00:28:39.000000000 -0700
 
 #### PlasBin-flow inputs
 
-* [ ] RFPlasmid PBF plasmidness
+* [x] RFPlasmid PBF plasmidness
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
-  * [ ] 📑
-* [ ] Platon PBF seeds
+  * [x] 🧪
+  * [x] 📑
+* [x] Platon PBF seeds
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
-  * [ ] 📑
+  * [x] 🧪
+  * [x] 📑
 
 #### gplasCC inputs
 

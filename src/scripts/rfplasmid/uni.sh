@@ -34,19 +34,24 @@ species_id=$(get_tsv_cell_from_slurm_array "$ONLY_LABELLED_SAMPLES_TSV" "species
 # RFPlasmid model per species. There is no Acinetobacter model, so A. baumannii
 # falls back to Generic. Model names are capitalized as in RFPlasmid's --species list.
 case "$species_id" in
-    ecol | kpne) rfpl_species="Enterobacteriaceae" ;;
-    efae) rfpl_species="Enterococcus" ;;
-    saur) rfpl_species="Staphylococcus" ;;
-    paer) rfpl_species="Pseudomonas" ;;
-    abau) rfpl_species="Generic" ;;
-    *)
-        echo "No RFPlasmid model mapped for species '$species_id'" >&2
-        exit 1
-        ;;
+ecol | kpne) rfpl_species="Enterobacteriaceae" ;;
+efae) rfpl_species="Enterococcus" ;;
+saur) rfpl_species="Staphylococcus" ;;
+paer) rfpl_species="Pseudomonas" ;;
+abau) rfpl_species="Generic" ;;
+*)
+    echo "No RFPlasmid model mapped for species '$species_id'" >&2
+    exit 1
+    ;;
 esac
 
 gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
 output_dir=$(get_rfplasmid_out_dir "$smp_uid")
+#
+# If the output directory already exists, RFPlasmid does not overwrite it:
+# it writes to `{smp_uid}_YYYYMMDD_HHMMSS` next to it instead, which no downstream step reads.
+#
+rm -rf "$output_dir" 2>/dev/null
 
 # RFPlasmid consumes a directory of FASTA files; build it from the GFA segments.
 input_dir="$SLURM_TMPDIR/$smp_uid"

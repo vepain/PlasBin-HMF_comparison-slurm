@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# TODO format gplasCC input
 # DOCU must first do pbf_plm_rfpl
 # ---------------------------------------------------------------------------- #
 # SLURM script for job resubmission on our clusters.
@@ -29,15 +28,20 @@ source "$BENCH_ENVS_DIR/format-binning-inputs.sh"
 # Set arguments
 # ---------------------------------------------------------------------------- #
 smp_uid=$(get_sample_uid_from_slurm_array "$ONLY_LABELLED_SAMPLES_TSV")
-
+#
+# Inputs
+#
 pbf_plm_tsv=$(get_plm_pbf_rfpl_tsv "$smp_uid") # PBf plasmidness from RFPlasmid
 gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
+#
+# Output
+#
 gpcc_plm_tsv=$(get_plm_gplascc_rfpl_tsv "$smp_uid")
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
 # ---------------------------------------------------------------------------- #
-register_job_id "$(dirname "$pbf_plm_tsv")"
+register_job_id "$(dirname "$gpcc_plm_tsv")"
 
 # ---------------------------------------------------------------------------- #
 # Formatting
@@ -45,7 +49,7 @@ register_job_id "$(dirname "$pbf_plm_tsv")"
 echo_sample_job "$smp_uid" \
     "Format (PlasBin-flow formatted) RFPlasmid classification into gplasCC classification input file"
 
-mkdir -p "$(dirname "$pbf_plm_tsv")"
+mkdir -p "$(dirname "$gpcc_plm_tsv")"
 
 # RFPlasmid classification -> PBf plasmidness TSV
 apptainer run "$APPTAINER_IMG" pbf-plm-to-gplascc-input "$pbf_plm_tsv" "$gfa_gz" "$gpcc_plm_tsv"

@@ -17,13 +17,131 @@ icon: lucide/package-open
 | `pbhmf_rfpl_recomb26`      | PlasBin-HMF + RFPlasmid (RECOMB-CG)              |
 | `pbhmf_rfpl_recomb26_filt` | PlasBin-HMF + RFPlasmid + filtered (RECOMB-CG)   |
 
+## Format the PlasBin-flow, PlasBin-HMF and gplasCC inputs
+
+??? warning "Prior apptainer installation"
+
+    The sbatch scripts require to build the apptainer image, see as an example [the script for the Fir HPC](../setup/envs/format-binning-inputs.md)
+
+### Formatting PlasBin-flow and PlasBin-HMF inputs
+
+#### Formatting plasmidness from RFPlasmid classification
+
+Copy the script `scripts/format-binning-inputs/pbf_plm_rfpl.sh` to another place to modify it:
+
+=== ":lucide-file-terminal: Bash"
+
+    ```bash
+    work_dir="/scratch/$USER/format-binning-inputs"
+    mkdir -p "$work_dir"
+
+    cp scripts/format-binning-inputs/pbf_plm_rfpl.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/format-binning-inputs"
+    mkdir -p "$work_dir"
+
+    cp scripts/format-binning-inputs/pbf_plm_rfpl.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+Launch the slurm job:
+
+```sh
+sbatch pbf_plm_rfpl.sh
+```
+
+??? info "Script"
+
+    ```sh title="scripts/format-binning-inputs/pbf_plm_rfpl.sh"
+    --8<-- "src/scripts/format-binning-inputs/pbf_plm_rfpl.sh"
+    ```
+
+#### Formatting seeds from Platon classification
+
+Copy the script `scripts/format-binning-inputs/pbf_seeds_platon.sh` to another place to modify it:
+
+=== ":lucide-file-terminal: Bash"
+
+    ```bash
+    work_dir="/scratch/$USER/format-binning-inputs"
+    mkdir -p "$work_dir"
+
+    cp scripts/format-binning-inputs/pbf_seeds_platon.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/format-binning-inputs"
+    mkdir -p "$work_dir"
+
+    cp scripts/format-binning-inputs/pbf_seeds_platon.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+Launch the slurm job:
+
+```sh
+sbatch pbf_seeds_platon.sh
+```
+
+??? info "Script"
+
+    ```sh title="scripts/format-binning-inputs/pbf_seeds_platon.sh"
+    --8<-- "src/scripts/format-binning-inputs/pbf_seeds_platon.sh"
+    ```
+
+### Formatting gplasCC classification input from RFPlasmid
+
+Copy the script `scripts/format-binning-inputs/gplascc_rfpl.sh` to another place to modify it:
+
+=== ":lucide-file-terminal: Bash"
+
+    ```bash
+    work_dir="/scratch/$USER/format-binning-inputs"
+    mkdir -p "$work_dir"
+
+    cp scripts/format-binning-inputs/gplascc_rfpl.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set work_dir "/scratch/$USER/format-binning-inputs"
+    mkdir -p "$work_dir"
+
+    cp scripts/format-binning-inputs/gplascc_rfpl.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+Launch the slurm job:
+
+```sh
+sbatch gplascc_rfpl.sh
+```
+
+??? info "Script"
+
+    ```sh title="scripts/format-binning-inputs/gplascc_rfpl.sh"
+    --8<-- "src/scripts/format-binning-inputs/gplascc_rfpl.sh"
+    ```
+
 ## PlasBin-HMF + RFPlasmid + Platon
 
-!!! warning
+??? warning "Prior virtual environment installation"
 
     The sbatch script requires to create before the virtual environment, see as an example [the script for the Fir HPC](../setup/envs/plasbin-hmf.md)
 
-<!-- DOCU add warning about format PBF inputs -->
+??? warning "Prior inputs formatting"
+
+    You must first [format the PlasBin-flow inputs](#formatting-plasbin-flow-and-plasbin-hmf-inputs).
 
 Copy the script `scripts/plasbin-hmf/rfpl_uni.sh` to another place to modify it:
 
@@ -61,17 +179,18 @@ sbatch rfpl_uni.sh
 
 ## PlasBin-flow + RFPlasmid + Platon
 
-<!-- DOCU add warning about format input -->
-
-!!! warning
+??? warning "Prior virtual environment installation"
 
     The sbatch script requires the PlasBin-flow virtual environment, see
     [the install script](../setup/envs/plasbin-flow.md).
 
+??? warning "Prior inputs formatting"
+
+    You must first [format the PlasBin-flow inputs](#formatting-plasbin-flow-and-plasbin-hmf-inputs).
+
 It takes the same inputs as PlasBin-HMF: the plasmidness scores from RFPlasmid and the seeds from Platon in
 PlasBin-flow format (`get_plm_pbf_rfpl_tsv`, `get_seeds_pbf_platon_tsv`, see [the filetree](filtree.md)).
-The GC-content probabilities PlasBin-flow also needs are computed on the fly, in
-`$SLURM_TMPDIR`.
+The GC-content probabilities PlasBin-flow also needs are computed on the fly, in `$SLURM_TMPDIR`.
 
 Copy the script `scripts/plasbin-flow/rfpl_uni.sh` to another place to modify it:
 
@@ -110,6 +229,7 @@ formatting step (`METHOD_FORMAT=pbf`) and by the bin filtering below
     ```sh title="scripts/plasbin-flow/rfpl_uni.sh"
     --8<-- "src/scripts/plasbin-flow/rfpl_uni.sh"
     ```
+
 
 
 ## gplasCC + RFPlasmid
