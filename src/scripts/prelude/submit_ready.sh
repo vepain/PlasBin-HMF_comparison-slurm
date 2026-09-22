@@ -9,11 +9,14 @@
 # the rows that are ready, so the assemblies can start on a partial download and
 # be relaunched in waves: a sample already assembled is left out of the next one.
 #
-# Run it on a login node, from the directory holding the script to submit.
+# Run it on a login node, from the directory the logs should land in
+# (each task logs to ./logs/<job name>/).
 #
 # Usage:
-#   > ./submit_ready.sh asm_short_reads.sh
-#   > ./submit_ready.sh asm_hybrid_reads.sh
+#   > ./submit_ready.sh s   # short-read assembly, scripts/unicycler/asm_short_reads.sh
+#   > ./submit_ready.sh h   # hybrid assembly,     scripts/unicycler/asm_hybrid_reads.sh
+#   > ./submit_ready.sh ./asm_short_reads_64g.sh   # a copy of either, with its own
+#                                                  # SBATCH resources
 #
 # ============================================================================ #
 
@@ -29,7 +32,14 @@ source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 
 set -euo pipefail
 
-declare -r SCRIPT="${1:?usage: ./submit_ready.sh <assembly script>}"
+# `s` and `h` take the assembly script out of the file tree; anything else is a
+# path, so a copy carrying bigger SBATCH resources can still be submitted.
+case "${1:?usage: ./submit_ready.sh s|h|<assembly script>}" in
+s) declare -r SCRIPT="$BENCH_SCRIPTS_DIR/unicycler/asm_short_reads.sh" ;;
+h) declare -r SCRIPT="$BENCH_SCRIPTS_DIR/unicycler/asm_hybrid_reads.sh" ;;
+*) declare -r SCRIPT="$1" ;;
+esac
+
 [[ -f "$SCRIPT" ]] || {
     echo "No such script: $SCRIPT" >&2
     exit 1

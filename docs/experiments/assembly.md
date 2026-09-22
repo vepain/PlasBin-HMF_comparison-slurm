@@ -37,12 +37,22 @@ submits an assembly script over the samples whose runs are already downloaded, a
 leaves out the samples already assembled, so it can be run again in waves as the
 prelude progresses.
 
-Run it from the directory holding the script to submit -- it is the copy you edited
-that gets submitted:
+Pass `s` for the short-read assembly or `h` for the hybrid one, and it takes the script
+out of the file tree itself:
 
 ```sh
-"$benchmark_root_dir/scripts/prelude/submit_ready.sh" asm_short_reads.sh
+"$benchmark_root_dir/scripts/prelude/submit_ready.sh" s
 ```
+
+Anything else is read as a path, so a copy carrying its own SBATCH resources is
+submitted the same way -- and that copy is what runs, not the one in the tree:
+
+```sh
+"$benchmark_root_dir/scripts/prelude/submit_ready.sh" ./asm_short_reads_64g.sh
+```
+
+Run it from the directory the logs should land in: each task writes to
+`./logs/<job name>/`.
 
 A resubmitted sample starts SPAdes from scratch: both assembly scripts delete a
 `spades_assembly/` left by a crashed task, which Unicycler would otherwise resume from.
