@@ -11,7 +11,6 @@ BENCH_DATA_DIR="$BENCH_ROOT_DIR/data"
 
 SAMPLES_CSV="$BENCH_ROOT_DIR/completed_samples.csv"
 ONLY_LABELLED_SAMPLES_TSV="$BENCH_ROOT_DIR/only_labelled_samples.tsv"
-
 # ============================================================================ #
 #                                 GROUND TRUTH                                 #
 # ============================================================================ #
@@ -29,57 +28,110 @@ function get_gt_csv() {
 # ============================================================================ #
 UNI_ASSEMBLY_DIR="$BENCH_DATA_DIR/assembly_files/unicycler"
 
+# Per-sample Unicycler short-read assembly directory
+# (holds assembly.fasta.gz and assembly.gfa.gz).
+# Usage:
+#   asm_dir=$(get_unicycler_assembly_dir "$smp_uid")
+function get_unicycler_assembly_dir() {
+    local smp_uid=$1
+    echo "$UNI_ASSEMBLY_DIR/$smp_uid"
+}
+
 # Usage:
 #   gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
 function get_unicycler_assembly_gfa_gz() {
     local smp_uid=$1
-    echo "$UNI_ASSEMBLY_DIR/$smp_uid/assembly.gfa.gz"
+    echo "$(get_unicycler_assembly_dir "$smp_uid")/assembly.gfa.gz"
+}
+
+# ---------------------------------------------------------------------------- #
+#                            Hybrid assembly output                            #
+# ---------------------------------------------------------------------------- #
+UNI_HYBRID_ASSEMBLY_DIR="$BENCH_DATA_DIR/assembly_files/hybrid/unicycler"
+
+# Per-sample Unicycler hybrid assembly directory
+# (holds assembly.fasta.gz and assembly.gfa.gz).
+# smp_uid is the benchmark-wide "${species_id}-${sample_id}", as everywhere else
+# in this file.
+# Usage:
+#   asm_dir=$(get_unicycler_hybrid_assembly_dir "$smp_uid")
+function get_unicycler_hybrid_assembly_dir() {
+    local smp_uid=$1
+    echo "$UNI_HYBRID_ASSEMBLY_DIR/$smp_uid"
 }
 
 # ============================================================================ #
 #                                CLASSIFICATION                                #
 # ============================================================================ #
+UNI_CLASSIFICATION_DIR="$BENCH_DATA_DIR/results/classification/unicycler"
 # ---------------------------------------------------------------------------- #
 #                                   RFPlasmid                                  #
 # ---------------------------------------------------------------------------- #
-UNI_RFPLASMID_DIR="$BENCH_DATA_DIR/results/rfplasmid/unicycler"
+UNI_RFPLASMID_DIR="$UNI_CLASSIFICATION_DIR/rfplasmid"
 
 # Usage:
 #   dir=$(get_rfplasmid_out_dir "$smp_uid")
 function get_rfplasmid_out_dir() {
-    local smp_uid=$1
-    echo "$UNI_RFPLASMID_DIR/$smp_uid"
+    local _smp_uid=$1
+    echo "$UNI_RFPLASMID_DIR/$_smp_uid"
+}
+
+function get_rfplasmid_prediction_csv() {
+    local _smp_uid=$1
+    echo "$(get_rfplasmid_out_dir "$_smp_uid")/prediction.csv"
 }
 
 # ---------------------------------------------------------------------------- #
 #                                    Platon                                    #
 # ---------------------------------------------------------------------------- #
-UNI_PLATON_DIR="$BENCH_DATA_DIR/results/platon/unicycler"
+UNI_PLATON_DIR="$UNI_CLASSIFICATION_DIR/platon"
 
 function get_platon_out_dir() {
     local _smp_uid=$1
     echo "$UNI_PLATON_DIR/$_smp_uid"
 }
 
-# ---------------------------------------------------------------------------- #
-#                         Formatted PlasBin-flow Input                         #
-# ---------------------------------------------------------------------------- #
+# FIXME which prediction Platon?
+function get_platon_prediction_tsv() {
+    local _smp_uid=$1
+    echo "$(get_platon_out_dir "$_smp_uid")/${_smp_uid}.tsv"
+}
+
+# ============================================================================ #
+#                            FORMATTED BINNIN INPUTS                           #
+# ============================================================================ #
 UNI_FORMATTED_INPUT_DIR="$BENCH_DATA_DIR/results/formatted_input/unicycler"
 
+# ---------------------------------------------------------------------------- #
+#                        Formatted PlasBin-flow Inputs                         #
+# ---------------------------------------------------------------------------- #
+UNI_FORMATTED_PBF_INPUT_DIR="$UNI_FORMATTED_INPUT_DIR/plasbin_flow"
 # RFPlasmid plasmidness scores in PBf format.
 # Usage:
 #   plm_tsv=$(get_plm_pbf_rfpl_tsv "$smp_uid")
 function get_plm_pbf_rfpl_tsv() {
-    local smp_uid=$1
-    echo "$UNI_FORMATTED_INPUT_DIR/rfplasmid/input_pbf/${smp_uid}_scores.tsv"
+    local _smp_uid=$1
+    echo "$UNI_FORMATTED_PBF_INPUT_DIR/plasmidness/rfplasmid/${_smp_uid}_scores.tsv"
 }
 
 # Platon seed contigs in PBf format.
 # Usage:
 #   seeds_tsv=$(get_seeds_pbf_platon_tsv "$smp_uid")
 function get_seeds_pbf_platon_tsv() {
-    local smp_uid=$1
-    echo "$UNI_FORMATTED_INPUT_DIR/platon/input_pbf/${smp_uid}_seeds.tsv"
+    local _smp_uid=$1
+    echo "$UNI_FORMATTED_PBF_INPUT_DIR/seeds/platon/${_smp_uid}_seeds.tsv"
+}
+
+# ---------------------------------------------------------------------------- #
+#                           Formatted gplasCC Input                            #
+# ---------------------------------------------------------------------------- #
+UNI_FORMATTED_GPCC_INPUT_DIR="$UNI_FORMATTED_INPUT_DIR/gplascc"
+# RFPlasmid plasmidness scores in gplasCC input format.
+# Usage:
+#   plm_tsv=$(get_plm_gplascc_rfpl_tsv "$smp_uid")
+function get_plm_gplascc_rfpl_tsv() {
+    local _smp_uid=$1
+    echo "$UNI_FORMATTED_GPCC_INPUT_DIR/rfplasmid/${_smp_uid}_scores.tsv"
 }
 
 # ============================================================================ #

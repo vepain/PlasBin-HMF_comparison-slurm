@@ -4,9 +4,7 @@ icon: lucide/rocket
 
 # Initializing your benchmark
 
-!!! important
-
-    You must connect to your SLURM-based HPC cluster first.
+You must connect to your SLURM-based HPC cluster first.
 
 ```sh
 git clone https://github.com/vepain/PlasBin-HMF_comparison-slurm.git
@@ -15,9 +13,17 @@ cd PlasBin-HMF_comparison-slurm
 
 Set your benchmark directory on your HPC cluster:
 
-```sh
-benchmark_root_dir=/path/to/your/benchmark/directory
-```
+=== ":lucide-file-terminal: Bash"
+
+    ```bash
+    benchmark_root_dir=/path/to/your/benchmark/directory
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ```fish
+    set benchmark_root_dir /path/to/your/benchmark/directory
+    ```
 
 Initialize the benchmark environment:
 

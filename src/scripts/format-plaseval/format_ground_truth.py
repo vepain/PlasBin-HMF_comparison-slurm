@@ -22,7 +22,10 @@ def format_gt(GT_FILE, bins, LEN_THR):
     - CSV file with following format:
     - contig,plasmid_score,chrom_score,label,length,chr_coverage,pl_coverage,un_coverage,hybrid_mapsto
     '''
-    GT_ALL_DF = pd.read_csv(GT_FILE, dtype={'hybrid_mapsto':'string'})
+    # contig as a string: Unicycler contig ids are plain numbers, which pandas would
+    # read as int. A missing mapping becomes '' (skipped below) instead of NA.
+    GT_ALL_DF = pd.read_csv(GT_FILE, dtype={'contig':'string', 'hybrid_mapsto':'string'})
+    GT_ALL_DF['hybrid_mapsto'] = GT_ALL_DF['hybrid_mapsto'].fillna('')
     GT_DF = GT_ALL_DF[GT_ALL_DF['length'] >= LEN_THR]
     #print(GT_DF)
     CHR_DF = GT_DF[GT_DF['label'] == 'chromosome']
@@ -46,7 +49,7 @@ def format_gt(GT_FILE, bins, LEN_THR):
         ctg_len = row['length']
         hyb_ctgs = row['hybrid_mapsto'].split(';')
         for hyb_id in hyb_ctgs:
-            if hyb_id not in CHR_IDS:        
+            if hyb_id and hyb_id not in CHR_IDS:
                 bins.write('GT_'+str(hyb_id) + '\t' + str(ctg_id) + '\t' + str(ctg_len) + '\n')   
 
     for index, row in AMB_DF.iterrows():
@@ -55,7 +58,7 @@ def format_gt(GT_FILE, bins, LEN_THR):
         ctg_len = row['length']
         hyb_ctgs = row['hybrid_mapsto'].split(';')
         for hyb_id in hyb_ctgs:
-            if hyb_id not in CHR_IDS:        
+            if hyb_id and hyb_id not in CHR_IDS:
                 bins.write('GT_'+str(hyb_id) + '\t' + str(ctg_id) + '\t' + str(ctg_len) + '\n')        
 
 

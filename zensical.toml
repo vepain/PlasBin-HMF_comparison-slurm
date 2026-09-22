@@ -48,8 +48,11 @@ Copyright &copy; 2026 The authors
             "setup/envs/index.md",
         ] },
         { "Experiments" = [
-            "experiments/filtree.md",
             "experiments/intro.md",
+            "experiments/filtree.md",
+            "experiments/pipeline.md",
+            "experiments/assembly.md",
+            "experiments/classification.md",
             "experiments/binning.md",
             "experiments/eval_bin.md",
         ] },

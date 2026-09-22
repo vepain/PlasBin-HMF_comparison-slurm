@@ -4,7 +4,7 @@ icon: lucide/info
 
 # Introduction
 
-!!! important
+!!! note
 
     In what follow, we consider you are in that the `$benchmark_root_dir`, i.e.:
 

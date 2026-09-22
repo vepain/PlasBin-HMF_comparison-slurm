@@ -19,6 +19,12 @@ The script build a apptainer image.
     --8<-- "scripts/fir_envs/rfplasmid/build_apptainer_sif.sh"
     ```
 
+??? info "Apptainer definition"
+
+    ```sh title="scripts/fir_envs/rfplasmid/apptainer_img.def"
+    --8<-- "scripts/fir_envs/rfplasmid/apptainer_img.def"
+    ```
+
 !!! note
 
     When `apptainer run` is used with `sbatch`, the following options may be required:

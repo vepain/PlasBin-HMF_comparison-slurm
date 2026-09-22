@@ -14,7 +14,7 @@ umask 007
 
 cd "/scratch/$USER" || exit 1
 mkdir -p Platon-build
-cp "$this_script_dir/platon/apptainer_img.def" Platon-build/Platon.def
+cp "$this_script_dir/apptainer_img.def" Platon-build/Platon.def
 cd Platon-build || exit 1
 
 module load apptainer

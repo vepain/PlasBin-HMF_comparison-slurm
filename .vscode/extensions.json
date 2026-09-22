@@ -6,7 +6,8 @@
     "FanaticPythoner.better-todo-tree",
     "vivaxy.vscode-conventional-commits",
     "DavidAnson.vscode-markdownlint",
-    "zensical.zensical-studio"
+    "zensical.zensical-studio",
+    "timonwong.shellcheck"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
   "unwantedRecommendations": []

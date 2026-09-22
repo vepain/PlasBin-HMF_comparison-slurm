@@ -1,0 +1,32 @@
+Bootstrap: docker
+From: quay.io/biocontainers/mob_suite:3.1.9--pyhdfd78af_1
+
+%labels
+    Software     MOB-suite
+    Version      3.1.9
+    Upstream     https://github.com/phac-nml/mob-suite
+
+%post
+    set -eu
+    # Databases baked into the image. mob_recon must be given the same directory
+    # (--database_directory): with a non-default directory it only reads from it,
+    # which a read-only .sif allows.
+    mkdir -p /opt/mob_db
+    mob_init -d /opt/mob_db
+
+%environment
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+# The image ships mob_recon, mob_typer, mob_cluster...: the caller names the command,
+# e.g. `apptainer run mob-suite.sif mob_recon ...`.
+%runscript
+    exec "$@"
+
+%test
+    version=$(mob_recon --version 2>&1)
+    echo "Installed: $version"
+    case "$version" in
+        *3.1.9*) echo "OK: version pin matches" ;;
+        *) echo "ERROR: expected MOB-suite 3.1.9, got: $version" >&2; exit 1 ;;
+    esac

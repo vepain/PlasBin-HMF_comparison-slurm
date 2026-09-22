@@ -83,6 +83,24 @@ get_sample_uids() {
 # ============================================================================ #
 #                                    SBATCH                                    #
 # ============================================================================ #
+# Get the value of one column on the row the SLURM array task points at.
+#
+# Arguments:
+# 1. Samples file
+# 2. Column name
+#
+# Usage:
+#   > cell=$(get_tsv_cell_from_slurm_array "$samples_tsv" "$col_name")
+function get_tsv_cell_from_slurm_array() {
+    local samples_tsv=$1
+    local col_name=$2
+
+    local col_idx
+    col_idx=$(get_tsv_col_idx "$samples_tsv" "$col_name") || return 1
+
+    sed -n "${SLURM_ARRAY_TASK_ID}p" "$samples_tsv" | cut -f"$col_idx"
+}
+
 # Get species and sample UID
 #
 # Arguments:
@@ -112,5 +130,13 @@ function get_sample_uid_from_slurm_array {
 function register_job_id() {
     local output_dir=$1
     mkdir -p "$output_dir" 2>/dev/null
-    touch "$output_dir/job_id_$SLURM_ARRAY_JOB_ID"
+    touch "$output_dir/job_id_${SLURM_ARRAY_JOB_ID}"
+}
+
+# Usage:
+#   > echo_sample_job "$smp_uid" "$msg"
+function echo_sample_job() {
+    local _smp_uid=$1
+    local _msg=$2
+    echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $_smp_uid $_msg"
 }
