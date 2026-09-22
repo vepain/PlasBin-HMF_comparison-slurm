@@ -6,7 +6,6 @@ icon: lucide/badge-check
 
 ## Format the binning results to PlasEval input
 
-
 Copy the script `format-plaseval/pred_uni.sh` to another place to modify it:
 
 === ":lucide-file-terminal: Bash"
@@ -50,10 +49,9 @@ sbatch pred_uni.sh
 
 ## PlasEval-GDV fork
 
+??? warning "Prior apptainer installation"
 
-!!! warning
-
-    The sbatch script requires to create before the virtual environment, see as an example [the script for the Fir HPC](../setup/envs/plasbin-hmf.md)
+    The sbatch script requires to create before the apptainer image, see as an example [the script for the Fir HPC](../setup/envs/gplascc.md)
 
 ### Evaluate the adapted F1 scores (`eval` command)
 
@@ -165,7 +163,6 @@ Run sbatch:
 sbatch merge_eval.sh
 ```
 
-
 ### PlasEval comp results
 
 Copy the script `merge-plaseval/merge_comp.sh` to another place to modify it:
@@ -202,9 +199,7 @@ Run sbatch:
 sbatch merge_comp.sh
 ```
 
-
 ## Get ground truth repeat stats
-
 
 Copy the script `repeat-stats/ground_truths.sh` to another place to modify it:
 

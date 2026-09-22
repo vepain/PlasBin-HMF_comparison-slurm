@@ -230,16 +230,15 @@ formatting step (`METHOD_FORMAT=pbf`) and by the bin filtering below
     --8<-- "src/scripts/plasbin-flow/rfpl_uni.sh"
     ```
 
-
-
 ## gplasCC + RFPlasmid
 
-!!! warning
+??? warning "Prior apptainer installation"
 
-    <!-- DOCU add warning about format gplasCC input -->
+    The sbatch scripts require to build the apptainer image, see as an example [the script for the Fir HPC](../setup/envs/gplascc.md)
 
-    The sbatch script requires the RFPlasmid classification formatted for gplasCC,
-    in `{smp_uid}_scores.tsv` files (see `get_plm_gplascc_rfpl_tsv` in [the filetree](filtree.md)).
+??? warning "Prior inputs formatting"
+
+    You must first [format the gplasCC inputs](#formatting-gplascc-inputs).
 
 Copy the script `scripts/gplascc/rfpl_uni.sh` to another place to modify it:
 
@@ -280,7 +279,7 @@ which is the file consumed by the PlasEval formatting step (`METHOD_FORMAT=gpcc`
 
 ## MOB-recon
 
-!!! warning
+??? warning "Prior apptainer installation"
 
     The sbatch script requires `envs/mob-suite.sif` (MOB-suite 3.1.9, databases included),
     see [the build script](../setup/envs/mob-suite.md).
@@ -332,7 +331,7 @@ sbatch uni.sh
     --8<-- "src/scripts/gplascc/rfpl_uni.sh"
     ```
 
-## Filtering PlasBin-flow and PlasBin-HMF bins
+## Removing not plasmidic labelled contigs from PlasBin-flow and PlasBin-HMF bins
 
 Copy the script `scripts/filter_bins/filter_bins.sh` to another place to modify it:
 

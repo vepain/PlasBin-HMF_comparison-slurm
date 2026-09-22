@@ -18,7 +18,7 @@ Both scripts key their output by the benchmark-wide `smp_uid`
 In both scripts the reads are downloaded into `$SLURM_TMPDIR` and discarded with it;
 only `assembly.fasta.gz` and `assembly.gfa.gz` are kept.
 
-!!! warning
+??? warning "Prior apptainer installation"
 
     Both sbatch scripts require `envs/unicycler.sif` to be built beforehand,
     see [the build script](../setup/envs/unicycler.md).
