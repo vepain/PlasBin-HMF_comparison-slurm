@@ -50,7 +50,8 @@ register_job_id "$(dirname "$output_dir")"
 # ---------------------------------------------------------------------------- #
 # Running Platon
 # ---------------------------------------------------------------------------- #
-echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid platon"
+echo_sample_job "$smp_uid" \
+    "Platon"
 
 mkdir -p "$output_dir"
 
