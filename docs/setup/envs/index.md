@@ -15,6 +15,7 @@ icon: lucide/container
 
 ## Binning
 
+- [format-binning-inputs](format-binning-inputs.md)
 - [gplasCC](gplascc.md)
 - [MOB-suite](mob-suite.md)
 - [PlasBin-HMF](plasbin-hmf.md)

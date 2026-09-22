@@ -42,7 +42,7 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
         │       │   │       └── 📄 {smp_uid}_scores.tsv     # get_plm_pbf_rfpl_tsv
         │       │   └── 📂 seeds
         │       │       └── 📂 platon
-        │       │              └── 📄 {smp_uid}_seeds.tsv      # get_seeds_pbf_platon_tsv
+        │       │           └── 📄 {smp_uid}_seeds.tsv      # get_seeds_pbf_platon_tsv
         │       └── 📂 gplascc  # $UNI_FORMATTED_GPCC_INPUT_DIR
         │           └── 📂 rfplasmid
         │               └── 📄 {smp_uid}_scores.tsv     # get_plm_gplascc_rfpl_tsv
