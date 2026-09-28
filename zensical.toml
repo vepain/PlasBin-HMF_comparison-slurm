@@ -353,6 +353,9 @@ Copyright &copy; 2026 The authors
     [project.markdown_extensions.pymdownx.details]
     [project.markdown_extensions.pymdownx.superfences]
 
+        custom_fences = [
+            { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+        ]
 
     # XXX tmp until better Zensical dev, https://zensical.org/docs/authoring/markdown/
     [project.markdown_extensions.gfm_admonition]
