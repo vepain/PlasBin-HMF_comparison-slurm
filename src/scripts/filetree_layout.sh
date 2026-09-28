@@ -290,13 +290,3 @@ function get_plaseval_comp_merge_dir() {
     local alpha_value=$1
     echo "$(get_plaseval_comp_alpha_dir "$alpha_value")/merged"
 }
-
-# ============================================================================ #
-#                              SAMPLE PROPERTIES                               #
-# ============================================================================ #
-# Usage:
-#   min_len=$(get_min_len "$smp_uid")
-function get_min_len() {
-    local smp_uid=$1
-    echo ""
-}

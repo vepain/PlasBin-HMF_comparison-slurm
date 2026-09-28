@@ -34,12 +34,6 @@ smp_uid=$(get_sample_uid_from_slurm_array "$ONLY_LABELLED_SAMPLES_TSV")
 
 pred_tsv=$(get_pred_plaseval_fmt "$smp_uid" "$METHOD_CODE")
 gt_tsv=$(get_gt_plaseval_fmt "$smp_uid")
-min_len=$(get_min_len "$smp_uid")
-if [[ -z "$min_len" ]]; then ## if min_len is empty, exclude the --min_len argument
-    min_len_arg=""
-else
-    min_len_arg="--min_len $min_len"
-fi
 
 output_dir=$(get_plaseval_eval_meth_dir "$METHOD_CODE")
 plaseval_out=$(get_plaseval_eval_out "$output_dir" "$smp_uid")
@@ -61,6 +55,5 @@ apptainer run -C -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
     eval \
     --pred "$pred_tsv" \
     --gt "$gt_tsv" \
-    --out_file "$plaseval_out" \
-    --log_file "$plaseval_log" \
-    $min_len_arg
+    --out "$plaseval_out" \
+    --log "$plaseval_log"
