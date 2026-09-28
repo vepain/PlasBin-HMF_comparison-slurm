@@ -41,13 +41,6 @@ gt_dir="$old_data_dir/RESULTS/FORMATTED_BINS/UNICYCLER/GROUND_TRUTH"
 pred_tsv="$bin_res_dir/$smp_uid.$METHOD_CODE.tsv"
 gt_tsv="$gt_dir/$smp_uid.gt.tsv"
 
-min_len=$(get_min_len "$smp_uid")
-if [[ -z "$min_len" ]]; then ## if min_len is empty, exclude the --min_len argument
-    min_len_arg=""
-else
-    min_len_arg="--min_len $min_len"
-fi
-
 #
 # New conventionnal data
 #
@@ -71,6 +64,5 @@ apptainer run -C -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
     eval \
     --pred "$pred_tsv" \
     --gt "$gt_tsv" \
-    --out_file "$plaseval_out" \
-    --log_file "$plaseval_log" \
-    $min_len_arg
+    --out "$plaseval_out" \
+    --log "$plaseval_log"

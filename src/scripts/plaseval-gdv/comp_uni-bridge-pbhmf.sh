@@ -62,8 +62,8 @@ mkdir -p "$output_dir"
 
 apptainer run -C -W "$SLURM_TMPDIR" "$APPTAINER_IMG" \
     comp \
-    --l "$pred_tsv" \
-    --r "$gt_tsv" \
-    --p $ALPHA \
-    --out_file "$plaseval_out" \
-    --log_file "$plaseval_log"
+    --pred "$pred_tsv" \
+    --gt "$gt_tsv" \
+    --alpha $ALPHA \
+    --out "$plaseval_out" \
+    --log "$plaseval_log"
