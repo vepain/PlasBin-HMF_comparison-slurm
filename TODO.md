@@ -60,6 +60,13 @@
   * [ ] 🧪
   * [ ] 📑
 
+Process:
+
+* [ ] Label each hybrid assembly
+  * `gfa.gz` -> `labels.tsv`
+* [ ] Filter sample list
+  * complete sample TSV + TSV file `<sample_uid>  <labels_tsv>` -> sub complete sample TSV
+
 ## Generate ground truth
 
 * [ ] [👤 @vepain] Find Tomas' script(s), otherwise recode
@@ -69,37 +76,13 @@
   * [ ] 🧪
   * [ ] 📑
 
-### Candiate scripts
+Process (for each sample in the only labelled hybrid contig sample list):
 
-* `/project/6001426/wg-anoph/benchmarking/scripts/ground-truth-for-all.pl`
+* [ ] Map short vs hybrid contigs
+* [ ] Label short contigs according to mapping result
+  * `bam` -> `labels.tsv`
 
-```sh
-$ stat ground-truth-for-all.pl
-
-  File: ground-truth-for-all.pl
-  Size: 1566            Blocks: 8          IO Block: 4194304 regular file
-Device: 3651,409418     Inode: 198160265840174693  Links: 1
-Access: (0750/-rwxr-x---)  Uid: (3052702/   amane)   Gid: (6001426/def-chauvec)
-Access: 2026-09-17 07:14:17.000000000 -0700
-Modify: 2025-06-13 10:47:53.000000000 -0700
-Change: 2025-06-18 00:28:39.000000000 -0700
- Birth: 2025-06-18 00:28:39.000000000 -0700
-```
-
-* `/project/6001426/wg-anoph/benchmarking/scripts/ground-truth-new-v2.pl`
-
-```sh
-$ stat ground-truth-new-v2.pl
-
-  File: ground-truth-new-v2.pl
-  Size: 8631            Blocks: 24         IO Block: 4194304 regular file
-Device: 3651,409418     Inode: 198160265840174694  Links: 1
-Access: (0750/-rwxr-x---)  Uid: (3052702/   amane)   Gid: (6001426/def-chauvec)
-Access: 2026-09-17 07:09:27.000000000 -0700
-Modify: 2025-06-13 10:47:53.000000000 -0700
-Change: 2025-06-18 00:28:39.000000000 -0700
- Birth: 2025-06-18 00:28:39.000000000 -0700
-```
+Candiate script: `/project/6001426/wg-anoph/benchmarking/scripts/ground-truth-new-v2.pl`
 
 ## Classification
 
