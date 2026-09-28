@@ -2,9 +2,9 @@
 # ---------------------------------------------------------------------------- #
 # SLURM script for job resubmission on our clusters.
 # ---------------------------------------------------------------------------- #
-#SBATCH --cpus-per-task=16
-#SBATCH --mem=32G
-#SBATCH --time=12:00:00
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=4G
+#SBATCH --time=1:00:00
 #SBATCH --array=2-837
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
