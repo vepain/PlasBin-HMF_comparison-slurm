@@ -79,7 +79,7 @@ register_job_id "$outdir"
 # Formatting
 # ---------------------------------------------------------------------------- #
 echo_sample_job "$smp_uid" \
-    "format pred $METHOD_CODE"
+    "Format $METHOD_CODE predictions"
 
 if [ $empty_prediction = true ]; then
     printf "plasmid\tcontig\tcontig_len\n" >"$pred_tsv"

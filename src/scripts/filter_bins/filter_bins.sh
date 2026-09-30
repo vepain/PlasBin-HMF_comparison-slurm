@@ -51,7 +51,7 @@ case "$METHOD_TOOL" in
     filtered_bins_tsv=$(get_pbf_bin_pred "$smp_uid" "$FILT_METHOD_CODE")
     ;;
 *)
-    echo "method_tool must be 'pbhmf' or 'pbf'"
+    echo "METHOD_TOOL must be 'pbhmf' or 'pbf'"
     exit 1
     ;;
 esac
