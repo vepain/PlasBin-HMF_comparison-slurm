@@ -6,7 +6,7 @@ icon: lucide/folder-tree
 
 The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree architecture of the experiments, summarized in the following code block:
 
-```sh
+``` sh
 📂 BENCH_ROOT_DIR
 ├── 📄 completed_samples.csv
 ├── 📄 only_labelled_samples.tsv
@@ -51,10 +51,11 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
         │   └── 📂 unicycler    # $UNI_BIN_DIR
         │       └── 📂 {method_code}
         │           └── 📂 {smp_uid}    # get_uni_bin_dir
-        │               ├── 📄 bins.tsv                 # get_pbf_bin_pred
-        │               ├── 📄 plasbin_flow_bins.tsv    # get_pbhmf_pbf_bin_pred
-        │               ├── 📄 bins.tab                 # get_gpcc_bin_pred
-        │               └── 📄 contig_report.txt        # get_mob_bin_pred
+        │               ├── 📄 bins.tsv                 # (PlasBin-flow)    get_pbf_bin_pred
+        │               ├── 📄 plasbin_flow_bins.tsv    # (PlasBin-HMF)     get_pbhmf_pbf_bin_pred
+        │               ├── 📄 no_solution.yaml         # (PlasBin-HMF)     get_pbhmf_no_solution_yaml
+        │               ├── 📄 bins.tab                 # (GplasCC)         get_gpcc_bin_pred
+        │               └── 📄 contig_report.txt        # (MOB)             get_mob_bin_pred
         ├── 📂 formatted_bins
         │   └── 📂 unicycler
         │       ├── 📂 predictions  # $UNI_PLASEVAL_PRED_BINS_DIR
