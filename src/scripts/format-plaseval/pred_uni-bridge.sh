@@ -36,6 +36,8 @@ smp_uid=$(get_sample_uid_from_slurm_array "$ONLY_LABELLED_SAMPLES_TSV")
 old_data_dir="/project/def-chauvec/wg-anoph/benchmarking/DATA"
 gfa_gz="$old_data_dir/ASSEMBLY_FILES/FILTERED_100/UNICYCLER/$smp_uid/assembly.gfa.gz"
 
+empty_prediction=false
+
 case "$METHOD_FORMAT" in
 "pbf")
     results=$(get_pbf_bin_pred "$smp_uid" "$METHOD_CODE")
@@ -44,6 +46,11 @@ case "$METHOD_FORMAT" in
 "pbhmf")
     results=$(get_pbhmf_pbf_bin_pred "$smp_uid" "$METHOD_CODE")
     tool="pbf"
+
+    no_solution_yaml=$(get_pbhmf_no_solution_yaml "$smp_uid" "$METHOD_CODE")
+    if [ -f "$no_solution_yaml" ]; then
+        empty_prediction=true
+    fi
     ;;
 "gpcc")
     results=$(get_gpcc_bin_pred "$smp_uid" "$METHOD_CODE")
@@ -72,11 +79,16 @@ register_job_id "$outdir"
 # ---------------------------------------------------------------------------- #
 # Formatting
 # ---------------------------------------------------------------------------- #
-echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid format pred $METHOD_CODE"
+echo_sample_job "$smp_uid" \
+    "Format $METHOD_CODE predictions"
 
-python3 "$py_script" \
-    --tool "$tool" \
-    --assembly "$gfa" \
-    --results "$results" \
-    --outdir "$outdir" \
-    --outfile "$outfile"
+if [ $empty_prediction = true ]; then
+    printf "plasmid\tcontig\tcontig_len\n" >"$pred_tsv"
+else
+    python3 "$py_script" \
+        --tool "$tool" \
+        --assembly "$gfa" \
+        --results "$results" \
+        --outdir "$outdir" \
+        --outfile "$outfile"
+fi
