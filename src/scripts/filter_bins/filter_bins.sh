@@ -61,10 +61,11 @@ seeds_tsv=$(get_seeds_pbf_platon_tsv "$smp_uid")
 
 py_script="$BENCH_SCRIPTS_DIR/filter_bins/filter_pbf_bins.py"
 
+smp_output_dir="$(get_uni_bin_dir "$smp_uid" "$FILT_METHOD_CODE")"
 # ---------------------------------------------------------------------------- #
 # Register the job id
 # ---------------------------------------------------------------------------- #
-register_job_id "$(get_uni_bin_dir "$smp_uid" "$FILT_METHOD_CODE")"
+register_job_id "$(dirname "$smp_output_dir")"
 
 # ---------------------------------------------------------------------------- #
 # Filtering
