@@ -43,7 +43,7 @@ Copyright &copy; 2026 The authors
 
     nav = [
         { "Home" = "index.md" },
-        { "Setup" = [
+        { "Get started" = [
             "setup/init.md",
             "setup/envs/index.md",
         ] },
@@ -58,6 +58,7 @@ Copyright &copy; 2026 The authors
         ] },
         { "Utilities" = [
             "utils/tasks_to_redo.md",
+            "utils/pbhmf_no_solution_yaml.md",
         ] },
     ]
     # Zensical supports both implicit navigation and explicitly defined navigation.
@@ -247,7 +248,7 @@ Copyright &copy; 2026 The authors
             # When tabs are enabled, top-level sections are rendered in a menu layer
             # below the header for viewports above 1220px, but remain as-is on mobile.
             # https://zensical.org/docs/setup/navigation/#navigation-tabs
-            #"navigation.tabs",
+            "navigation.tabs",
 
             # When sticky tabs are enabled, navigation tabs will lock below the header
             # and always remain visible when scrolling down.
@@ -297,18 +298,18 @@ Copyright &copy; 2026 The authors
         # - https://zensical.org/docs/setup/logo-and-icons
         # - https://github.com/zensical/ui/tree/master/dist/.icons
         # ----------------------------------------------------------------------------
-        #[project.theme.icon]
-        #logo = "lucide/smile"
+        [project.theme.icon]
+            repo = "fontawesome/brands/github"
 
-        # ----------------------------------------------------------------------------
-        # In the "font" subsection you can configure the fonts used. By default, fonts
-        # are loaded from Google Fonts, giving you a wide range of choices from a set
-        # of suitably licensed fonts. There are options for a normal text font and for
-        # a monospaced font used in code blocks.
-        # ----------------------------------------------------------------------------
-        #[project.theme.font]
-        #text = "Inter"
-        #code = "Jetbrains Mono"
+            # ----------------------------------------------------------------------------
+            # In the "font" subsection you can configure the fonts used. By default, fonts
+            # are loaded from Google Fonts, giving you a wide range of choices from a set
+            # of suitably licensed fonts. There are options for a normal text font and for
+            # a monospaced font used in code blocks.
+            # ----------------------------------------------------------------------------
+            #[project.theme.font]
+            #text = "Inter"
+            #code = "Jetbrains Mono"
 
         # ----------------------------------------------------------------------------
         # In the "palette" subsection you can configure options for the color scheme.

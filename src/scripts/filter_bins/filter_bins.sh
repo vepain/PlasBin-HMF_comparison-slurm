@@ -37,10 +37,14 @@ smp_uid=$(get_sample_uid_from_slurm_array "$ONLY_LABELLED_SAMPLES_TSV")
 
 FILT_METHOD_CODE="$METHOD_CODE"_filt
 
+phmf_no_solution_yaml=""
+
 case "$METHOD_TOOL" in
 "pbhmf")
     bins_tsv=$(get_pbhmf_pbf_bin_pred "$smp_uid" "$METHOD_CODE")
     filtered_bins_tsv=$(get_pbhmf_pbf_bin_pred "$smp_uid" "$FILT_METHOD_CODE")
+
+    phmf_no_solution_yaml=$(get_pbhmf_no_solution_yaml "$smp_uid" "$METHOD_CODE")
     ;;
 "pbf")
     bins_tsv=$(get_pbf_bin_pred "$smp_uid" "$METHOD_CODE")
@@ -65,10 +69,19 @@ register_job_id "$(get_uni_bin_dir "$smp_uid" "$FILT_METHOD_CODE")"
 # ---------------------------------------------------------------------------- #
 # Filtering
 # ---------------------------------------------------------------------------- #
-echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid filter $METHOD_CODE bins"
+echo_sample_job "$smp_uid" \
+    "Filter $METHOD_CODE bins"
 
 mkdir -p "$(dirname "$filtered_bins_tsv")"
 
-python3 "$py_script" rm-low-plm \
-    "$bins_tsv" "$plm_tsv" "$seeds_tsv" "$filtered_bins_tsv" \
-    --plm-thr "$PLASMIDNESS_THRESHOLD"
+if
+    [ ! -z "$phmf_no_solution_yaml" ] && [ -f "$phmf_no_solution_yaml" ]
+then
+    filt_no_solution_yaml="$(get_pbhmf_no_solution_yaml "$smp_uid" "$FILT_METHOD_CODE")"
+    cp "$phmf_no_solution_yaml" "$filt_no_solution_yaml"
+    exit 0
+else
+    python3 "$py_script" rm-low-plm \
+        "$bins_tsv" "$plm_tsv" "$seeds_tsv" "$filtered_bins_tsv" \
+        --plm-thr "$PLASMIDNESS_THRESHOLD"
+fi

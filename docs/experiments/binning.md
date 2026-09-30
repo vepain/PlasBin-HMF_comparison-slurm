@@ -31,7 +31,7 @@ Copy the script `scripts/format-binning-inputs/pbf_plm_rfpl.sh` to another place
 
 === ":lucide-file-terminal: Bash"
 
-    ```bash
+    ``` bash
     work_dir="/scratch/$USER/format-binning-inputs"
     mkdir -p "$work_dir"
 
@@ -41,7 +41,7 @@ Copy the script `scripts/format-binning-inputs/pbf_plm_rfpl.sh` to another place
 
 === ":lucide-fish: Fish"
 
-    ```fish
+    ``` fish
     set work_dir "/scratch/$USER/format-binning-inputs"
     mkdir -p "$work_dir"
 
@@ -51,13 +51,13 @@ Copy the script `scripts/format-binning-inputs/pbf_plm_rfpl.sh` to another place
 
 Launch the slurm job:
 
-```sh
+``` sh
 sbatch pbf_plm_rfpl.sh
 ```
 
 ??? info "Script"
 
-    ```sh title="scripts/format-binning-inputs/pbf_plm_rfpl.sh"
+    ``` sh title="scripts/format-binning-inputs/pbf_plm_rfpl.sh"
     --8<-- "src/scripts/format-binning-inputs/pbf_plm_rfpl.sh"
     ```
 
@@ -67,7 +67,7 @@ Copy the script `scripts/format-binning-inputs/pbf_seeds_platon.sh` to another p
 
 === ":lucide-file-terminal: Bash"
 
-    ```bash
+    ``` bash
     work_dir="/scratch/$USER/format-binning-inputs"
     mkdir -p "$work_dir"
 
@@ -77,7 +77,7 @@ Copy the script `scripts/format-binning-inputs/pbf_seeds_platon.sh` to another p
 
 === ":lucide-fish: Fish"
 
-    ```fish
+    ``` fish
     set work_dir "/scratch/$USER/format-binning-inputs"
     mkdir -p "$work_dir"
 
@@ -87,13 +87,13 @@ Copy the script `scripts/format-binning-inputs/pbf_seeds_platon.sh` to another p
 
 Launch the slurm job:
 
-```sh
+``` sh
 sbatch pbf_seeds_platon.sh
 ```
 
 ??? info "Script"
 
-    ```sh title="scripts/format-binning-inputs/pbf_seeds_platon.sh"
+    ``` sh title="scripts/format-binning-inputs/pbf_seeds_platon.sh"
     --8<-- "src/scripts/format-binning-inputs/pbf_seeds_platon.sh"
     ```
 
@@ -103,7 +103,7 @@ Copy the script `scripts/format-binning-inputs/gplascc_rfpl.sh` to another place
 
 === ":lucide-file-terminal: Bash"
 
-    ```bash
+    ``` bash
     work_dir="/scratch/$USER/format-binning-inputs"
     mkdir -p "$work_dir"
 
@@ -113,7 +113,7 @@ Copy the script `scripts/format-binning-inputs/gplascc_rfpl.sh` to another place
 
 === ":lucide-fish: Fish"
 
-    ```fish
+    ``` fish
     set work_dir "/scratch/$USER/format-binning-inputs"
     mkdir -p "$work_dir"
 
@@ -123,13 +123,13 @@ Copy the script `scripts/format-binning-inputs/gplascc_rfpl.sh` to another place
 
 Launch the slurm job:
 
-```sh
+``` sh
 sbatch gplascc_rfpl.sh
 ```
 
 ??? info "Script"
 
-    ```sh title="scripts/format-binning-inputs/gplascc_rfpl.sh"
+    ``` sh title="scripts/format-binning-inputs/gplascc_rfpl.sh"
     --8<-- "src/scripts/format-binning-inputs/gplascc_rfpl.sh"
     ```
 
@@ -147,7 +147,7 @@ Copy the script `scripts/plasbin-hmf/rfpl_uni.sh` to another place to modify it:
 
 === ":lucide-file-terminal: Bash"
 
-    ```bash
+    ``` bash
     work_dir="/scratch/$USER/plasbin-hmf"
     mkdir -p "$work_dir"
 
@@ -157,7 +157,7 @@ Copy the script `scripts/plasbin-hmf/rfpl_uni.sh` to another place to modify it:
 
 === ":lucide-fish: Fish"
 
-    ```fish
+    ``` fish
     set work_dir "/scratch/$USER/plasbin-hmf"
     mkdir -p "$work_dir"
 
@@ -167,13 +167,13 @@ Copy the script `scripts/plasbin-hmf/rfpl_uni.sh` to another place to modify it:
 
 Launch the slurm job:
 
-```sh
+``` sh
 sbatch rfpl_uni.sh
 ```
 
 ??? info "Script"
 
-    ```sh title="scripts/plasbin-hmf/rfpl_uni.sh"
+    ``` sh title="scripts/plasbin-hmf/rfpl_uni.sh"
     --8<-- "src/scripts/plasbin-hmf/rfpl_uni.sh"
     ```
 
@@ -196,7 +196,7 @@ Copy the script `scripts/plasbin-flow/rfpl_uni.sh` to another place to modify it
 
 === ":lucide-file-terminal: Bash"
 
-    ```bash
+    ``` bash
     work_dir="/scratch/$USER/plasbin-flow"
     mkdir -p "$work_dir"
 
@@ -206,7 +206,7 @@ Copy the script `scripts/plasbin-flow/rfpl_uni.sh` to another place to modify it
 
 === ":lucide-fish: Fish"
 
-    ```fish
+    ``` fish
     set work_dir "/scratch/$USER/plasbin-flow"
     mkdir -p "$work_dir"
 
@@ -216,7 +216,7 @@ Copy the script `scripts/plasbin-flow/rfpl_uni.sh` to another place to modify it
 
 Launch the slurm job:
 
-```sh
+``` sh
 sbatch rfpl_uni.sh
 ```
 
@@ -226,7 +226,7 @@ formatting step (`METHOD_FORMAT=pbf`) and by the bin filtering below
 
 ??? info "Script"
 
-    ```sh title="scripts/plasbin-flow/rfpl_uni.sh"
+    ``` sh title="scripts/plasbin-flow/rfpl_uni.sh"
     --8<-- "src/scripts/plasbin-flow/rfpl_uni.sh"
     ```
 
@@ -244,7 +244,7 @@ Copy the script `scripts/gplascc/rfpl_uni.sh` to another place to modify it:
 
 === ":lucide-file-terminal: Bash"
 
-    ```bash
+    ``` bash
     work_dir="/scratch/$USER/gplascc"
     mkdir -p "$work_dir"
 
@@ -254,7 +254,7 @@ Copy the script `scripts/gplascc/rfpl_uni.sh` to another place to modify it:
 
 === ":lucide-fish: Fish"
 
-    ```fish
+    ``` fish
     set work_dir "/scratch/$USER/gplascc"
     mkdir -p "$work_dir"
 
@@ -264,7 +264,7 @@ Copy the script `scripts/gplascc/rfpl_uni.sh` to another place to modify it:
 
 Launch the slurm job:
 
-```sh
+``` sh
 sbatch rfpl_uni.sh
 ```
 
@@ -273,7 +273,7 @@ which is the file consumed by the PlasEval formatting step (`METHOD_FORMAT=gpcc`
 
 ??? info "Script"
 
-    ```sh title="scripts/gplascc/rfpl_uni.sh"
+    ``` sh title="scripts/gplascc/rfpl_uni.sh"
     --8<-- "src/scripts/gplascc/rfpl_uni.sh"
     ```
 
@@ -292,7 +292,7 @@ Copy the script `scripts/mob-suite/uni.sh` to another place to modify it:
 
 === ":lucide-file-terminal: Bash"
 
-    ```bash
+    ``` bash
     work_dir="/scratch/$USER/mob-suite"
     mkdir -p "$work_dir"
 
@@ -302,7 +302,7 @@ Copy the script `scripts/mob-suite/uni.sh` to another place to modify it:
 
 === ":lucide-fish: Fish"
 
-    ```fish
+    ``` fish
     set work_dir "/scratch/$USER/mob-suite"
     mkdir -p "$work_dir"
 
@@ -312,7 +312,7 @@ Copy the script `scripts/mob-suite/uni.sh` to another place to modify it:
 
 Launch the slurm job:
 
-```sh
+``` sh
 sbatch uni.sh
 ```
 
@@ -321,23 +321,28 @@ sbatch uni.sh
     MOB-recon refuses an existing output directory (its `--force` would delete it, so
     the script does not use it). Before resubmitting a sample, delete its directory:
 
-    ```sh
+    ``` sh
     rm -rf "$benchmark_root_dir/data/results/binning/unicycler/mob/$smp_uid"
     ```
 
 ??? info "Script"
 
-    ```sh title="scripts/gplascc/rfpl_uni.sh"
+    ``` sh title="scripts/gplascc/rfpl_uni.sh"
     --8<-- "src/scripts/gplascc/rfpl_uni.sh"
     ```
 
 ## Removing not plasmidic labelled contigs from PlasBin-flow and PlasBin-HMF bins
 
+??? note "Specific cases"
+
+    PlasBin-HMF can successfully return no solution, materialized by producing a `no_solution.yaml` file (see [README.md](https://gitlab.com/vepain/plasbin-hmf)).
+    In that case, the filter bins script mimic the behaviour by copying the `no_solution.yaml` file to the PlasBin-HMF filtered directory.
+
 Copy the script `scripts/filter_bins/filter_bins.sh` to another place to modify it:
 
 === ":lucide-file-terminal: Bash"
 
-    ```bash
+    ``` bash
     work_dir="/scratch/$USER/filter_bins"
     mkdir -p "$work_dir"
 
@@ -347,7 +352,7 @@ Copy the script `scripts/filter_bins/filter_bins.sh` to another place to modify 
 
 === ":lucide-fish: Fish"
 
-    ```fish
+    ``` fish
     set work_dir "/scratch/$USER/filter_bins"
     mkdir -p "$work_dir"
 
@@ -359,25 +364,25 @@ Modify the sbatch script:
 
 === "PlasBin-flow (e.g. `pbf_rfpl`)"
 
-    ```bash
+    ``` bash
     METHOD_CODE=pbf_rfpl
     METHOD_TOOL=pbf
     ```
 
 === "PlasBin-HMF (e.g. `pbhmf_rfpl`)"
 
-    ```bash
+    ``` bash
     METHOD_CODE=pbhmf_rfpl
     METHOD_TOOL=pbhmf
     ```
 
-```sh
+``` sh
 nano filter_bins.sh
 ```
 
 Launch the slurm job:
 
-```sh
+``` sh
 sbatch filter_bins.sh
 ```
 
@@ -385,6 +390,6 @@ It will create a new prediction with the new method code `${METHOD_CODE}_filt`.
 
 ??? info "Script"
 
-    ```sh title="scripts/filter_bins/filter_bins.sh"
+    ``` sh title="scripts/filter_bins/filter_bins.sh"
     --8<-- "src/scripts/filter_bins/filter_bins.sh"
     ```
