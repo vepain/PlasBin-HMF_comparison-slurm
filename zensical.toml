@@ -43,7 +43,7 @@ Copyright &copy; 2026 The authors
 
     nav = [
         { "Home" = "index.md" },
-        { "Setup" = [
+        { "Get started" = [
             "setup/init.md",
             "setup/envs/index.md",
         ] },
