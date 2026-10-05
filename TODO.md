@@ -105,16 +105,16 @@
 
 #### PlasBin-flow inputs
 
-* [ ] RFPlasmid PBF plasmidness
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
+* [ ] RFPlasmid PBF plasmidness (`src/scripts/format-pbhmf-input/rfpl_uni.sh`)
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
   * [ ] 🧪
   * [ ] 📑
-* [ ] Platon PBF seeds
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
+* [ ] Platon PBF seeds (`src/scripts/format-pbhmf-input/rfpl_uni.sh`)
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
   * [ ] 🧪
   * [ ] 📑
 

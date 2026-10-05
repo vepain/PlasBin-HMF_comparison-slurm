@@ -110,7 +110,7 @@ function submit() {
 }
 
 echo "Launching from '$FIRST_STEP'; submitted scripts in $RUN_DIR" >&2
-asm_id="" rfpl_id="" fmt_id="" bin_id="" filt_id=""
+asm_id="" rfpl_id="" pltn_id="" fmt_id="" bin_id="" filt_id=""
 
 # ---------------------------------------------------------------------------- #
 # 1. Short-read assembly: 1241 samples ($SAMPLES_CSV) against the 836 labelled
@@ -122,24 +122,23 @@ if ((first <= 1)); then
 fi
 
 # ---------------------------------------------------------------------------- #
-# 2. RFPlasmid classification
+# 2. Classification: RFPlasmid plasmidness, Platon seeds
 # ---------------------------------------------------------------------------- #
 if ((first <= 2)); then
     rfpl_id=$(submit rfplasmid "$(dep afterany "$asm_id")" "$(prep rfplasmid rfplasmid/uni.sh)")
+    pltn_id=$(submit platon "$(dep afterany "$asm_id")" "$(prep platon platon/uni.sh)")
 fi
 
 # From here on every step runs over the same 836 labelled samples: task i waits
 # only for task i of the steps it reads from (aftercorr).
 
 # ---------------------------------------------------------------------------- #
-# 3. RFPlasmid -> PB-HMF plasmidness and seeds
+# 3. RFPlasmid + Platon -> PB-HMF plasmidness and seeds
 # ---------------------------------------------------------------------------- #
 if ((first <= 3)); then
-    fmt_id=$(submit format-pbhmf-input "$(dep aftercorr "$rfpl_id")" \
+    fmt_id=$(submit format-pbhmf-input "$(dep aftercorr "$rfpl_id" "$pltn_id")" \
         "$(prep format-pbhmf-input format-pbhmf-input/rfpl_uni.sh)")
 fi
-
-# FIXME format Platon seeds, not RFPlasmid seeds
 
 # ---------------------------------------------------------------------------- #
 # 4. PlasBin-HMF binning, then the filtered bins (${METHOD_CODE}_filt)

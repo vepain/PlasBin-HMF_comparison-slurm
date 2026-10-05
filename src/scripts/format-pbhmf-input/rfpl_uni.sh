@@ -9,7 +9,7 @@
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
-# Format RFPlasmid outputs (plasmidness + seeds) into PB-HMF/PBf input TSV
+# Format RFPlasmid plasmidness and Platon seeds into PB-HMF/PBf input TSV
 # files, using the pangebin format.py helper.
 # ---------------------------------------------------------------------------- #
 # Load base scripts
@@ -31,14 +31,16 @@ source "$BENCH_ENVS_DIR/pbhmf.sh"
 smp_uid=$(get_sample_uid_from_slurm_array "$ONLY_LABELLED_SAMPLES_TSV")
 
 rfplasmid_dir=$(get_rfplasmid_out_dir "$smp_uid")
+platon_dir=$(get_platon_out_dir "$smp_uid")
 
 plm_tsv=$(get_plm_pbf_rfpl_tsv "$smp_uid")       # RFPlasmid -> PBf plasmidness
-seeds_tsv=$(get_seeds_pbf_platon_tsv "$smp_uid") # RFPlasmid -> PBf seeds
+seeds_tsv=$(get_seeds_pbf_platon_tsv "$smp_uid") # Platon -> PBf seeds
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
 # ---------------------------------------------------------------------------- #
 register_job_id "$(dirname "$plm_tsv")"
+register_job_id "$(dirname "$seeds_tsv")"
 
 # ---------------------------------------------------------------------------- #
 # Formatting
@@ -50,5 +52,5 @@ mkdir -p "$(dirname "$plm_tsv")" "$(dirname "$seeds_tsv")"
 # RFPlasmid classification -> PBf plasmidness TSV
 python3 "$FORMAT_PY" rfplasmid-to-pbf "$rfplasmid_dir" "$plm_tsv"
 
-# RFPlasmid classification -> PBf seed contigs TSV
-python3 "$FORMAT_PY" rfplasmid-to-pbf-seeds "$rfplasmid_dir" "$seeds_tsv"
+# Platon classification -> PBf seed contigs TSV
+python3 "$FORMAT_PY" platon-to-pbf-seeds "$platon_dir" "$seeds_tsv"
