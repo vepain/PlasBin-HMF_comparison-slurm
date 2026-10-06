@@ -28,7 +28,7 @@ function get_gt_csv() {
 # ============================================================================ #
 # The SRA runs, downloaded once for the whole benchmark by
 # scripts/prelude/prelude.sh, extracted by the assembly jobs and deleted by
-# scripts/prelude/delete_ready.sh once the assemblies reading them exist.
+# prelude.sh once every sample reading them is complete.
 PRELUDE_DIR="$BENCH_DATA_DIR/prelude"
 SRA_DIR="$PRELUDE_DIR/sra"
 
@@ -41,6 +41,15 @@ SRA_DIR="$PRELUDE_DIR/sra"
 function get_sra_dir() {
     local sra_id=$1
     echo "$SRA_DIR/$sra_id"
+}
+
+# Left by prelude.sh when it deletes a run, so that the run is never downloaded
+# again. It sits next to get_sra_dir, not inside, as that directory is deleted.
+# Usage:
+#   placeholder=$(get_sra_placeholder "$sra_id")
+function get_sra_placeholder() {
+    local sra_id=$1
+    echo "$SRA_DIR/$sra_id.pruned"
 }
 
 # ---------------------------------------------------------------------------- #
@@ -62,11 +71,26 @@ function get_unicycler_short_assembly_dir() {
     echo "$UNI_SHORT_ASSEMBLY_DIR/$smp_uid"
 }
 
+# The filtered short-read assembly prelude.sh produces, the only assembly kept.
+# Once the prelude is done, move $PRELUDE_FILTERED_DIR/* to $UNI_ASSEMBLY_DIR
+# (get_unicycler_assembly_gfa_gz) for the rest of the pipeline.
+PRELUDE_FILTERED_DIR="$PRELUDE_DIR/filtered"
+
+# Usage:
+#   gfa_gz=$(get_prelude_filtered_gfa_gz "$smp_uid")
+function get_prelude_filtered_gfa_gz() {
+    local smp_uid=$1
+    echo "$PRELUDE_FILTERED_DIR/$smp_uid/assembly.gfa.gz"
+}
+
+# The assembly every downstream step reads: the filtered one.
+UNI_ASSEMBLY_DIR="$BENCH_DATA_DIR/assembly_files/unicycler"
+
 # Usage:
 #   gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
 function get_unicycler_assembly_gfa_gz() {
     local smp_uid=$1
-    echo "$(get_unicycler_short_assembly_dir "$smp_uid")/assembly.gfa.gz"
+    echo "$UNI_ASSEMBLY_DIR/$smp_uid/assembly.gfa.gz"
 }
 
 # Per-sample Unicycler hybrid assembly directory

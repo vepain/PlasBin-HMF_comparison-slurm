@@ -15,27 +15,17 @@
 
 ## Pipeline prelude
 
-* [ ] `src/scripts/prelude/prelude.sh`: download all the SRAs in once (short and long)
+* [ ] `src/scripts/prelude/prelude.sh`: download the SRAs, assemble (short and hybrid),
+  filter, and delete everything but the filtered assembly
   * [x] 🚧 not an sbatch script: it runs on a login/data transfer node
   * [ ] 🧪
   * [x] 📑
+  * [ ] `src/scripts/prelude/filter.py`: provided later, until then nothing is filtered
+    or deleted
+  * [ ] move `data/prelude/filtered` to `data/assembly_files/unicycler` when the prelude is done
+  <!-- REVIEW hybrid assemblies are directly put in the regular pipeline filetree -->
 * [ ] Assemblies with Unicycler (short and hybrid)
   * [ ] We may have several sbatch script with increasing memory/cpus parameters
-* [ ] `src/scripts/prelude/submit_ready.sh`: assemble the samples the prelude has
-  already downloaded, so the assemblies can start before it ends
-  * [x] 🚧 not an sbatch script: it runs on a login node
-  * [ ] 🧪
-  * [x] 📑
-  <!-- REVIEW hybrid assemblies are directly put in the regular pipeline filetree -->
-* [ ] `src/scripts/prelude/delete_ready.sh`: remove the SRAs whose assemblies are done
-  * [x] 🚧 not an sbatch script: it runs on a login node
-  * [ ] 🧪
-  * [x] 📑
-  * ⏸️ on hold until the filter step says what can really go; the `.done` markers
-    that kept a deleted run from being downloaded again went with it
-* [ ] Filter the short-contig assemblies
-* [ ] Remove the unfiltered short-contig assemblies and reads (if hybrid and short assemblies done)
-<!-- REVIEW the current scripts -->
 
 ### Short read assembly (unfiltered)
 

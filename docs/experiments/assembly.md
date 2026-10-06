@@ -30,57 +30,18 @@ path of the benchmark. They extract the FASTQ into `$SLURM_TMPDIR`, which is dis
     Both sbatch scripts require `envs/unicycler.sif` to be built beforehand,
     see [the build script](../setup/envs/unicycler.md).
 
-## Launching on a partial prelude
+## Launching the assemblies
 
-The assemblies do not have to wait for the whole prelude: `scripts/prelude/submit_ready.sh`
-submits an assembly script over the samples whose runs are already downloaded, and
-leaves out the samples already assembled, so it can be run again in waves as the
-prelude progresses.
-
-Pass `s` for the short-read assembly or `h` for the hybrid one, and it takes the script
-out of the file tree itself:
-
-```sh
-"$benchmark_root_dir/scripts/prelude/submit_ready.sh" s
-```
-
-Anything else is read as a path, so a copy carrying its own SBATCH resources is
-submitted the same way -- and that copy is what runs, not the one in the tree:
-
-```sh
-"$benchmark_root_dir/scripts/prelude/submit_ready.sh" ./asm_short_reads_64g.sh
-```
-
-Run it from the directory the logs should land in: each task writes to
-`./logs/<job name>/`.
-
-A resubmitted sample starts SPAdes from scratch: both assembly scripts delete a
-`spades_assembly/` left by a crashed task, which Unicycler would otherwise resume from.
-
-!!! warning "Keep the `asm_short` / `asm_hybrid` prefix"
-
-    A copy of an assembly script with bigger `--mem` or `--cpus-per-task` writes the
-    same tree as the original, so `submit_ready.sh` and `delete_ready.sh` must see its
-    tasks in the queue. They match queued jobs on the `asm_short` / `asm_hybrid` name
-    prefix, the job name being the script filename. Name a variant
-    `asm_short_reads_64g.sh` and it is seen; name it `unicycler_64g.sh` and it is
-    invisible -- the next launch resubmits the samples it is already assembling.
-
-It restricts `--array` to the ready rows -- the array index is the line number of the
-sample in `completed_samples.csv`. A run still being downloaded (`prefetch` leaves a
-`.sra.lock` next to it) counts as not ready: a task reading it would assemble a
-truncated read set.
-
-??? info "Script"
-
-    ```sh title="scripts/prelude/submit_ready.sh"
-    --8<-- "src/scripts/prelude/submit_ready.sh"
-    ```
+[`prelude.sh`](prelude.md) submits both scripts itself, over the samples whose runs are
+already downloaded, so the assemblies start before the download ends. A resubmitted
+sample starts SPAdes from scratch: both scripts delete a `spades_assembly/` left by a
+crashed task, which Unicycler would otherwise resume from.
 
 ## Unicycler short-read assembly
 
-Writes to `get_unicycler_short_assembly_dir`, so that `get_unicycler_assembly_gfa_gz` --
-the input of every classification and binning script -- resolves.
+Writes to `get_unicycler_short_assembly_dir`, the raw assembly [the prelude](prelude.md)
+filters into `get_unicycler_assembly_gfa_gz` -- the input of every classification and
+binning script.
 
 Copy the script `scripts/unicycler/asm_short_reads.sh` to another place to modify it:
 
