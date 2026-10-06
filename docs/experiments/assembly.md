@@ -25,7 +25,7 @@ path of the benchmark. They extract the FASTQ into `$SLURM_TMPDIR`, which is dis
     Run [`scripts/prelude/prelude.sh`](prelude.md) first: a sample whose runs are
     missing from `$SRA_DIR` fails its task.
 
-!!! warning
+??? warning "Prior apptainer installation"
 
     Both sbatch scripts require `envs/unicycler.sif` to be built beforehand,
     see [the build script](../setup/envs/unicycler.md).

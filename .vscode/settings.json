@@ -21,7 +21,7 @@
   "[toml]": {
     "editor.formatOnSave": true
   },
-  "bashIde.shellcheckArguments": "--external-sources",
+  "bashIde.shellcheckPath": "",
   "better-todo-tree.general.tags": [
     "TODO",
     "FIXME",
@@ -95,5 +95,7 @@
     "CONTRIBUTING.md": "markdown"
   },
   "markdown.extension.toc.levels": "2..6",
-  "markdownlint.configFile": ".markdownlint.yaml"
+  "markdownlint.configFile": ".markdownlint.yaml",
+  "python-envs.defaultEnvManager": "ms-python.python:conda",
+  "python-envs.defaultPackageManager": "ms-python.python:conda"
 }

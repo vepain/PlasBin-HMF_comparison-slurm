@@ -9,6 +9,7 @@
   * [2 - Add the environment script (for Fir)](#2---add-the-environment-script-for-fir)
   * [3 - Add script to init the environment (for Fir)](#3---add-script-to-init-the-environment-for-fir)
   * [4 - Document](#4---document)
+* [Lint bash scripts](#lint-bash-scripts)
 * [Build the documentation](#build-the-documentation)
   * [Install](#install)
   * [Usage](#usage)
@@ -61,7 +62,7 @@ Tasks:
 
 Like building the apptainer image.
 
->[!IMPORTANT]
+> [!IMPORTANT]
 > According to the [Alliance Canadian Fir HPC cluster documentation](https://docs.alliancecan.ca/wiki/Python#Creating_virtual_environments_inside_of_your_jobs), virtual environment should be built everytime (i.e. for each array job task).
 > In the doc, they use `--no-index` option: it means no network connexion is required to install the environement. Thus, the dependencies (the wheels) must be available on the cluster environment.
 > This is the case for `filter_bins` for example.
@@ -78,6 +79,22 @@ In `docs`:
 
 > [!TIP]
 > Do not worry too much about the document structure, try one, we will change later if needed.
+
+## Lint bash scripts
+
+Linting bash scripts is done via [Shellcheck].
+As the sourced scripts depend on the global variable `$BENCHMARK_ROOT_DIR` to be defined, you must declare the source file path with an above comment:
+
+```bash
+# shellcheck source=src/scripts/path_to_a_script.sh
+source "$BENCHMARK_ROOT_DIR"/src/scripts/path_to_a_script.sh
+```
+
+The source path is relative to the workspace (see list of `source-path` in the `.shellcheckrc` configuration file).
+
+> [!TIP]
+> VSCode workspace recommands the usage of BashIDE extension - but for shellcheck, and the VSCode extension ShellCheck for that particular task.
+> In fact, the later is less buggy than the first one.
 
 ## Build the documentation
 
@@ -191,3 +208,4 @@ git push origin --tags
 [pixi]: https://github.com/prefix-dev/pixi
 [Zensical]: https://zensical.org
 [git-flow-next]: https://github.com/gittower/git-flow-next
+[Shellcheck]: https://github.com/koalaman/shellcheck

@@ -25,13 +25,13 @@ METHOD_CODES=(
 # Load base scripts
 # ---------------------------------------------------------------------------- #
 BENCH_ROOT_DIR="TODO:BENCH_ROOT_DIR"
-# shellcheck source=../config.sh
+# shellcheck source=src/scripts/config.sh
 source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 
 # ---------------------------------------------------------------------------- #
 #                                  Environment                                 #
 # ---------------------------------------------------------------------------- #
-# shellcheck source=../../envs/merge-plaseval.sh
+# shellcheck source=src/envs/merge-plaseval.sh
 source "$BENCH_ENVS_DIR/merge-plaseval.sh"
 
 # ---------------------------------------------------------------------------- #

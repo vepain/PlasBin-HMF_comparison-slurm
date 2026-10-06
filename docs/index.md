@@ -8,5 +8,23 @@ This documentation describes how to reproduce the experiments present in the Pla
 
 <!-- # DOCU add journal article link -->
 
-1. [Initialize your benchmark on your HPC infrastructure](setup/init.md)
-2. [Reproducing the experiments](experiments/intro.md)
+<div class="grid cards" markdown>
+
+-   :lucide-rocket:{ .lg .middle } **Set up the benchmark**
+
+    ---
+
+    Clone the benchmark repository and initialize your benchmark workspace.
+    You may need to change the environment scripts to match your HPC infrastructure.
+
+    [:octicons-arrow-right-24: Getting started](setup/init.md)
+
+-   :lucide-flask-conical:{ .lg .middle } **Reproduce the experiments**
+
+    ---
+
+    Once the benchmark space setup, run the experiments.
+
+    [:octicons-arrow-right-24: Experiments](experiments/intro.md)
+
+</div>

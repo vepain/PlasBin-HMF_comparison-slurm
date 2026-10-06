@@ -1,0 +1,40 @@
+Bootstrap: docker
+From: python:3.11-slim
+
+%files
+    format.py /opt/format-binning-inputs/format.py
+
+%post
+    export DEBIAN_FRONTEND=noninteractive
+
+    # git: fetch pangebin
+    # build-essential, zlib1g-dev: build C extensions (e.g. bgzip)
+    # libgomp1, zlib1g: run-time libraries needed by the compiled extensions
+    apt-get update
+    apt-get install -y --no-install-recommends \
+        git ca-certificates \
+        build-essential zlib1g-dev \
+        libgomp1 zlib1g
+
+    # Install pangebin and its dependencies from pyproject.toml
+    pip install --no-cache-dir --upgrade pip
+    pip install --no-cache-dir "git+https://github.com/AlgoLab/pangebin.git"
+
+    # Sanity check
+    python -c "import pangebin, bgzip; print('pangebin OK')"
+
+    # Remove the build toolchain to keep the image small (run-time libs stay)
+    apt-get purge -y --auto-remove build-essential zlib1g-dev
+    rm -rf /var/lib/apt/lists/*
+
+%environment
+    export LC_ALL=C
+
+%runscript
+    exec python /opt/format-binning-inputs/format.py "$@"
+
+%labels
+    Description pangebin (pip install) running format.py
+
+%help
+    Usage: apptainer run format-binning-inputs.sif [args of format.py]

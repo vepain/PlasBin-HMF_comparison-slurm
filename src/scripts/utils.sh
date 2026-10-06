@@ -130,5 +130,13 @@ function get_sample_uid_from_slurm_array {
 function register_job_id() {
     local output_dir=$1
     mkdir -p "$output_dir" 2>/dev/null
-    touch "$output_dir/job_id_$SLURM_ARRAY_JOB_ID"
+    touch "$output_dir/job_id_${SLURM_ARRAY_JOB_ID}"
+}
+
+# Usage:
+#   > echo_sample_job "$smp_uid" "$msg"
+function echo_sample_job() {
+    local _smp_uid=$1
+    local _msg=$2
+    echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $_smp_uid $_msg"
 }

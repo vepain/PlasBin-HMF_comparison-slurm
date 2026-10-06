@@ -37,7 +37,7 @@
 * [ ] Remove the unfiltered short-contig assemblies and reads (if hybrid and short assemblies done)
 <!-- REVIEW the current scripts -->
 
-## Short read assembly (unfiltered)
+### Short read assembly (unfiltered)
 
 * [ ] `src/scripts/unicycler/asm_short_reads.sh`
   * [x] 🧰
@@ -46,7 +46,7 @@
   * [ ] 🧪 the tested version still downloaded its own reads
   * [x] 📑
 
-## Hybrid assembly
+### Hybrid assembly
 
 * [ ] `src/scripts/unicycler/asm_hybrid_reads.sh`
   * [x] 🧰
@@ -55,7 +55,7 @@
   * [ ] 🧪 the tested version still downloaded its own reads
   * [x] 📑
 
-## Filter short read assemblies
+### Filter short read assemblies
 
 * [ ] `???`
   * [ ] 🧰
@@ -66,7 +66,16 @@
 
 <!-- FIXME change the function to assembly graphs and FASTA (filtered one for classification and binning) -->
 
-## Filter uncompleted hybrid assembly
+### Hybrid assembly
+
+* [x] `src/scripts/unicycler/asm_hybrid_reads.sh`
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
+  * [x] 🧪
+  * [x] 📑
+
+### Filter uncompleted hybrid assembly
 
 * [ ] [👤 @vepain] Find Tomas' script(s), otherwise recode
   * [ ] 🧰
@@ -74,6 +83,13 @@
   * [ ] 🚧
   * [ ] 🧪
   * [ ] 📑
+
+Process:
+
+* [ ] Label each hybrid assembly
+  * `gfa.gz` -> `labels.tsv`
+* [ ] Filter sample list
+  * complete sample TSV + TSV file `<sample_uid>  <labels_tsv>` -> sub complete sample TSV
 
 ## Generate ground truth
 
@@ -83,6 +99,14 @@
   * [ ] 🚧
   * [ ] 🧪
   * [ ] 📑
+
+Process (for each sample in the only labelled hybrid contig sample list):
+
+* [ ] Map short vs hybrid contigs
+* [ ] Label short contigs according to mapping result
+  * `bam` -> `labels.tsv`
+
+Candiate script: `/project/6001426/wg-anoph/benchmarking/scripts/ground-truth-new-v2.pl`
 
 ## Classification
 
@@ -105,27 +129,27 @@
 
 #### PlasBin-flow inputs
 
-* [ ] RFPlasmid PBF plasmidness (`src/scripts/format-pbhmf-input/rfpl_uni.sh`)
+* [x] RFPlasmid PBF plasmidness
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
-  * [ ] 📑
-* [ ] Platon PBF seeds (`src/scripts/format-pbhmf-input/rfpl_uni.sh`)
+  * [x] 🧪
+  * [x] 📑
+* [x] Platon PBF seeds
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
-  * [ ] 📑
+  * [x] 🧪
+  * [x] 📑
 
 #### gplasCC inputs
 
-* [ ] RFPlasmid gplasCC classification
-  * [ ] 🧰
-  * [ ] 🗃️
-  * [ ] 🚧
-  * [ ] 🧪
-  * [ ] 📑
+* [x] RFPlasmid gplasCC classification
+  * [x] 🧰
+  * [x] 🗃️
+  * [x] 🚧
+  * [x] 🧪
+  * [x] 📑
 
 ### Run
 
@@ -180,17 +204,17 @@
   * [x] 🚧
   * [x] 🧪
   * [x] 📑
-* [ ] `src/scripts/merge-plaseval/merge_eval.sh`
+* [x] `src/scripts/merge-plaseval/merge_eval.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
-* [ ] `src/scripts/merge-plaseval/merge_comp.sh`
+* [x] `src/scripts/merge-plaseval/merge_comp.sh`
   * [x] 🧰
   * [x] 🗃️
   * [x] 🚧
-  * [ ] 🧪
+  * [x] 🧪
   * [x] 📑
 
 ## Figures

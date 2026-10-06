@@ -6,9 +6,10 @@ icon: lucide/folder-tree
 
 The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree architecture of the experiments, summarized in the following code block:
 
-```sh
+``` sh
 📂 BENCH_ROOT_DIR
 ├── 📄 completed_samples.csv
+├── 📄 only_labelled_samples.tsv
 ├── 📁 scripts
 ├── 📁 envs
 └── 📂 data
@@ -30,30 +31,35 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
     │                   ├── 📄 assembly.fasta.gz
     │                   └── 📄 assembly.gfa.gz
     └── 📂 results
-        ├── 📂 rfplasmid
-        │   └── 📂 unicycler    # $UNI_RFPLASMID_DIR
-        │       └── 📁 {smp_uid}    # get_rfplasmid_out_dir
-        ├── 📂 platon
-        │   └── 📂 unicycler    # $UNI_PLATON_DIR
-        │       └── 📁 {smp_uid}    # get_platon_out_dir
+        ├── 📂 classification
+        │   └── 📂 unicycler    # UNI_CLASSIFICATION_DIR
+        │       ├── 📂 rfplasmid    # $UNI_RFPLASMID_DIR
+        │       │   └── 📁 {smp_uid}    # get_rfplasmid_out_dir
+        │       │       └── 📁 prediction.csv   # get_rfplasmid_prediction_csv
+        │       └── 📂 platon    # $UNI_PLATON_DIR
+        │           └── 📁 {smp_uid}    # get_platon_out_dir
+        │               └── 📁 {smp_uid}.tsv   # get_platon_prediction_tsv
         ├── 📂 formatted_input
         │   └── 📂 unicycler    # $UNI_FORMATTED_INPUT_DIR
-        │       ├── 📂 rfplasmid
-        │       │   ├── 📂 input_pbf
-        │       │   │   └── 📄 {smp_uid}_scores.tsv     # get_plm_pbf_rfpl_tsv
-        │       │   └── 📂 input_gplas
-        │       │       └── 📄 {smp_uid}_scores.tsv     # get_plm_gplas_rfpl_tsv
-        │       └── 📂 platon
-        │           └── 📂 input_pbf
-        │               └── 📄 {smp_uid}_seeds.tsv      # get_seeds_pbf_platon_tsv
+        │       ├── 📂 plasbin_flow    # $UNI_FORMATTED_PBF_INPUT_DIR
+        │       │   ├── 📂 plasmidness
+        │       │   │   └── 📂 rfplasmid
+        │       │   │       └── 📄 {smp_uid}_scores.tsv     # get_plm_pbf_rfpl_tsv
+        │       │   └── 📂 seeds
+        │       │       └── 📂 platon
+        │       │           └── 📄 {smp_uid}_seeds.tsv      # get_seeds_pbf_platon_tsv
+        │       └── 📂 gplascc  # $UNI_FORMATTED_GPCC_INPUT_DIR
+        │           └── 📂 rfplasmid
+        │               └── 📄 {smp_uid}_scores.tsv     # get_plm_gplascc_rfpl_tsv
         ├── 📂 binning
         │   └── 📂 unicycler    # $UNI_BIN_DIR
         │       └── 📂 {method_code}
         │           └── 📂 {smp_uid}    # get_uni_bin_dir
-        │               ├── 📄 bins.tsv                 # get_pbf_bin_pred
-        │               ├── 📄 plasbin_flow_bins.tsv    # get_pbhmf_pbf_bin_pred
-        │               ├── 📄 bins.tab                 # get_gpcc_bin_pred
-        │               └── 📄 contig_report.txt        # get_mob_bin_pred
+        │               ├── 📄 bins.tsv                 # (PlasBin-flow)    get_pbf_bin_pred
+        │               ├── 📄 plasbin_flow_bins.tsv    # (PlasBin-HMF)     get_pbhmf_pbf_bin_pred
+        │               ├── 📄 no_solution.yaml         # (PlasBin-HMF)     get_pbhmf_no_solution_yaml
+        │               ├── 📄 bins.tab                 # (GplasCC)         get_gpcc_bin_pred
+        │               └── 📄 contig_report.txt        # (MOB)             get_mob_bin_pred
         ├── 📂 formatted_bins
         │   └── 📂 unicycler
         │       ├── 📂 predictions  # $UNI_PLASEVAL_PRED_BINS_DIR

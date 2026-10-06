@@ -6,12 +6,16 @@ icon: lucide/badge-check
 
 ## Format the binning results to PlasEval input
 
+??? note "Specific cases"
+
+    PlasBin-HMF can successfully return no solution, materialized by producing a `no_solution.yaml` file (see [README.md](https://gitlab.com/vepain/plasbin-hmf)).
+    The PlasEval input prediction formatter thus consider the prediction as empty and produce an empty TSV file (only with header).
 
 Copy the script `format-plaseval/pred_uni.sh` to another place to modify it:
 
 === ":lucide-file-terminal: Bash"
 
-    ```bash
+    ``` bash
     work_dir="/scratch/$USER/format-plaseval"
     mkdir -p "$work_dir"
 
@@ -21,7 +25,7 @@ Copy the script `format-plaseval/pred_uni.sh` to another place to modify it:
 
 === ":lucide-fish: Fish"
 
-    ```fish
+    ``` fish
     set work_dir "/scratch/$USER/format-plaseval"
     mkdir -p "$work_dir"
 
@@ -33,27 +37,26 @@ Set the `METHOD_CODE` (see [the method code table](binning.md#overview)).
 
 Set the `METHOD_FORMAT` variable at the beginning of the script:
 
-* `pbf` for PlasBin-flow
-* `pbhmf` for PlasBin-HMF
-* `mob` for MOB-recon
-* `gpcc` for gplascc
+- `pbf` for PlasBin-flow
+- `pbhmf` for PlasBin-HMF
+- `mob` for MOB-recon
+- `gpcc` for gplascc
 
-```sh
+``` sh
 nano pred_uni.sh
 ```
 
 Run sbatch:
 
-```sh
+``` sh
 sbatch pred_uni.sh
 ```
 
 ## PlasEval-GDV fork
 
+??? warning "Prior apptainer installation"
 
-!!! warning
-
-    The sbatch script requires to create before the virtual environment, see as an example [the script for the Fir HPC](../setup/envs/plasbin-hmf.md)
+    The sbatch script requires to create before the apptainer image, see as an example [the script for the Fir HPC](../setup/envs/gplascc.md)
 
 ### Evaluate the adapted F1 scores (`eval` command)
 
@@ -61,7 +64,7 @@ Copy the script `plaseval-gdv/eval.sh` to another place to modify it:
 
 === ":lucide-file-terminal: Bash"
 
-    ```bash
+    ``` bash
     work_dir="/scratch/$USER/plaseval-gdv"
     mkdir -p "$work_dir"
 
@@ -71,7 +74,7 @@ Copy the script `plaseval-gdv/eval.sh` to another place to modify it:
 
 === ":lucide-fish: Fish"
 
-    ```fish
+    ``` fish
     set work_dir "/scratch/$USER/plaseval-gdv"
     mkdir -p "$work_dir"
 
@@ -81,13 +84,13 @@ Copy the script `plaseval-gdv/eval.sh` to another place to modify it:
 
 Set the [binning method code](binning.md):
 
-```sh
+``` sh
 nano eval.sh
 ```
 
 Run sbatch:
 
-```sh
+``` sh
 sbatch eval.sh
 ```
 
@@ -97,7 +100,7 @@ Copy the script `plaseval-gdv/comp_uni.sh` to another place to modify it:
 
 === ":lucide-file-terminal: Bash"
 
-    ```bash
+    ``` bash
     work_dir="/scratch/$USER/plaseval-gdv"
     mkdir -p "$work_dir"
 
@@ -107,7 +110,7 @@ Copy the script `plaseval-gdv/comp_uni.sh` to another place to modify it:
 
 === ":lucide-fish: Fish"
 
-    ```fish
+    ``` fish
     set work_dir "/scratch/$USER/plaseval-gdv"
     mkdir -p "$work_dir"
 
@@ -117,13 +120,13 @@ Copy the script `plaseval-gdv/comp_uni.sh` to another place to modify it:
 
 Set the alpha value (in $[0, \infty)$), and the [binning method code](binning.md):
 
-```sh
+``` sh
 nano comp_uni.sh
 ```
 
 Run sbatch:
 
-```sh
+``` sh
 sbatch comp_uni.sh
 ```
 
@@ -135,7 +138,7 @@ Copy the script `merge-plaseval/merge_eval.sh` to another place to modify it:
 
 === ":lucide-file-terminal: Bash"
 
-    ```bash
+    ``` bash
     work_dir="/scratch/$USER/merge-plaseval"
     mkdir -p "$work_dir"
 
@@ -145,7 +148,7 @@ Copy the script `merge-plaseval/merge_eval.sh` to another place to modify it:
 
 === ":lucide-fish: Fish"
 
-    ```fish
+    ``` fish
     set work_dir "/scratch/$USER/merge-plaseval"
     mkdir -p "$work_dir"
 
@@ -155,16 +158,15 @@ Copy the script `merge-plaseval/merge_eval.sh` to another place to modify it:
 
 Set the [binning method codes](binning.md):
 
-```sh
+``` sh
 nano merge_eval.sh
 ```
 
 Run sbatch:
 
-```sh
+``` sh
 sbatch merge_eval.sh
 ```
-
 
 ### PlasEval comp results
 
@@ -172,7 +174,7 @@ Copy the script `merge-plaseval/merge_comp.sh` to another place to modify it:
 
 === ":lucide-file-terminal: Bash"
 
-    ```bash
+    ``` bash
     work_dir="/scratch/$USER/merge-plaseval"
     mkdir -p "$work_dir"
 
@@ -182,7 +184,7 @@ Copy the script `merge-plaseval/merge_comp.sh` to another place to modify it:
 
 === ":lucide-fish: Fish"
 
-    ```fish
+    ``` fish
     set work_dir "/scratch/$USER/merge-plaseval"
     mkdir -p "$work_dir"
 
@@ -192,25 +194,23 @@ Copy the script `merge-plaseval/merge_comp.sh` to another place to modify it:
 
 Set the same alpha value (in $[0, \infty)$), and the [binning method codes](binning.md):
 
-```sh
+``` sh
 nano merge_comp.sh
 ```
 
 Run sbatch:
 
-```sh
+``` sh
 sbatch merge_comp.sh
 ```
 
-
 ## Get ground truth repeat stats
-
 
 Copy the script `repeat-stats/ground_truths.sh` to another place to modify it:
 
 === ":lucide-file-terminal: Bash"
 
-    ```bash
+    ``` bash
     work_dir="/scratch/$USER/repeat-stats"
     mkdir -p "$work_dir"
 
@@ -220,7 +220,7 @@ Copy the script `repeat-stats/ground_truths.sh` to another place to modify it:
 
 === ":lucide-fish: Fish"
 
-    ```fish
+    ``` fish
     set work_dir "/scratch/$USER/repeat-stats"
     mkdir -p "$work_dir"
 
@@ -230,6 +230,6 @@ Copy the script `repeat-stats/ground_truths.sh` to another place to modify it:
 
 Run sbatch:
 
-```sh
+``` sh
 sbatch ground_truths.sh
 ```

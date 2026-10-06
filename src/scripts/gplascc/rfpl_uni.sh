@@ -20,13 +20,13 @@ declare -r LENGTH_FILTER=1 # gplasCC contig length filter (gplas default: 1000)
 # Load base scripts
 # ---------------------------------------------------------------------------- #
 BENCH_ROOT_DIR="TODO:BENCH_ROOT_DIR"
-# shellcheck source=../config.sh
+# shellcheck source=src/scripts/config.sh
 source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 
 # ---------------------------------------------------------------------------- #
 #                                  Environment                                 #
 # ---------------------------------------------------------------------------- #
-# shellcheck source=../../envs/gplascc.sh
+# shellcheck source=src/envs/gplascc.sh
 source "$BENCH_ENVS_DIR/gplascc.sh"
 # requires ${BENCH_ENVS_DIR}/gplascc.sif already built
 
@@ -38,11 +38,11 @@ smp_uid=$(get_sample_uid_from_slurm_array "$ONLY_LABELLED_SAMPLES_TSV")
 # Inputs
 #
 gfa_gz=$(get_unicycler_assembly_gfa_gz "$smp_uid")
-plm_tsv=$(get_plm_gplas_rfpl_tsv "$smp_uid")
+plm_tsv=$(get_plm_gplascc_rfpl_tsv "$smp_uid")
 
 # gplasCC only reads unzipped GFA
 gfa="$SLURM_TMPDIR/$smp_uid.gfa"
-gunzip -c "$gfa_gz" > "$gfa"
+gunzip -c "$gfa_gz" >"$gfa"
 #
 # Outputs
 #
@@ -57,7 +57,8 @@ register_job_id "$(dirname "$output_dir")"
 # ---------------------------------------------------------------------------- #
 # Running gplasCC
 # ---------------------------------------------------------------------------- #
-echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid $METHOD_CODE"
+echo_sample_job "$smp_uid" \
+    "$METHOD_CODE"
 
 mkdir -p "$output_dir"
 

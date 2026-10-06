@@ -9,48 +9,40 @@
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
-# Format RFPlasmid plasmidness and Platon seeds into PB-HMF/PBf input TSV
-# files, using the pangebin format.py helper.
+# Format RFPlasmid classification into PlasBin-flow plasmidness input TSV file
 # ---------------------------------------------------------------------------- #
 # Load base scripts
 # ---------------------------------------------------------------------------- #
 BENCH_ROOT_DIR="TODO:BENCH_ROOT_DIR"
-# shellcheck source=../config.sh
+# shellcheck source=src/scripts/config.sh
 source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 
 # ---------------------------------------------------------------------------- #
 #                                  Environment                                 #
 # ---------------------------------------------------------------------------- #
-# FIXME no format pbf input environment
-# shellcheck source=../../envs/pbhmf.sh
-source "$BENCH_ENVS_DIR/pbhmf.sh"
+# shellcheck source=src/envs/format-binning-inputs.sh
+source "$BENCH_ENVS_DIR/format-binning-inputs.sh"
 
 # ---------------------------------------------------------------------------- #
 # Set arguments
 # ---------------------------------------------------------------------------- #
 smp_uid=$(get_sample_uid_from_slurm_array "$ONLY_LABELLED_SAMPLES_TSV")
 
-rfplasmid_dir=$(get_rfplasmid_out_dir "$smp_uid")
-platon_dir=$(get_platon_out_dir "$smp_uid")
-
-plm_tsv=$(get_plm_pbf_rfpl_tsv "$smp_uid")       # RFPlasmid -> PBf plasmidness
-seeds_tsv=$(get_seeds_pbf_platon_tsv "$smp_uid") # Platon -> PBf seeds
+rfpl_pred_csv=$(get_rfplasmid_prediction_csv "$smp_uid")
+pbf_plm_tsv=$(get_plm_pbf_rfpl_tsv "$smp_uid") # RFPlasmid -> PBf plasmidness
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
 # ---------------------------------------------------------------------------- #
-register_job_id "$(dirname "$plm_tsv")"
-register_job_id "$(dirname "$seeds_tsv")"
+register_job_id "$(dirname "$pbf_plm_tsv")"
 
 # ---------------------------------------------------------------------------- #
 # Formatting
 # ---------------------------------------------------------------------------- #
-echo "${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} ($SLURM_JOB_ID) $smp_uid format PB-HMF input"
+echo_sample_job "$smp_uid" \
+    "format RFPlasmid classification into PlasBin-flow plasmidness TSV file"
 
-mkdir -p "$(dirname "$plm_tsv")" "$(dirname "$seeds_tsv")"
+mkdir -p "$(dirname "$pbf_plm_tsv")"
 
 # RFPlasmid classification -> PBf plasmidness TSV
-python3 "$FORMAT_PY" rfplasmid-to-pbf "$rfplasmid_dir" "$plm_tsv"
-
-# Platon classification -> PBf seed contigs TSV
-python3 "$FORMAT_PY" platon-to-pbf-seeds "$platon_dir" "$seeds_tsv"
+apptainer run "$APPTAINER_IMG" rfplasmid-to-pbf-plm "$rfpl_pred_csv" "$pbf_plm_tsv"
