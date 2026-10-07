@@ -264,6 +264,16 @@ Run sbatch:
 sbatch ground_truths.sh
 ```
 
+It writes the `data/results/repeat_stats/ground_truths.tsv` file:
+
+| Column ID            | Type         | Description                                                                                                                                                                     |
+| -------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sample_uid`         | String       | Sample ID                                                                                                                                                                       |
+| `species_id`         | String       | Species ID                                                                                                                                                                      |
+| `num_contigs`        | Integer      | Sum over the bins of the number of contigs                                                                                                                                      |
+| `num_unique_contigs` | Integer      | Size of set of contigs present in at least one bin                                                                                                                              |
+| `repeat_ratio`       | Float or NaN | Repeat ratio. Defined as `num_unique_contigs / num_contigs`. If defined (i.e. `num_contigs` > 0), it is a positive float $> 1$. If not defined (i.e. $0/0$), the cell is empty. |
+
 ??? info "Script"
 
     ``` sh title="scripts/repeat-stats/ground_truths.sh"
@@ -305,6 +315,17 @@ Run sbatch:
 ``` sh
 sbatch predictions.sh
 ```
+
+It writes the `data/results/repeat_stats/predictions.tsv` file:
+
+| Column ID            | Type           | Description                                                                                                                                                                                                  |
+| -------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `sample_uid`         | String         | Sample ID                                                                                                                                                                                                    |
+| `species_id`         | String         | Species ID                                                                                                                                                                                                   |
+| `method_code`        | String         | Method code                                                                                                                                                                                                  |
+| `num_contigs`        | Integer or NaN | Sum over the bins of the number of contigs. None if there is no prediction.                                                                                                                                  |
+| `num_unique_contigs` | Integer or NaN | Size of set of contigs present in at least one bin. None if there is no prediction.                                                                                                                          |
+| `repeat_ratio`       | Float or NaN   | Repeat ratio. Defined as `num_unique_contigs / num_contigs`. If defined (i.e. `num_contigs` > 0), it is a positive float $> 1$. If not defined (i.e. $0/0$) or if there is no prediction, the cell is empty. |
 
 ??? info "Script"
 
