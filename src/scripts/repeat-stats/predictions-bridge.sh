@@ -125,6 +125,10 @@ for method_code in "${ALL_METHODS[@]}"; do
     tmp_tsv="$per_method_dir/$method_code.input.tsv"
     printf "sample_uid\tspecies_id\tbins_tsv\n" >"$tmp_tsv"
 
+    # Samples without prediction file (reported later with empty stats)
+    missing_tsv="$per_method_dir/$method_code.missing.tsv"
+    : >"$missing_tsv"
+
     for tuple in "${sample_tuples[@]}"; do
         IFS=$'\t' read -r species_id sample_id <<<"$tuple"
         smp_uid=$(get_sample_uid "$species_id" "$sample_id")
@@ -132,12 +136,20 @@ for method_code in "${ALL_METHODS[@]}"; do
 
         if [[ ! -f "$pred_tsv" ]]; then
             echo "[WARN] Missing file for method=$method_code sample=$smp_uid: $pred_tsv" >&2
+            printf "%s\t%s\n" "$smp_uid" "$species_id" >>"$missing_tsv"
             continue
         fi
         printf "%s\t%s\t%s\n" "$smp_uid" "$species_id" "$pred_tsv" >>"$tmp_tsv"
     done
 
-    python3 "$py_script" "$tmp_tsv" "$per_method_dir/$method_code.stats.tsv"
+    method_stats_tsv="$per_method_dir/$method_code.stats.tsv"
+    python3 "$py_script" "$tmp_tsv" "$method_stats_tsv"
+
+    # Add a row with empty stats (num_contigs, num_unique_contigs, repeat_ratio)
+    # for each sample without prediction file
+    while IFS=$'\t' read -r smp_uid species_id; do
+        printf "%s\t%s\t\t\t\n" "$smp_uid" "$species_id" >>"$method_stats_tsv"
+    done <"$missing_tsv"
 done
 
 # ---------------------------------------------------------------------------- #
