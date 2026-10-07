@@ -52,6 +52,12 @@ Run sbatch:
 sbatch pred_uni.sh
 ```
 
+??? info "Script"
+
+    ``` sh title="scripts/format-plaseval/pred_uni.sh"
+    --8<-- "src/scripts/format-plaseval/pred_uni.sh"
+    ```
+
 ## PlasEval-GDV fork
 
 ??? warning "Prior apptainer installation"
@@ -94,6 +100,12 @@ Run sbatch:
 sbatch eval.sh
 ```
 
+??? info "Script"
+
+    ``` sh title="scripts/plaseval-gdv/eval.sh"
+    --8<-- "src/scripts/plaseval-gdv/eval.sh"
+    ```
+
 ### Evaluate the dissimilarity score (`comp` command)
 
 Copy the script `plaseval-gdv/comp_uni.sh` to another place to modify it:
@@ -129,6 +141,12 @@ Run sbatch:
 ``` sh
 sbatch comp_uni.sh
 ```
+
+??? info "Script"
+
+    ``` sh title="scripts/plaseval-gdv/comp_uni.sh"
+    --8<-- "src/scripts/plaseval-gdv/comp_uni.sh"
+    ```
 
 ## Merging the PlasEval results to prepare for figures
 
@@ -168,6 +186,12 @@ Run sbatch:
 sbatch merge_eval.sh
 ```
 
+??? info "Script"
+
+    ``` sh title="scripts/merge-plaseval/merge_eval.sh"
+    --8<-- "src/scripts/merge-plaseval/merge_eval.sh"
+    ```
+
 ### PlasEval comp results
 
 Copy the script `merge-plaseval/merge_comp.sh` to another place to modify it:
@@ -204,6 +228,12 @@ Run sbatch:
 sbatch merge_comp.sh
 ```
 
+??? info "Script"
+
+    ``` sh title="scripts/merge-plaseval/merge_comp.sh"
+    --8<-- "src/scripts/merge-plaseval/merge_comp.sh"
+    ```
+
 ## Get ground truth repeat stats
 
 Copy the script `repeat-stats/ground_truths.sh` to another place to modify it:
@@ -233,3 +263,51 @@ Run sbatch:
 ``` sh
 sbatch ground_truths.sh
 ```
+
+??? info "Script"
+
+    ``` sh title="scripts/repeat-stats/ground_truths.sh"
+    --8<-- "src/scripts/repeat-stats/ground_truths.sh"
+    ```
+
+## Get predictions repeat stats
+
+Copy the script `repeat-stats/predictions.sh` to another place to modify it:
+
+=== ":lucide-file-terminal: Bash"
+
+    ``` bash
+    work_dir="/scratch/$USER/repeat-stats"
+    mkdir -p "$work_dir"
+
+    cp scripts/repeat-stats/predictions.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+=== ":lucide-fish: Fish"
+
+    ``` fish
+    set work_dir "/scratch/$USER/repeat-stats"
+    mkdir -p "$work_dir"
+
+    cp scripts/repeat-stats/predictions.sh "$work_dir"
+    cd "$work_dir"
+    ```
+
+Set the list of method codes you want to see the repeat stats for:
+
+``` sh
+nano predictions.sh
+```
+
+Run sbatch:
+
+``` sh
+sbatch predictions.sh
+```
+
+??? info "Script"
+
+    ``` sh title="scripts/repeat-stats/predictions.sh"
+    --8<-- "src/scripts/repeat-stats/predictions.sh"
+    ```
