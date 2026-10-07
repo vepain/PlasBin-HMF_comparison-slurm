@@ -65,7 +65,8 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
         │           └── 📄 {smp_uid}.tsv    # get_gt_plaseval_fmt
         ├── 📂 repeat_stats
         │   └── 📂 unicycler
-        │       └── 📄 ground_truths.tsv    # $UNI_REPEAT_STATS_GT_TSV
+        │       ├── 📄 ground_truths.tsv    # $UNI_REPEAT_STATS_GT_TSV
+        │       └── 📄 predictions.tsv      # $UNI_REPEAT_STATS_PREDS_TSV
         └── 📂 plaseval_gdv
             └── 📂 unicycler
                 ├── 📂 comp # $UNI_PLASEVAL_GDV_COMP_DIR
