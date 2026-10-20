@@ -15,6 +15,7 @@
 # ============================================================================ #
 # Methods respecting the new storage logic
 METHOD_CODES=(
+    "mob"
     "pbhmf_rfpl"
     "pbhmf_rfpl_filt"
     "pbhmf_rfpl_recomb26"
@@ -27,7 +28,6 @@ METHOD_CODES=(
 
 # Methods using the old storage logic (reached through the bridge)
 BRIDGE_METHOD_CODES=(
-    "mob"
     "gpcc_rfpl"
     "pbf_rfpl"
     "pbf_rfpl_filt"
