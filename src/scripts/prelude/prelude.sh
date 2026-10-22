@@ -1,27 +1,24 @@
 #!/usr/bin/env bash
 # ============================================================================ #
 #
-# Pipeline prelude: from the SRA runs to one filtered assembly per sample.
+# Pipeline prelude: from the SRA runs to assemblies per sample.
 #
 # For every sample of $SAMPLES_CSV, this single script:
 #   1. downloads its short and long SRA runs (once per run, shared by samples)
 #   2. submits the short-read and hybrid Unicycler assemblies as soon as the
 #      runs they read are there
-#   3. filters the short-read assembly (FILTER_PY) into $PRELUDE_DIR/filtered
-#   4. deletes the raw short-read assembly, and each SRA run once EVERY sample
-#      reading it is complete, leaving a placeholder so it is never downloaded
-#      again
+#   3. filters the short-read assembly (FILTER_PY)
+#   4. deletes SRA runs when every sample reading them is complete
 #
-# A sample is complete once its filtered assembly and its hybrid assembly exist.
-# The hybrid assembly is neither filtered nor deleted here.
+# A sample is complete once its hybrid assembly exists. The prelude does not filter
+# assemblies — filtering is done in downstream scripts. SRA runs are deleted when
+# every sample reading them is complete.
 #
 # Run it on a login or data transfer node, NOT through sbatch, from the
 # directory the assembly logs should land in (each task logs to
 # ./logs/<job name>/). It loops, polling the queue, until every sample is
 # complete. Everything is read back from the file tree, so killing it and
-# running it again resumes where it stopped. A sample whose assembly or filter
-# failed is not retried within a run: fix it (delete its `spades_assembly/`
-# first) and re-run.
+# running it again resumes where it stopped.
 #
 # Usage:
 #   > nohup ./prelude.sh >prelude.log 2>&1 &
@@ -48,8 +45,6 @@ source "$BENCH_ROOT_DIR/scripts/config.sh" "$BENCH_ROOT_DIR"
 # matched on it).
 declare -r ASM_SHORT_SCRIPT="$BENCH_SCRIPTS_DIR/unicycler/asm_short_reads.sh"
 declare -r ASM_HYBRID_SCRIPT="$BENCH_SCRIPTS_DIR/unicycler/asm_hybrid_reads.sh"
-# Called as `python3 $FILTER_PY <assembly.gfa.gz> <filtered.gfa.gz>`
-declare -r FILTER_PY="$BENCH_SCRIPTS_DIR/prelude/filter.py"
 
 # ---------------------------------------------------------------------------- #
 # Environment: only `prefetch` is needed here
@@ -82,7 +77,6 @@ mapfile -t SAMPLES < <(awk -F'\t' '
 ' "$SAMPLES_CSV")
 ((${#SAMPLES[@]})) || { echo "No sample in $SAMPLES_CSV" >&2; exit 1; }
 
-is_filtered() { [[ -s "$(get_prelude_filtered_gfa_gz "$1")" || -s "$(get_unicycler_assembly_gfa_gz "$1")" ]]; }
 is_hybrid_done() { [[ -s "$(get_unicycler_hybrid_assembly_dir "$1")/assembly.gfa.gz" ]]; }
 # a .sra.lock means prefetch is still writing that run: a task reading it now
 # would assemble a truncated read set
@@ -99,7 +93,7 @@ mkdir -p "$SRA_DIR"
 declare -A wanted=()
 for line in "${SAMPLES[@]}"; do
     IFS=$'\t' read -r _ uid sr lr <<<"$line"
-    if ! is_filtered "$uid" || ! is_hybrid_done "$uid"; then
+    if ! is_hybrid_done "$uid"; then
         wanted[$sr]=1
         wanted[$lr]=1
     fi
@@ -160,8 +154,7 @@ submit_ready() {
     local short_rows=() hybrid_rows=() line row uid sr lr
     for line in "${SAMPLES[@]}"; do
         IFS=$'\t' read -r row uid sr lr <<<"$line"
-        if ! is_filtered "$uid" && [[ ! -s "$(get_unicycler_short_assembly_dir "$uid")/assembly.gfa.gz" ]] &&
-            [[ -z ${busy[short:$row]:-}${submitted[short:$row]:-} ]] && is_run_ready "$sr"; then
+        if [[ -z ${busy[short:$row]:-}${submitted[short:$row]:-} ]] && is_run_ready "$sr"; then
             short_rows+=("$row")
         fi
         if ! is_hybrid_done "$uid" && [[ -z ${busy[hybrid:$row]:-}${submitted[hybrid:$row]:-} ]] &&
@@ -173,21 +166,24 @@ submit_ready() {
     submit hybrid "$ASM_HYBRID_SCRIPT" "${hybrid_rows[@]}"
 }
 
+# ---------------------------------------------------------------------------- #
+# Filter the short-read assembly (done in downstream scripts)
+# ---------------------------------------------------------------------------- #
 filter_ready() {
     local line row uid raw out
     for line in "${SAMPLES[@]}"; do
         IFS=$'\t' read -r row uid _ <<<"$line"
         raw="$(get_unicycler_short_assembly_dir "$uid")/assembly.gfa.gz"
-        [[ -s "$raw" && -z ${busy[short:$row]:-} && -z ${filter_failed[$uid]:-} ]] && ! is_filtered "$uid" || continue
+        [[ -s "$raw" && -z ${busy[short:$row]:-} && -z ${filter_failed[$uid]:-} ]] && ! is_hybrid_done "$uid" || continue
         # never delete a raw assembly that was not filtered
-        if [[ ! -f "$FILTER_PY" ]]; then
-            ((filter_warned)) || log "no $FILTER_PY yet: nothing is filtered, so nothing is deleted"
+        if [[ ! -f "$BENCH_SCRIPTS_DIR/prelude/filter.py" ]]; then
+            ((filter_warned)) || log "no $BENCH_SCRIPTS_DIR/prelude/filter.py yet: nothing is filtered, so nothing is deleted"
             filter_warned=1
             return 0
         fi
         out=$(get_prelude_filtered_gfa_gz "$uid")
         mkdir -p "$(dirname "$out")"
-        if python3 "$FILTER_PY" "$raw" "$out.tmp" && mv "$out.tmp" "$out"; then
+        if python3 "$BENCH_SCRIPTS_DIR/prelude/filter.py" "$raw" "$out.tmp" && mv "$out.tmp" "$out"; then
             rm -rf "$(get_unicycler_short_assembly_dir "$uid")"
             acted=$((acted + 1))
             log "$uid filtered"
@@ -199,9 +195,9 @@ filter_ready() {
     done
 }
 
-# A run goes when no sample still needs it: the short run is read by both
-# assemblies, the long one by the hybrid only, and samples share runs, so the
-# samples not done are collected first, and only what is left goes.
+# ---------------------------------------------------------------------------- #
+# Delete SRA runs (done in prelude, not downstream scripts)
+# ---------------------------------------------------------------------------- #
 prune_runs() {
     local -A need=() gone=()
     local line row uid sr lr held=0 run n=0
@@ -209,7 +205,7 @@ prune_runs() {
         IFS=$'\t' read -r row uid sr lr <<<"$line"
         # a task still holding the sample may be extracting its runs right now
         [[ -n ${busy[short:$row]:-}${busy[hybrid:$row]:-} ]] && held=1 || held=0
-        if ((held)) || ! is_filtered "$uid" || ! is_hybrid_done "$uid"; then need[$sr]=1; else gone[$sr]=1; fi
+        if ((held)) || ! is_hybrid_done "$uid"; then need[$sr]=1; else gone[$sr]=1; fi
         if ((held)) || ! is_hybrid_done "$uid"; then need[$lr]=1; else gone[$lr]=1; fi
     done
     for run in "${!gone[@]}"; do
@@ -224,17 +220,18 @@ prune_runs() {
     acted=$((acted + n))
 }
 
+# Sample is complete once its hybrid assembly exists.
 count_complete() {
     local line uid n=0
     for line in "${SAMPLES[@]}"; do
         IFS=$'\t' read -r _ uid _ <<<"$line"
-        ! is_filtered "$uid" || ! is_hybrid_done "$uid" || n=$((n + 1))
+        if ! is_hybrid_done "$uid"; then n=$((n + 1)); fi
     done
     echo "$n"
 }
 
 # ---------------------------------------------------------------------------- #
-# Loop until every sample is complete, or nothing can move any more
+Loop until every sample is complete, or nothing can move any more
 # ---------------------------------------------------------------------------- #
 declare -A busy=()
 while :; do
@@ -253,8 +250,7 @@ while :; do
         wait "$dl_pid" || log "some runs failed to download (see above): re-run prelude.sh to retry them"
     fi
     if ((dl_done && ${#busy[@]} == 0 && acted == 0)); then
-        log "stuck at $complete/${#SAMPLES[@]}: nothing downloading, queued or left to do." \
-            "Failed assemblies or downloads, or no $FILTER_PY."
+        log "stuck at $complete/${#SAMPLES[@]}: nothing downloading, queued or left to do."
         exit 1
     fi
     sleep "$POLL"
@@ -262,4 +258,4 @@ done
 
 wait "$dl_pid" || true
 rm -f "$to_download"
-log "prelude done: filtered assemblies are in $PRELUDE_DIR/filtered"
+log "prelude done: assemblies are in $PRELUDE_DIR/assembly"
