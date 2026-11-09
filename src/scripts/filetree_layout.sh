@@ -27,8 +27,8 @@ function get_gt_csv() {
 #                                    PRELUDE                                   #
 # ============================================================================ #
 # The SRA runs, downloaded once for the whole benchmark by
-# scripts/prelude/prelude.sh, extracted by the assembly jobs and deleted by
-# prelude.sh once every sample reading them is complete.
+# scripts/prelude/raw_assemblies.sh, extracted by the assembly jobs and deleted by
+# raw_assemblies.sh once every sample reading them is complete.
 PRELUDE_DIR="$BENCH_DATA_DIR/prelude"
 SRA_DIR="$PRELUDE_DIR/sra"
 
@@ -43,7 +43,7 @@ function get_sra_dir() {
     echo "$SRA_DIR/$sra_id"
 }
 
-# Left by prelude.sh when it deletes a run, so that the run is never downloaded
+# Left by raw_assemblies.sh when it deletes a run, so that the run is never downloaded
 # again. It sits next to get_sra_dir, not inside, as that directory is deleted.
 # Usage:
 #   placeholder=$(get_sra_placeholder "$sra_id")
@@ -65,13 +65,13 @@ UNI_HYBRID_ASSEMBLY_DIR="$PRELUDE_ASSEMBLY_DIR/hybrid"
 # Per-sample Unicycler short-read assembly directory
 # (holds assembly.fasta.gz and assembly.gfa.gz).
 # Usage:
-#   asm_dir=$(get_unicycler_short_assembly_dir "$smp_uid")
-function get_unicycler_short_assembly_dir() {
+#   asm_dir=$(get_prelude_unicycler_short_assembly_dir "$smp_uid")
+function get_prelude_unicycler_short_assembly_dir() {
     local smp_uid=$1
     echo "$UNI_SHORT_ASSEMBLY_DIR/$smp_uid"
 }
 
-# The filtered short-read assembly prelude.sh produces, the only assembly kept.
+# The filtered short-read assembly raw_assemblies.sh produces, the only assembly kept.
 # Once the prelude is done, move $PRELUDE_FILTERED_DIR/* to $UNI_ASSEMBLY_DIR
 # (get_unicycler_assembly_gfa_gz) for the rest of the pipeline.
 PRELUDE_FILTERED_DIR="$PRELUDE_DIR/filtered"
@@ -98,8 +98,8 @@ function get_unicycler_assembly_gfa_gz() {
 # smp_uid is the benchmark-wide "${species_id}-${sample_id}", as everywhere else
 # in this file.
 # Usage:
-#   asm_dir=$(get_unicycler_hybrid_assembly_dir "$smp_uid")
-function get_unicycler_hybrid_assembly_dir() {
+#   asm_dir=$(get_prelude_unicycler_hybrid_assembly_dir "$smp_uid")
+function get_prelude_unicycler_hybrid_assembly_dir() {
     local smp_uid=$1
     echo "$UNI_HYBRID_ASSEMBLY_DIR/$smp_uid"
 }

@@ -9,13 +9,13 @@
 # (~5 of 16 cores busy, incl. the idle download), so --cpus-per-task=8 would roughly halve
 # the core-hours at some cost in wall time. Memory is the binding constraint: abau peaked at
 # 18 GB but ecol at 32 GB = the --mem ceiling, so bigger samples may need --mem=64G.
-# Both figures predate prelude.sh: they include a download this job no longer does
+# Both figures predate raw_assemblies.sh: they include a download this job no longer does
 #SBATCH --array=2-1242
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
 # Assemble a sample with Unicycler from Illumina short reads only, extracted
-# from the SRA runs scripts/prelude/prelude.sh downloaded beforehand. This produces the
+# from the SRA runs scripts/prelude/raw_assemblies.sh downloaded beforehand. This produces the
 # assembly every downstream step reads.
 # ---------------------------------------------------------------------------- #
 # Abort the task on the first failure: a read set that fails to extract must not
@@ -55,7 +55,7 @@ fastq_2="$reads_dir/${sra_sr_id}_2.fastq"
 #
 # Outputs
 #
-output_dir=$(get_unicycler_short_assembly_dir "$smp_uid")
+output_dir=$(get_prelude_unicycler_short_assembly_dir "$smp_uid")
 
 # ---------------------------------------------------------------------------- #
 # Register the job id

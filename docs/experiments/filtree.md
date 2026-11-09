@@ -20,7 +20,7 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
     │   └── 📂 unicycler    # $UNI_ASSEMBLY_DIR
     │       └── 📂 {smp_uid}
     │           └── 📄 assembly.gfa.gz  # get_unicycler_assembly_gfa_gz
-    ├── 📂 prelude  # $PRELUDE_DIR, temporary: emptied by prelude.sh
+    ├── 📂 prelude  # $PRELUDE_DIR, temporary: emptied by raw_assemblies.sh
     │   ├── 📂 sra  # $SRA_DIR
     │   │   ├── 📂 {sra_id}     # get_sra_dir
     │   │   │   └── 📄 {sra_id}.sra
@@ -31,11 +31,11 @@ The script `$BENCH_ROOT_DIR/scripts/filetree_layout.sh` defines the filetree arc
     │   └── 📂 assembly
     │       └── 📂 unicycler    # $PRELUDE_ASSEMBLY_DIR
     │           ├── 📂 short    # $UNI_SHORT_ASSEMBLY_DIR
-    │           │   └── 📂 {smp_uid}    # get_unicycler_short_assembly_dir
+    │           │   └── 📂 {smp_uid}    # get_prelude_unicycler_short_assembly_dir
     │           │       ├── 📄 assembly.fasta.gz
     │           │       └── 📄 assembly.gfa.gz
     │           └── 📂 hybrid   # $UNI_HYBRID_ASSEMBLY_DIR
-    │               └── 📂 {smp_uid}    # get_unicycler_hybrid_assembly_dir
+    │               └── 📂 {smp_uid}    # get_prelude_unicycler_hybrid_assembly_dir
     │                   ├── 📄 assembly.fasta.gz
     │                   └── 📄 assembly.gfa.gz
     └── 📂 results
@@ -122,13 +122,13 @@ the assemblies and emptied after them:
 | Name | What it is | Written by | Read by |
 | ---- | ---------- | ---------- | ------- |
 | `$PRELUDE_DIR` | `data/prelude`, everything the prelude stage holds | -- | -- |
-| `$SRA_DIR` | `data/prelude/sra`, one directory per downloaded run | [`prelude.sh`](prelude.md) | -- |
+| `$SRA_DIR` | `data/prelude/sra`, one directory per downloaded run | [`raw_assemblies.sh`](prelude.md) | -- |
 | `get_sra_dir` | a run's directory, `<run id>.sra` and its reference files | `prefetch` | `fasterq-dump`, in the [assembly scripts](assembly.md) |
-| `get_sra_placeholder` | `<run id>.pruned`, left when the run is deleted | `prelude.sh` | `prelude.sh`: never download it again |
+| `get_sra_placeholder` | `<run id>.pruned`, left when the run is deleted | `raw_assemblies.sh` | `raw_assemblies.sh`: never download it again |
 | `$PRELUDE_ASSEMBLY_DIR` | `data/prelude/assembly/unicycler`, then `short/` and `hybrid/` | -- | -- |
-| `get_unicycler_short_assembly_dir` | a sample's raw short-read assembly | `asm_short_reads.sh` | the filter; deleted once filtered |
-| `get_unicycler_hybrid_assembly_dir` | a sample's hybrid assembly | `asm_hybrid_reads.sh` | the ground truth |
-| `get_prelude_filtered_gfa_gz` | a sample's filtered short-read assembly | `prelude.sh` | moved to `get_unicycler_assembly_gfa_gz` |
+| `get_prelude_unicycler_short_assembly_dir` | a sample's raw short-read assembly | `asm_short_reads.sh` | the filter; deleted once filtered |
+| `get_prelude_unicycler_hybrid_assembly_dir` | a sample's hybrid assembly | `asm_hybrid_reads.sh` | the ground truth |
+| `get_prelude_filtered_gfa_gz` | a sample's filtered short-read assembly | `raw_assemblies.sh` | moved to `get_unicycler_assembly_gfa_gz` |
 
 A run is downloaded once for the whole benchmark, shared by the short-read and the
 hybrid assembly of a sample -- and by two samples when they list the same accession.

@@ -15,7 +15,7 @@
 
 ## Pipeline prelude
 
-* [ ] `src/scripts/prelude/prelude.sh`: download the SRAs, assemble (short and hybrid),
+* [ ] `src/scripts/prelude/raw_assemblies.sh`: download the SRAs, assemble (short and hybrid),
   filter, and delete everything but the filtered assembly
   * [x] 🚧 not an sbatch script: it runs on a login/data transfer node
   * [ ] 🧪

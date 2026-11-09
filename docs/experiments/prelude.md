@@ -4,7 +4,7 @@ icon: lucide/download
 
 # Pipeline prelude
 
-`scripts/prelude/prelude.sh` takes every sample of `completed_samples.csv` from its SRA
+`scripts/prelude/raw_assemblies.sh` takes every sample of `completed_samples.csv` from its SRA
 runs (short and long reads) to its assemblies, in a single run:
 
 1. **download** the runs, once each -- a run shared by two samples is fetched once;
@@ -28,7 +28,7 @@ Launch it from the directory the assembly logs should land in (each task writes 
 `./logs/<job name>/`), in a way that survives the session: it runs for hours or days.
 
 ```sh
-nohup scripts/prelude/prelude.sh >prelude.log 2>&1 &
+nohup scripts/prelude/raw_assemblies.sh >prelude.log 2>&1 &
 ```
 
 Everything is read back from the file tree and the queue, so killing it and running it
@@ -59,6 +59,6 @@ assemblies to `$UNI_ASSEMBLY_DIR`, where
 
 ??? info "Script"
 
-    ```sh title="scripts/prelude/prelude.sh"
-    --8<-- "src/scripts/prelude/prelude.sh"
+    ```sh title="scripts/prelude/raw_assemblies.sh"
+    --8<-- "src/scripts/prelude/raw_assemblies.sh"
     ```

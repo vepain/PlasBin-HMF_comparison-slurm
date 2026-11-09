@@ -10,13 +10,13 @@
 # 7 h 31 is already 63% of --time, so it risks TIMEOUT on the bigger samples. Memory is the
 # binding constraint: abau peaked at 19 GB but ecol at 32 GB = the --mem ceiling, so bigger
 # samples may need --mem=64G.
-# Both figures predate prelude.sh: they include a download this job no longer does
+# Both figures predate raw_assemblies.sh: they include a download this job no longer does
 #SBATCH --array=2-1242
 #SBATCH --output=logs/%x/%A/%a.out
 #SBATCH --error=logs/%x/%A/%a.err
 # ---------------------------------------------------------------------------- #
 # Assemble a sample with Unicycler in hybrid mode (Illumina + long reads),
-# extracted from the SRA runs scripts/prelude/prelude.sh downloaded beforehand.
+# extracted from the SRA runs scripts/prelude/raw_assemblies.sh downloaded beforehand.
 # ---------------------------------------------------------------------------- #
 # Abort the task on the first failure: a read set that fails to extract must not
 # reach Unicycler as a missing input and report success
@@ -57,7 +57,7 @@ fastq_lr="$reads_dir/${sra_lr_id}.fastq"
 #
 # Outputs
 #
-output_dir=$(get_unicycler_hybrid_assembly_dir "$smp_uid")
+output_dir=$(get_prelude_unicycler_hybrid_assembly_dir "$smp_uid")
 
 # ---------------------------------------------------------------------------- #
 # Register the job id
